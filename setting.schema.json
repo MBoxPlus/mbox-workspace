@@ -1,0 +1,36 @@
+{
+  "id": "workspace",
+  "title": "Workspace",
+  "type": "object",
+  "properties": {
+    "branch_prefix": {
+      "type": "string",
+      "title": "Prefix of Feature Branch",
+      "default": "feature"
+    },
+    "checkout_from_commit": {
+      "type": "boolean",
+      "title": "Checkout From Commit",
+      "default": false,
+      "description": "Create the feature branch from commit instead of base branch when add a repo."
+    },
+    "integrate": {
+      "type": "boolean",
+      "title": "Integrate",
+      "default": false,
+      "description": "`mbox add/remove` with the flag --(de)integrate by default."
+    },
+    "disable_switch_feature_dialog": {
+      "type": "boolean",
+      "title": "Disable Switching Feature Dialog",
+      "default": false,
+      "description": "Never show the switching feature dialog."
+    },
+    "use_worktree": {
+      "type": "boolean",
+      "title": "Use Worktree in Workspace",
+      "default": true,
+      "description": "Using worktree mode instead of direct access to the git repository."
+    }
+  }
+}
