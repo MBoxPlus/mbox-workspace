@@ -58,7 +58,7 @@ extension MBCommander {
                     path = self.workspace.rootPath
                 }
             }
-            if !self.open(path: path, withApplication: application) {
+            if !self.open(url: URL(fileURLWithPath: path), withApplication: application) {
                 throw RuntimeError("Open Failed!")
             }
         }

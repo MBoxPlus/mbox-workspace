@@ -51,7 +51,12 @@ open class MBRepo {
     }
 
     public lazy var git: GitHelper? = {
-        return try? GitHelper(path: self.path)
+        do {
+            return try GitHelper(path: self.path)
+        } catch {
+            UI.log(error: error.localizedDescription)
+            return nil
+        }
     }()
     public var url: String? {
         return self.git?.url

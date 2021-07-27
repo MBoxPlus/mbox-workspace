@@ -23,9 +23,6 @@
 		AB35C45C230C438F00FE97CC /* MBCMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35C45B230C438F00FE97CC /* MBCMD.swift */; };
 		AB36B1F62563E63500DC9DBA /* Activate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36B1F52563E63500DC9DBA /* Activate.swift */; };
 		AB3D9C4822E844D200593F79 /* Go.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3D9C4722E844D200593F79 /* Go.swift */; };
-		AB49666A23411DA700AF8A47 /* Fork.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49666923411DA600AF8A47 /* Fork.swift */; };
-		AB49666C23411DB600AF8A47 /* Stree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49666B23411DB600AF8A47 /* Stree.swift */; };
-		AB49666E23411DCC00AF8A47 /* Tower.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49666D23411DCC00AF8A47 /* Tower.swift */; };
 		AB4A310A22B73848005F445B /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A310922B73848005F445B /* Feature.swift */; };
 		AB4A310C22B738C5005F445B /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A310B22B738C5005F445B /* Start.swift */; };
 		AB4A312022BA3FBB005F445B /* Free.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A311F22BA3FBB005F445B /* Free.swift */; };
@@ -149,9 +146,6 @@
 		AB3D9C4722E844D200593F79 /* Go.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Go.swift; sourceTree = "<group>"; };
 		AB4649172312C94E00972C12 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; indentWidth = 2; path = Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AB4649182312C94E00972C12 /* MBoxWorkspace.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; indentWidth = 2; path = MBoxWorkspace.podspec; sourceTree = SOURCE_ROOT; tabWidth = 2; };
-		AB49666923411DA600AF8A47 /* Fork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fork.swift; sourceTree = "<group>"; };
-		AB49666B23411DB600AF8A47 /* Stree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stree.swift; sourceTree = "<group>"; };
-		AB49666D23411DCC00AF8A47 /* Tower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tower.swift; sourceTree = "<group>"; };
 		AB49668B23424BFC00AF8A47 /* MBWorkspacePluginProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBWorkspacePluginProtocol.swift; sourceTree = "<group>"; };
 		AB4A30EF22B3E5E5005F445B /* MBConfig.Feature+Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBConfig.Feature+Repo.swift"; sourceTree = "<group>"; };
 		AB4A310922B73848005F445B /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
@@ -324,9 +318,6 @@
 				ABB8711B22F8290F00AD43B5 /* Exec.swift */,
 				AB0AF71D233755C80053EF90 /* Env.swift */,
 				AB3D9C4722E844D200593F79 /* Go.swift */,
-				AB49666923411DA600AF8A47 /* Fork.swift */,
-				AB49666B23411DB600AF8A47 /* Stree.swift */,
-				AB49666D23411DCC00AF8A47 /* Tower.swift */,
 				ABF8B485239FDA3C0090904A /* Open.swift */,
 				AB93AB8623B8E83C008DCBC7 /* Config.swift */,
 			);
@@ -839,7 +830,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABBB0478248665A50003BCB5 /* GitSheetPull.swift in Sources */,
-				AB49666A23411DA700AF8A47 /* Fork.swift in Sources */,
 				AB35C45C230C438F00FE97CC /* MBCMD.swift in Sources */,
 				AB0FF4CA22CA2B1F0011C0B8 /* Remove2.swift in Sources */,
 				AB64A17622A9288C00FD06FC /* MBCommander+Workspace.swift in Sources */,
@@ -847,7 +837,6 @@
 				AB34F17622BF800400F9B86B /* Export.swift in Sources */,
 				ABBB047A248665B00003BCB5 /* GitSheetFetch.swift in Sources */,
 				ABDFBAE5250659B500682483 /* MBSetting.swift in Sources */,
-				AB49666C23411DB600AF8A47 /* Stree.swift in Sources */,
 				ABC33F2922D09CFF00E72978 /* Merge.swift in Sources */,
 				AB0AF716233513D50053EF90 /* FeatureMerge.swift in Sources */,
 				AB5E306E22EC932B004F716F /* Repo.swift in Sources */,
@@ -869,7 +858,6 @@
 				AB36B1F62563E63500DC9DBA /* Activate.swift in Sources */,
 				AB64A18C22B12EE500FD06FC /* Add.swift in Sources */,
 				ABBD4253237955770047D954 /* Clean.swift in Sources */,
-				AB49666E23411DCC00AF8A47 /* Tower.swift in Sources */,
 				AB4F9EAC25EBCC7D00AC4D14 /* Status+Repos.swift in Sources */,
 				ABB8711C22F8290F00AD43B5 /* Exec.swift in Sources */,
 				AB6D761B23059603003A0EA1 /* List.swift in Sources */,

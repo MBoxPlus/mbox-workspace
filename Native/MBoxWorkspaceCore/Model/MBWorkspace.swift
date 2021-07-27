@@ -21,6 +21,12 @@ open class MBWorkspace: NSObject {
         return rootPath.lastPathComponent
     }()
     public var rootPath: String
+    public func fullPath(_ path: String) -> String {
+        if path.starts(with: "/") {
+            return path
+        }
+        return self.rootPath.appending(pathComponent: path)
+    }
     public func relativePath(_ path: String) -> String {
         if path.hasPrefix(self.rootPath) {
             return path.relativePath(from: self.rootPath)

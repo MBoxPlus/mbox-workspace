@@ -60,7 +60,7 @@ extension MBConfig {
         open var _path: String?
         open var path: String {
             get {
-                return _path ?? storePath
+                return self.workspace.fullPath(_path ?? storePath)
             }
             set {
                 if newValue == self.storePath {
@@ -76,7 +76,11 @@ extension MBConfig {
         }
 
         open var storePath: String {
-            return self.workspace.repoStoreDir.appending(pathComponent:fullName)
+            return self.storePath(for: fullName)
+        }
+
+        private func storePath(for name: String) -> String {
+            return self.workspace.repoStoreDir.appending(pathComponent:name)
         }
 
         open weak var feature: MBConfig.Feature!
@@ -231,18 +235,14 @@ extension MBConfig {
             var owner: String?
             var gitURL = gitURL
             if let path = path {
-                if fullName == nil {
-                    fullName = path.lastPathComponent
-                }
+                fullName ?= path.lastPathComponent
                 if gitURL == nil, let url = try? GitHelper(path: path).url, let gurl = MBGitURL(url) {
                     gitURL = gurl
                 }
             }
             if let gitURL = gitURL {
                 self.url = gitURL.url
-                name = gitURL.project
-                owner = gitURL.group
-                fullName = gitURL.project + "@" + gitURL.group
+                fullName ?= gitURL.project + "@" + gitURL.group
             }
             if let fullName = fullName, let index = fullName.firstIndex(of: "@") {
                 name = String(fullName[..<index])
@@ -251,14 +251,27 @@ extension MBConfig {
                 name = fullName
                 owner = nil
             }
+            var fullNames = [String]()
+            if let fullName = fullName {
+                fullNames << fullName
+            }
+            fullNames << self.name
             if let name = name {
+                fullNames << name
+            }
+            for n in fullNames {
+                if n.isEmpty { continue }
+                let path = self.storePath(for: n)
+                if path.isExists {
+                    self.fullName = n
+                    break
+                }
+            }
+            if let name = name, self.name.isEmpty {
                 self.name = name
             }
             if let owner = owner {
-                self.owner = owner
-            }
-            if let fullName = fullName {
-                self.fullName = fullName
+                self.owner ?= owner
             }
             if let path = path {
                 self.path = path

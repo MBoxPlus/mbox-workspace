@@ -69,7 +69,7 @@ extension MBConfig {
         convenience init(name: String, branchPrefix: String? = nil) {
             self.init()
             self.name = name
-            self.branchPrefix = branchPrefix ?? Self.BranchPrefix
+            self.branchPrefix = branchPrefix ?? MBSetting.merged.workspace.branchPrefix ?? Self.BranchPrefix
             self.stashHash = Self.generateStashHash()
         }
 
@@ -138,8 +138,14 @@ extension MBConfig {
             }
         }
 
-        @Codable(key: "repos")
-        public var repos: [MBConfig.Repo] = [] {
+        @Codable(key: "repos", getterTransform: { (repos, instance) -> [MBConfig.Repo] in
+            guard let self = instance as? Feature else { return [] }
+            if let value = try? [MBConfig.Repo].load(fromObject: repos as Any) {
+                return value.then { $0.feature = self }
+            }
+            return []
+        })
+        public var repos: [MBConfig.Repo] {
             didSet {
                 self.reposDidChanged()
             }
@@ -158,11 +164,7 @@ extension MBConfig {
 
         dynamic
         public override func prepare(dictionary: [String : Any]) -> [String : Any] {
-            var dictionary = super.prepare(dictionary: dictionary)
-            if let repos = dictionary["repos"] {
-                dictionary["repos"] = try? [MBConfig.Repo].load(fromObject: repos).then { $0.feature = self }
-            }
-            return dictionary
+            return super.prepare(dictionary: dictionary)
         }
 
         dynamic
@@ -191,7 +193,7 @@ extension MBConfig.Feature {
     public func copy(with name: String, branchPrefix: String?) -> Self {
         let newFeature: MBConfig.Feature = Self.init(dictionary: self.dictionary)
         newFeature.name = name
-        newFeature.branchPrefix = branchPrefix ?? Self.BranchPrefix
+        newFeature.branchPrefix = branchPrefix ?? MBSetting.merged.workspace.branchPrefix ?? Self.BranchPrefix
         newFeature.stashHash = Self.generateStashHash()
         return newFeature as! Self
     }

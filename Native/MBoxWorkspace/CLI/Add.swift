@@ -212,10 +212,18 @@ extension MBCommander {
 
         dynamic
         open func searchRepo(by name: String) throws -> MBConfig.Repo? {
-            guard let repo = self.workspace.findAllRepo(name: name) else {
-                return nil
+            if let repo = self.workspace.findAllRepo(name: name) {
+                return .init(path: repo.path, feature: self.feature)
             }
-            return .init(path: repo.path, feature: self.feature)
+            if let repo = self.config.features.values.flatMap(\.repos).first(where: { $0.isName(name) }) {
+                let v = repo.copy() as! MBConfig.Repo
+                v.targetGitPointer = nil
+                v.baseGitPointer = nil
+                v.feature = self.feature
+                v._path = nil
+                return v
+            }
+            return nil
         }
 
         dynamic

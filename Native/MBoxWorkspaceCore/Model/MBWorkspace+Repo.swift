@@ -28,9 +28,7 @@ extension MBWorkspace {
     }
 
     open var allRepos: [MBStoreRepo] {
-        var repos = config.features.values.flatMap(\.repos).map(\.path)
-        repos << repoStoreDir.subDirectories
-        return repos.withoutDuplicates().compactMap { MBStoreRepo(path: $0) }
+        return repoStoreDir.subDirectories.withoutDuplicates().compactMap { MBStoreRepo(path: $0) }
     }
 
     open func findAllRepo(url: String) -> MBStoreRepo? {

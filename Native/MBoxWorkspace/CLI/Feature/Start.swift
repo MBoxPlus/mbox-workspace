@@ -297,7 +297,7 @@ extension MBCommander.Feature {
         dynamic
         open func createNewFeature(for name: String, branchPrefix: String?) throws -> MBConfig.Feature {
             self.repos = try self.copyRepos()
-            let feature = self.config.currentFeature.copy(with: name, branchPrefix: self.prefix)
+            let feature = self.config.currentFeature.copy(with: name, branchPrefix: branchPrefix)
             feature.repos = self.repos
             if feature.free {
                 return feature
@@ -482,6 +482,12 @@ extension MBCommander.Feature {
             })
         }
 
+        dynamic
+        open func pullRepo(_ repo: MBConfig.Repo) throws {
+            let git = repo.workRepository!.git!
+            try git.pull()
+        }
+
         open func pullRepos(feature: MBConfig.Feature) throws {
             feature.eachRepos { repo in
                 guard let git = repo.workRepository?.git, let current = try? git.currentDescribe() else {
@@ -492,7 +498,7 @@ extension MBCommander.Feature {
                     UI.log(verbose: "Repo `\(repo)` is in \(current), skip pull.")
                 } else {
                     do {
-                        try git.pull()
+                        try self.pullRepo(repo)
                     } catch {
                         UI.log(warn: "[\(repo)] Could not pull from remote: \(error.localizedDescription)")
                     }
