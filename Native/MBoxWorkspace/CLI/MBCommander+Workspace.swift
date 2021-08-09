@@ -90,9 +90,12 @@ extension MBCommander {
     @_dynamicReplacement(for: setup())
     open func workspaceSetup() throws {
         try self.setup()
-        if let workspace = UI.workspace, workspace.rootPath != FileManager.pwd {
+        if let workspace = UI.workspace,
+           workspace.rootPath != FileManager.pwd,
+           UI.showRootPath {
             UI.log(info: "[\(workspace.rootPath)]\n", pip: .ERR)
         }
+        UI.showRootPath = false
     }
 
     open var showStatusAtFinish: Bool {

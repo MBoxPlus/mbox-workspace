@@ -13,16 +13,16 @@ Pod::Spec.new do |spec|
     Manage repos and features.
                    DESC
 
-  spec.homepage     = "https://github.com/MBoxSpace/#{name2}"
+  spec.homepage     = "https://github.com/MBoxPlus/#{name2}"
 
   spec.license      = "MIT"
   spec.author       = { `git config user.name`.strip => `git config user.email`.strip }
-  spec.source       = { :git => "git@github.com:MBoxSpace/#{name2}.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "git@github.com:MBoxPlus/#{name2}.git", :tag => "#{spec.version}" }
   spec.platform     = :osx, '10.15'
 
   spec.default_subspec = 'Default'
 
-  spec.subspec 'Core' do |ss|
+  spec.subspec 'Default' do |ss|
     ss.source_files = "#{name}/MBWorkspaceCore/*.{h,m,swift}", "#{name}/MBWorkspaceCore/**/*.{h,m,swift}"
     ss.dependency "MBoxCore"
     ss.dependency "MBoxGit"
@@ -37,7 +37,10 @@ Pod::Spec.new do |spec|
   spec.subspec 'Default' do |ss|
     ss.source_files = "#{name}/MBWorkspace/*.{h,m,swift}", "#{name}/MBWorkspace/**/*.{h,m,swift}"
 
-    yaml['DEPENDENCIES'].each do |name|
+    yaml['DEPENDENCIES']&.each do |name|
+      ss.dependency name
+    end
+    yaml['FORWARD_DEPENDENCIES']&.each do |name, _|
       ss.dependency name
     end
     ss.dependency "MBoxWorkspace/Loader"

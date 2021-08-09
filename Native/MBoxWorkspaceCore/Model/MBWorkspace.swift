@@ -17,7 +17,7 @@ open class MBWorkspace: NSObject {
     public var verbose = false
     public var silent = false
 
-    public lazy var name: String? = {
+    public lazy var name: String = {
         return rootPath.lastPathComponent
     }()
     public var rootPath: String
@@ -214,6 +214,7 @@ open class MBWorkspace: NSObject {
         return try UI.section("Create MBox configuration file") {
             let fm = FileManager.default
             let configDir = path.appending(pathComponent: ".mbox")
+            UI.log(verbose: "Init workspace at `\(path)`")
             if !configDir.isExists {
                 try UI.log(verbose: "Create directory `.mbox`") {
                     try fm.createDirectory(atPath: configDir, withIntermediateDirectories: true, attributes: nil)

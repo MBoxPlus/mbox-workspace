@@ -2,7 +2,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'MBoxWorkspaceCore' do
-  podspec :subspec => 'Core'
+  podspec :subspec => 'Default'
 end
 
 target 'MBoxWorkspaceLoader' do
@@ -11,8 +11,4 @@ end
 
 target 'MBoxWorkspace' do
   podspec :subspec => 'Default'
-end
-
-target 'MBoxWorkspaceTests' do
-  pod 'Nimble'
 end

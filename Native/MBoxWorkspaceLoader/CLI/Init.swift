@@ -29,7 +29,7 @@ extension MBCommander {
 
         open override class var arguments: [Argument] {
             var args = super.arguments
-            args << Argument("plugin_group", description: "A plugin set. Available: \(MBWorkspace.pluginGroups.keys.joined(separator: "/"))", required: false, plural: true)
+            args << Argument("plugin_group", description: "A plugin set. Available: \(MBWorkspace.pluginGroups.keys.sorted().joined(separator: "/"))", required: false, plural: true)
             return args
         }
 
@@ -59,7 +59,7 @@ extension MBCommander {
                 }
                 self.groups = groups
             }
-            self.requireSetupLauncher = false
+            UI.requireSetupLauncher = false
         }
 
         var plugins: [String] = []
@@ -95,7 +95,7 @@ extension MBCommander {
             UI.log(info: "Init mbox workspace success.")
 
             UI.reloadPlugins()
-            try self.setupLauncher(force: true)
+            try self.setupLauncher()
         }
     }
 }

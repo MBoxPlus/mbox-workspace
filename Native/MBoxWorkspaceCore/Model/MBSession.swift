@@ -9,9 +9,17 @@
 import Foundation
 import MBoxCore
 
-var MBSessionRootPathKey: UInt8 = 0
+var MBSessionShowRootPathKey: UInt8 = 0
 var MBSessionWorkspaceKey: UInt8 = 0
 extension MBSession {
+    public var showRootPath: Bool {
+        set {
+            associateObject(base: self, key: &MBSessionShowRootPathKey, value: newValue)
+        }
+        get {
+            return associatedObject(base: self, key: &MBSessionShowRootPathKey, defaultValue: true)
+        }
+    }
 
     public var workspace: MBWorkspace? {
         set {
@@ -26,20 +34,6 @@ extension MBSession {
 
     public var feature: MBConfig.Feature? {
         return self.workspace?.config.currentFeature
-    }
-
-    @_dynamicReplacement(for: requiredPlugins(_:))
-    public func workspace_requiredPlugins(_ packages: [MBPluginPackage]) -> [MBPluginPackage] {
-        var value = self.requiredPlugins(packages)
-        if self.workspace == nil {
-            return value
-        }
-        for package in packages {
-            if package.workspaceRequired && !value.contains(package) {
-                value.append(package)
-            }
-        }
-        return value
     }
 
     @_dynamicReplacement(for: plugins)

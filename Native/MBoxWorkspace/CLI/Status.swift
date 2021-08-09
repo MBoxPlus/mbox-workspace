@@ -63,6 +63,7 @@ extension MBCommander {
         }
 
         open override func setup() throws {
+            UI.showRootPath = false
             self.only = (self.shiftOptions("only") ?? ["all"]).map { $0.lowercased() }
             self.sync = self.shiftFlag("sync", default: false)
             try super.setup()

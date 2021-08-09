@@ -79,8 +79,20 @@ extension MBConfig {
             return self.storePath(for: fullName)
         }
 
+        open var worktreeCachePath: String {
+            return self.workspace.worktreeCacheDir.appending(pathComponent: fullName)
+        }
+
         private func storePath(for name: String) -> String {
-            return self.workspace.repoStoreDir.appending(pathComponent:name)
+            return self.workspace.repoStoreDir.appending(pathComponent: name)
+        }
+
+        open func `import`() throws {
+            guard let repo = self.originRepository else {
+                throw RuntimeError("Origin Repository does not exist: `\(path)`")
+            }
+            try repo.import(to: self.storePath)
+            self._path = nil
         }
 
         open weak var feature: MBConfig.Feature!
@@ -145,7 +157,11 @@ extension MBConfig {
         @Codable(getterTransform: { (value, instance) in
             if let value = value as? String { return value }
             let obj = instance as! MBConfig.Repo
-            return obj.name
+            let fullName = obj.name
+            guard let owner = obj.owner else {
+                return obj.name
+            }
+            return obj.name + "@" + owner
         })
         public var fullName: String
 
@@ -244,6 +260,9 @@ extension MBConfig {
                 self.url = gitURL.url
                 fullName ?= gitURL.project + "@" + gitURL.group
             }
+            if fullName == nil, let path = path {
+                fullName = path.lastPathComponent
+            }
             if let fullName = fullName, let index = fullName.firstIndex(of: "@") {
                 name = String(fullName[..<index])
                 owner = String(fullName[fullName.index(after: index)...])
@@ -251,13 +270,13 @@ extension MBConfig {
                 name = fullName
                 owner = nil
             }
-            var fullNames = [String]()
+            var fullNames = Set<String>()
             if let fullName = fullName {
-                fullNames << fullName
+                fullNames.insert(fullName)
             }
-            fullNames << self.name
+            fullNames.insert(self.name)
             if let name = name {
-                fullNames << name
+                fullNames.insert(name)
             }
             for n in fullNames {
                 if n.isEmpty { continue }
@@ -370,8 +389,8 @@ extension MBConfig.Repo {
 extension MBConfig.Repo {
 
     // MARK: - Work
-    open func work(_ head: GitPointer? = nil) throws {
-        try UI.section("Make repository work") {
+    open func work(_ head: GitPointer? = nil, checkout: Bool = true) throws {
+        try UI.log(verbose: "Make repository work (head: \(head?.description ?? "nil"), checkout: \(checkout))") {
             if self.workRepository != nil {
                 UI.log(verbose: "Repo `\(name)` is working!")
                 return
@@ -379,17 +398,12 @@ extension MBConfig.Repo {
             guard let oriRepo = self.originRepository else {
                 throw RuntimeError("No store path: `\(self.path)`.")
             }
+
             let workPath = self.workingPath
             if let git = oriRepo.git, MBSetting.merged.workspace.useWorktree {
                 let name = self.workspace.rootPath.lastPathComponent
                 try git.pruneWorkTree(name)
-                let targetHEAD: String?
-                if let head = head, !head.isCommit {
-                    targetHEAD = head.value
-                } else {
-                    targetHEAD = nil
-                }
-                try git.addWorkTree(name: name, path: workPath, head: targetHEAD)
+                try git.addWorkTree(name: name, path: workPath, head: nil, checkout: false)
             } else {
                 let storePath = self.path
                 try UI.log(verbose: "Move `\(workspace.relativePath(storePath))` -> `\(workspace.relativePath(workPath))`") {
@@ -401,38 +415,37 @@ extension MBConfig.Repo {
                                                                withDestinationPath: relativePath)
                 }
             }
-            if let workRepo = self.workRepository {
-                try? workRepo.git?.checkout()
-                try workRepo.includeGitConfig()
+            guard let workRepo = self.workRepository else {
+                return
             }
-        }
-    }
-
-    // MARK: - Import
-    open func `import`(mode: MBStoreRepo.Mode) throws {
-        try UI.log(verbose: "Import `\(self.path)`") {
-            guard let git = self.originRepository?.git else { throw RuntimeError() }
-            let workDir = git.path!
-            let gitStatus = try mode == .worktree ? nil : git.currentDescribe()
-            try UI.log(verbose: "Import to `\(Workspace.relativePath(self.storePath))`") {
-                try self.originRepository?.import(to: self.storePath, mode: mode)
+            if let head = head {
+                try workRepo.git?.setHEAD(head)
             }
-            self.path = self.originRepository!.path
-            try? FileManager.default.removeItem(atPath: workingPath)
-            try self.work(gitStatus)
-            if mode == .move || mode == .copy {
-                try UI.log(verbose: "Copy workcopy into `\(Workspace.relativePath(workingPath))`") {
-                    let cmd = RSyncCMD()
-                    guard cmd.exec(sourceDir: workDir, targetDir: workingPath, delete: true, ignoreExisting: false, progress: true, exclude: [".git"]) else {
-                        throw RuntimeError("Rsync workDir failed!")
+            let cachePath = self.worktreeCachePath
+            if cachePath.isDirectory {
+                if checkout {
+                    try UI.log(verbose: "Move Cache `\(workspace.relativePath(cachePath))` -> `\(workspace.relativePath(self.workingPath))`") {
+                        try? FileManager.default.removeItem(atPath: cachePath.appending(pathComponent: ".git"))
+                        try FileManager.default.moveItem(atPath: self.workingPath.appending(pathComponent: ".git"), toPath: cachePath.appending(pathComponent: ".git"))
+                        try FileManager.default.removeItem(atPath: self.workingPath)
+                        try FileManager.default.moveItem(atPath: cachePath, toPath: self.workingPath)
+                    }
+                } else {
+                    try UI.log(verbose: "Remove Cache `\(workspace.relativePath(cachePath))`") {
+                        try FileManager.default.removeItem(atPath: cachePath)
                     }
                 }
             }
-            if mode == .move {
-                UI.log(verbose: "Remove `\(workDir)`") {
-                    try? FileManager.default.removeItem(atPath: workDir)
+            if checkout {
+                UI.log(verbose: "Checkout files") {
+                    try? workRepo.git?.reset(hard: true)
+                }
+            } else {
+                UI.log(verbose: "Unstage files") {
+                    try? workRepo.git?.reset(hard: false)
                 }
             }
+            try workRepo.includeGitConfig()
         }
     }
 }

@@ -33,30 +33,62 @@ open class MBWorkRepo: MBRepo {
 
     // MARK: - Cache
     open func cache() throws {
-        if let git = self.git, let commit = git.currentCommit {
-            try git.setHEAD(.commit(commit))
+        guard let originGit = self.model.originRepository?.git else {
+            throw RuntimeError("`\(Workspace.relativePath(self.model.path))` not exists.")
         }
-        let path = self.model.path
         if !self.path.isExists {
-            // Do nothing
             UI.log(verbose: "`\(Workspace.relativePath(self.path))` not exists.")
-        } else if !path.isExists || path.isSymlink {
-            try UI.log(verbose: "Move `\(Workspace.relativePath(self.path))` -> `\(Workspace.relativePath(path))`") {
-                try? FileManager.default.removeItem(atPath: path)
-                try FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: true)
-                try FileManager.default.moveItem(atPath: self.path.appending(pathComponent: ".git"), toPath: path.appending(pathComponent: ".git"))
-                try FileManager.default.removeItem(atPath: self.path)
-            }
-        } else if self.model.originRepository != nil {
-            try UI.log(verbose: "Remove `\(Workspace.relativePath(self.path))`") {
-                try FileManager.default.removeItem(atPath: self.path)
-            }
         } else {
-            try UI.log(verbose: "Move `\(Workspace.relativePath(self.path))` -> `\(Workspace.relativePath(path))`") {
-                try? FileManager.default.removeItem(atPath: path)
-                try FileManager.default.moveItem(atPath: self.path, toPath: path)
+            guard let git = self.git, let commit = git.currentCommit else {
+                throw RuntimeError("`\(Workspace.relativePath(self.path))` is NOT a git repository.")
+            }
+            try git.setHEAD(.commit(commit))
+
+            let fm = FileManager.default
+
+            // Remove symblink in Store Path
+            let storePath = self.model.path
+            if storePath.isSymlink {
+                try UI.log(verbose: "Remove symlink `\(Workspace.relativePath(storePath))`") {
+                    try fm.removeItem(atPath: storePath)
+                }
+            }
+
+            if !git.isWorkTree {
+                if MBSetting.merged.workspace.useWorktree {
+                    // Move `.git/` to Store Path
+                    let gitPath = self.path.appending(pathComponent: ".git")
+                    let gitTargetPath = storePath.appending(pathComponent: ".git")
+                    if gitTargetPath.isDirectory {
+                        throw RuntimeError("`\(storePath)` exists, could not store the repo.")
+                    }
+                    try UI.log(verbose: "Move `\(Workspace.relativePath(gitPath))` -> `\(Workspace.relativePath(gitTargetPath))`") {
+                        try fm.createDirectory(atPath: storePath, withIntermediateDirectories: true)
+                        try fm.moveItem(atPath: gitPath, toPath: gitTargetPath)
+                    }
+                } else {
+                    // Move Workcopy to Store Path
+                    try UI.log(verbose: "Move `\(Workspace.relativePath(self.path))` -> `\(Workspace.relativePath(storePath))`") {
+                        try fm.createDirectory(atPath: storePath.deletingLastPathComponent, withIntermediateDirectories: true)
+                        try fm.moveItem(atPath: self.path, toPath: storePath)
+                    }
+                }
+            }
+
+            if MBSetting.merged.workspace.useWorktree ||
+                !self.model.originRepository!.isInWorkspace {
+                // Move workcopy to Cache Path
+                let cachePath = self.model.worktreeCachePath
+                try UI.log(verbose: "Cache `\(workspace.relativePath(self.path))` -> `\(workspace.relativePath(cachePath))`") {
+                    if cachePath.isExists {
+                        try fm.removeItem(atPath: cachePath)
+                    }
+                    try fm.createDirectory(atPath: cachePath.deletingLastPathComponent, withIntermediateDirectories: true, attributes: nil)
+                    try fm.moveItem(atPath: self.path, toPath: cachePath)
+                }
             }
         }
+        try originGit.pruneWorkTree(self.workspace.name)
     }
 
     // MARK: - Remove
@@ -101,7 +133,7 @@ open class MBWorkRepo: MBRepo {
                     throw RuntimeError("Could not find the base \(basePointer)")
                 }
             } else {
-                try git.checkout(targetPointer, create: false)
+                try git.checkout(targetPointer, create: true)
             }
         }
 

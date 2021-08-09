@@ -67,7 +67,7 @@ extension MBCommander.Feature {
 
         public var name: String = ""
         public var clear: Bool = false
-        public var keep: Bool = false
+        public var keep: Bool? = nil
         public var prefix: String?
         public var pull: Bool = false
         public var recurseSubmodules: Bool = false
@@ -259,17 +259,14 @@ extension MBCommander.Feature {
                 }
             }
 
-            if (oldFeature.free && isCreate) || keep {
-                // 使用 --keep-changes 命令时，将 oldFeature 的 stash 内容 apply 到新 Feature
-                try UI.section("Pick stash from `\(oldFeature.name)` into new feature `\(newFeature.name)`") {
-                    try self.pickStash(into: newFeature, from: oldFeature)
-                }
-            }
-
-            // 将 BaseBranch 重置，与 Remote 同步
-            if isCreate && oldFeature.free {
-                try UI.section("Change base branch reference to remote upstream branch") {
-                    try self.changeBaseBranchReference(feature: newFeature)
+            if keep != false {
+                if (oldFeature.free && isCreate) || keep == true {
+                    // 1. 使用 --keep-changes 命令时，
+                    // 2. 从 FreeMode 创建新 Feature 时，
+                    // 将 oldFeature 的 stash 内容 apply 到新 Feature
+                    try UI.section("Pick stash from `\(oldFeature.name)` into new feature `\(newFeature.name)`") {
+                        try self.pickStash(into: newFeature, from: oldFeature)
+                    }
                 }
             }
         }
@@ -466,18 +463,6 @@ extension MBCommander.Feature {
                     try repo.workRepository?.git?.apply(stash: from.stashName, drop: true)
                 } catch {
                     UI.log(error: "[\(repo.name)] Apply stash failed, you could re-apply the stash `\(from.stashName)`:\n\t\(error.localizedDescription)")
-                }
-            })
-        }
-
-        open func changeBaseBranchReference(feature: MBConfig.Feature) throws {
-            try feature.eachRepos(block: { repo in
-                guard let git = repo.workRepository?.git,
-                    let baseGit = repo.baseGitPointer,
-                    baseGit.isBranch,
-                    let trackBranch = git.trackBranch(baseGit.value) else { return }
-                try UI.log(verbose: "Change reference \(baseGit) -> \(GitPointer.branch(trackBranch))") {
-                    try git.change(branch: baseGit.value, pointTo: .branch(trackBranch))
                 }
             })
         }

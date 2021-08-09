@@ -17,21 +17,21 @@ open class MBStoreRepo: MBRepo {
     }
 
     // MARK: - Import
-    open func `import`(to targetDir: String, mode: Mode) throws {
+    func `import`(to targetDir: String) throws {
         if isInWorkspace { return }
-        guard mode == .copy || mode == .move else {
-            return
-        }
         try? FileManager.mkdir_p(targetDir)
         guard var git = self.git else { throw UserError("[\(self.name)] The git error!") }
         let gitDir = git.commonDir
-        try UI.log(verbose: "Copy `.git` to `\(Workspace.relativePath(targetDir))`") {
-            let targetGit = targetDir.appending(pathComponent: ".git")
+
+        // Replace `.git` file with real git repository
+        let targetGit = targetDir.appending(pathComponent: ".git")
+        try UI.log(verbose: "Copy `\(gitDir)` to `\(Workspace.relativePath(targetDir))`") {
             if targetGit.isExists {
-                try FileManager.default.removeItem(atPath: targetGit)
+                throw UserError("`\(targetGit)` exists, could not to import.")
             }
             try FileManager.default.copyItem(atPath: gitDir, toPath: targetGit)
         }
+
         self.path = targetDir
         git = self.git!
         if !git.isWorkTree {
@@ -44,18 +44,14 @@ open class MBStoreRepo: MBRepo {
 
     // MARK: - Remove
     open func remove() throws {
-        guard self.isInWorkspace else {
+        if !self.isInWorkspace {
             UI.log(verbose: "Repository is not in workspace, Skip remove.")
-            return
-        }
-        if git?.isWorkTree == true {
-            let name = self.workspace.rootPath.lastPathComponent
-            try UI.log(verbose: "Prune worktree `\(name)`") {
-                try git?.pruneWorkTree(name, force: true)
+            let name = self.workspace.name
+            try git?.pruneWorkTree(name, force: true)
+        } else {
+            try UI.log(verbose: "Delete `\(self.path)`") {
+                try FileManager.default.removeItem(atPath: self.path)
             }
-        }
-        try UI.log(verbose: "Delete `\(self.path)`") {
-            try FileManager.default.removeItem(atPath: self.path)
         }
     }
 
@@ -63,8 +59,6 @@ open class MBStoreRepo: MBRepo {
         guard let git = self.git else {
             return
         }
-        let name = self.workspace.rootPath.lastPathComponent
-        _ = try? git.pruneWorkTree(name)
         try git.delete(stash: config.feature.stashName)
         if let branch = config.featureBranch {
             try UI.log(verbose: "Try to delete branch `\(branch)`") {

@@ -86,6 +86,9 @@ extension MBCommander.Feature {
                 guard let feature = self.config.feature(withName: self.name!) else {
                     throw UserError("Could not find feature named `\(self.name!)`.")
                 }
+                if feature.free {
+                    throw UserError("Could not remove Free Mode.")
+                }
                 if feature.isCurrent {
                     throw UserError("Could not remove current feature.")
                 }

@@ -17,6 +17,10 @@ extension MBWorkspace {
     }
 
     // MARK: - Store Repos
+    open var worktreeCacheDir: String {
+        return configDir.appending(pathComponent: "repo_worktrees")
+    }
+
     open var repoStoreDir: String {
         return configDir.appending(pathComponent: "repos")
     }

@@ -14,8 +14,6 @@ extension MBCommander {
     @_dynamicReplacement(for: setupLauncher(force:))
     open func workspace_setupLauncher(force: Bool = false) throws {
         try self.setupLauncher(force: force)
-        if force || requireSetupLauncher {
-            try UI.workspace?.syncPlugins()
-        }
+        try UI.workspace?.syncPlugins()
     }
 }

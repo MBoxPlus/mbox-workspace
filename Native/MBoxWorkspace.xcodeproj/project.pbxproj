@@ -14,9 +14,6 @@
 		AB0AF716233513D50053EF90 /* FeatureMerge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0AF715233513D50053EF90 /* FeatureMerge.swift */; };
 		AB0FF4C822CA1AE70011C0B8 /* Finish.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FF4C722CA1AE70011C0B8 /* Finish.swift */; };
 		AB0FF4CA22CA2B1F0011C0B8 /* Remove2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FF4C922CA2B1F0011C0B8 /* Remove2.swift */; };
-		AB24F92D23BEE6BC00640787 /* RemoveFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24F92C23BEE6BC00640787 /* RemoveFeatureTests.swift */; };
-		AB24F92F23BF343400640787 /* FeatureMergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24F92E23BF343400640787 /* FeatureMergeTests.swift */; };
-		AB24F93223BF431000640787 /* ConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24F93123BF431000640787 /* ConfigTests.swift */; };
 		AB315CEC23390E6800A73EF6 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0AF71D233755C80053EF90 /* Env.swift */; };
 		AB34F17422BF6C2300F9B86B /* import.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB34F17322BF6C2300F9B86B /* import.swift */; };
 		AB34F17622BF800400F9B86B /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB34F17522BF800400F9B86B /* Export.swift */; };
@@ -39,7 +36,6 @@
 		AB5A4F52258B5E2500B52C65 /* MBWorkspace+Plugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A4F51258B5E2500B52C65 /* MBWorkspace+Plugins.swift */; };
 		AB5A4F55258B5E4600B52C65 /* MBWorkspacePluginProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49668B23424BFC00AF8A47 /* MBWorkspacePluginProtocol.swift */; };
 		AB5A4F61258B608200B52C65 /* MBCommander+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A4F5B258B5EBB00B52C65 /* MBCommander+Workspace.swift */; };
-		AB5A4F69258B62A800B52C65 /* MBPluginPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1D30FB250B60F4009B857C /* MBPluginPackage.swift */; };
 		AB5E306C22EC92FC004F716F /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E306B22EC92FC004F716F /* Search.swift */; };
 		AB5E306E22EC932B004F716F /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E306D22EC932B004F716F /* Repo.swift */; };
 		AB64A16E22A6C3A100FD06FC /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB64A16D22A6C3A100FD06FC /* Status.swift */; };
@@ -49,16 +45,7 @@
 		AB64A18E22B1F78E00FD06FC /* MBoxWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB64A18D22B1F78E00FD06FC /* MBoxWorkspace.swift */; };
 		AB65934B22D86A030046500C /* New.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB65934A22D86A030046500C /* New.swift */; };
 		AB6D761B23059603003A0EA1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D761A23059603003A0EA1 /* List.swift */; };
-		AB93AB7523AC7935008DCBC7 /* NimblePlus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93AB7423AC7935008DCBC7 /* NimblePlus.swift */; };
-		AB93AB7723B31964008DCBC7 /* AddInFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93AB7623B31964008DCBC7 /* AddInFreeTests.swift */; };
-		AB93AB7F23B4C666008DCBC7 /* AddInFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93AB7E23B4C666008DCBC7 /* AddInFeatureTests.swift */; };
 		AB93AB8723B8E83C008DCBC7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93AB8623B8E83C008DCBC7 /* Config.swift */; };
-		AB93ADE723BAF8CD008DCBC7 /* RemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93ADE623BAF8CD008DCBC7 /* RemoveTests.swift */; };
-		AB93ADEC23BB4546008DCBC7 /* FreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93ADEB23BB4546008DCBC7 /* FreeTests.swift */; };
-		AB93ADEE23BB8339008DCBC7 /* StartFromFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93ADED23BB8339008DCBC7 /* StartFromFreeTests.swift */; };
-		AB93ADF023BB9194008DCBC7 /* StartFromFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93ADEF23BB9194008DCBC7 /* StartFromFeatureTests.swift */; };
-		AB9C8EC9242CBA3F00BD2C88 /* ImportInFreeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9C8EC8242CBA3F00BD2C88 /* ImportInFreeTests.swift */; };
-		AB9C8ECB242CBEEB00BD2C88 /* ImportInFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9C8ECA242CBEEB00BD2C88 /* ImportInFeature.swift */; };
 		ABB8711C22F8290F00AD43B5 /* Exec.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB8711B22F8290F00AD43B5 /* Exec.swift */; };
 		ABBB046F24853E0B0003BCB5 /* GitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBB046E24853E0B0003BCB5 /* GitSheet.swift */; };
 		ABBB047224853E9E0003BCB5 /* GitSheetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBB047124853E9E0003BCB5 /* GitSheetStatus.swift */; };
@@ -84,10 +71,7 @@
 		ABE08180250630C800CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */; };
 		ABEE491325C3F72300A375E8 /* MBFeature+SupportFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE491225C3F72300A375E8 /* MBFeature+SupportFiles.swift */; };
 		ABF8B486239FDA3C0090904A /* Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8B485239FDA3C0090904A /* Open.swift */; };
-		ABFD984E22A12045006A5629 /* MBoxWorkspace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFD984422A12045006A5629 /* MBoxWorkspace.framework */; };
-		ABFD985322A12045006A5629 /* MBoxWorkspaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFD985222A12045006A5629 /* MBoxWorkspaceTests.swift */; };
 		ABFD985522A12046006A5629 /* MBoxWorkspace.h in Headers */ = {isa = PBXBuildFile; fileRef = ABFD984722A12045006A5629 /* MBoxWorkspace.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DFECD2CF70CD987F8B11F927 /* Pods_MBoxWorkspaceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2DF9C606EF7EE342E95A23 /* Pods_MBoxWorkspaceTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,33 +96,20 @@
 			remoteGlobalIDString = ABE0813925062C4D00CC8E4B;
 			remoteInfo = MBoxWorkspaceCore;
 		};
-		ABFD984F22A12045006A5629 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABFD983B22A12045006A5629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ABFD984322A12045006A5629;
-			remoteInfo = MBoxWorkspace;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		08AF7ADC074C5A1B17E6A01A /* Pods-MBoxWorkspaceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceTests.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceTests/Pods-MBoxWorkspaceTests.release.xcconfig"; sourceTree = "<group>"; };
 		1E22C7BC912A00AF4EFFB177 /* Pods-MBoxWorkspace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspace.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspace/Pods-MBoxWorkspace.debug.xcconfig"; sourceTree = "<group>"; };
 		1E32EC70204F569A94FA18DA /* Pods_MBoxWorkspace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51EAB62415F1A4E77B20EB2E /* Pods_MBoxWorkspaceLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspaceLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C7E2AB4C16355E6FE3B8F3 /* Pods-MBoxWorkspaceLoader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceLoader.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceLoader/Pods-MBoxWorkspaceLoader.release.xcconfig"; sourceTree = "<group>"; };
 		632E18D68588047273DD24B7 /* Pods-MBoxWorkspace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspace.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspace/Pods-MBoxWorkspace.release.xcconfig"; sourceTree = "<group>"; };
-		6F2DF9C606EF7EE342E95A23 /* Pods_MBoxWorkspaceTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspaceTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7075E0557D45607DC5280026 /* Pods-MBoxWorkspaceLoader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceLoader.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceLoader/Pods-MBoxWorkspaceLoader.debug.xcconfig"; sourceTree = "<group>"; };
 		AB07110925E64873007294A5 /* Status+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Git.swift"; sourceTree = "<group>"; };
 		AB0AF715233513D50053EF90 /* FeatureMerge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureMerge.swift; sourceTree = "<group>"; };
 		AB0AF71D233755C80053EF90 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		AB0FF4C722CA1AE70011C0B8 /* Finish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finish.swift; sourceTree = "<group>"; };
 		AB0FF4C922CA2B1F0011C0B8 /* Remove2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remove2.swift; sourceTree = "<group>"; };
-		AB1D30FB250B60F4009B857C /* MBPluginPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBPluginPackage.swift; sourceTree = "<group>"; };
-		AB24F92C23BEE6BC00640787 /* RemoveFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFeatureTests.swift; sourceTree = "<group>"; };
-		AB24F92E23BF343400640787 /* FeatureMergeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureMergeTests.swift; sourceTree = "<group>"; };
-		AB24F93123BF431000640787 /* ConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigTests.swift; sourceTree = "<group>"; };
 		AB34F17322BF6C2300F9B86B /* import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = import.swift; sourceTree = "<group>"; };
 		AB34F17522BF800400F9B86B /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		AB35C45B230C438F00FE97CC /* MBCMD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBCMD.swift; sourceTree = "<group>"; };
@@ -173,16 +144,7 @@
 		AB65934A22D86A030046500C /* New.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New.swift; sourceTree = "<group>"; };
 		AB6D761A23059603003A0EA1 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		AB931D5722D4C1B300B98FFC /* Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Init.swift; sourceTree = "<group>"; };
-		AB93AB7423AC7935008DCBC7 /* NimblePlus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NimblePlus.swift; sourceTree = "<group>"; };
-		AB93AB7623B31964008DCBC7 /* AddInFreeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddInFreeTests.swift; sourceTree = "<group>"; };
-		AB93AB7E23B4C666008DCBC7 /* AddInFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInFeatureTests.swift; sourceTree = "<group>"; };
 		AB93AB8623B8E83C008DCBC7 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		AB93ADE623BAF8CD008DCBC7 /* RemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveTests.swift; sourceTree = "<group>"; };
-		AB93ADEB23BB4546008DCBC7 /* FreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTests.swift; sourceTree = "<group>"; };
-		AB93ADED23BB8339008DCBC7 /* StartFromFreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartFromFreeTests.swift; sourceTree = "<group>"; };
-		AB93ADEF23BB9194008DCBC7 /* StartFromFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartFromFeatureTests.swift; sourceTree = "<group>"; };
-		AB9C8EC8242CBA3F00BD2C88 /* ImportInFreeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportInFreeTests.swift; sourceTree = "<group>"; };
-		AB9C8ECA242CBEEB00BD2C88 /* ImportInFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportInFeature.swift; sourceTree = "<group>"; };
 		ABA08CE3238D88F100C5567A /* manifest.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = manifest.yml; path = ../manifest.yml; sourceTree = "<group>"; };
 		ABA08CEF238D8B9D00C5567A /* Basic.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Basic.xcconfig; sourceTree = "<group>"; };
 		ABA6D5A823A8E39E000BEE16 /* MBSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBSetting.swift; sourceTree = "<group>"; };
@@ -207,9 +169,6 @@
 		ABFD984422A12045006A5629 /* MBoxWorkspace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBoxWorkspace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABFD984722A12045006A5629 /* MBoxWorkspace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBoxWorkspace.h; sourceTree = "<group>"; };
 		ABFD984822A12045006A5629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ABFD984D22A12045006A5629 /* MBoxWorkspaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MBoxWorkspaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABFD985222A12045006A5629 /* MBoxWorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBoxWorkspaceTests.swift; sourceTree = "<group>"; };
-		ABFD985422A12045006A5629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABFD987122A1237D006A5629 /* MBConfig.Repo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.Repo.swift; sourceTree = "<group>"; };
 		ABFD987322A1237D006A5629 /* MBConfig.Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.Feature.swift; sourceTree = "<group>"; };
 		ABFD987422A1237D006A5629 /* MBConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.swift; sourceTree = "<group>"; };
@@ -217,7 +176,6 @@
 		DFDED80F7F7F7A0DDA63E710 /* Pods-MBoxWorkspaceCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceCore.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceCore/Pods-MBoxWorkspaceCore.debug.xcconfig"; sourceTree = "<group>"; };
 		ED5D17CC08BA6221DE50B1F9 /* Pods-MBoxWorkspaceCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceCore.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceCore/Pods-MBoxWorkspaceCore.release.xcconfig"; sourceTree = "<group>"; };
 		EFAC145152040E1559E1333F /* Pods_MBoxWorkspaceCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspaceCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F453F819770CCC1C25622B65 /* Pods-MBoxWorkspaceTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceTests.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceTests/Pods-MBoxWorkspaceTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,15 +203,6 @@
 				2D7AA7C93395F5D0E230B3BC /* Pods_MBoxWorkspace.framework in Frameworks */,
 				ABE08180250630C800CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */,
 				ABE0812824FFC19C00CC8E4B /* MBoxWorkspaceLoader.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ABFD984A22A12045006A5629 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABFD984E22A12045006A5629 /* MBoxWorkspace.framework in Frameworks */,
-				DFECD2CF70CD987F8B11F927 /* Pods_MBoxWorkspaceTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,32 +273,6 @@
 			path = CLI;
 			sourceTree = "<group>";
 		};
-		AB93ADEA23BB4538008DCBC7 /* Feature */ = {
-			isa = PBXGroup;
-			children = (
-				AB93ADEB23BB4546008DCBC7 /* FreeTests.swift */,
-				AB93ADED23BB8339008DCBC7 /* StartFromFreeTests.swift */,
-				AB93ADEF23BB9194008DCBC7 /* StartFromFeatureTests.swift */,
-				AB24F92C23BEE6BC00640787 /* RemoveFeatureTests.swift */,
-				AB24F92E23BF343400640787 /* FeatureMergeTests.swift */,
-				AB9C8EC8242CBA3F00BD2C88 /* ImportInFreeTests.swift */,
-				AB9C8ECA242CBEEB00BD2C88 /* ImportInFeature.swift */,
-			);
-			path = Feature;
-			sourceTree = "<group>";
-		};
-		ABA6D5B223AA1330000BEE16 /* CLI */ = {
-			isa = PBXGroup;
-			children = (
-				AB24F93123BF431000640787 /* ConfigTests.swift */,
-				AB93AB7623B31964008DCBC7 /* AddInFreeTests.swift */,
-				AB93AB7E23B4C666008DCBC7 /* AddInFeatureTests.swift */,
-				AB93ADE623BAF8CD008DCBC7 /* RemoveTests.swift */,
-				AB93ADEA23BB4538008DCBC7 /* Feature */,
-			);
-			path = CLI;
-			sourceTree = "<group>";
-		};
 		ABBB047024853E7A0003BCB5 /* GitSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,7 +328,6 @@
 				ABE0817C25062DBE00CC8E4B /* MBoxWorkspaceCore */,
 				ABE0812424FFB17E00CC8E4B /* MBoxWorkspaceLoader */,
 				ABFD984622A12045006A5629 /* MBoxWorkspace */,
-				ABFD985122A12045006A5629 /* MBoxWorkspaceTests */,
 				ABFD984522A12045006A5629 /* Products */,
 				ABFD985E22A12065006A5629 /* Frameworks */,
 				CCC28FD400C3AF6C6D9E28A8 /* Pods */,
@@ -416,7 +338,6 @@
 			isa = PBXGroup;
 			children = (
 				ABFD984422A12045006A5629 /* MBoxWorkspace.framework */,
-				ABFD984D22A12045006A5629 /* MBoxWorkspaceTests.xctest */,
 				ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */,
 				ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */,
 			);
@@ -437,23 +358,11 @@
 			path = MBoxWorkspace;
 			sourceTree = "<group>";
 		};
-		ABFD985122A12045006A5629 /* MBoxWorkspaceTests */ = {
-			isa = PBXGroup;
-			children = (
-				ABA6D5B223AA1330000BEE16 /* CLI */,
-				ABFD985222A12045006A5629 /* MBoxWorkspaceTests.swift */,
-				AB93AB7423AC7935008DCBC7 /* NimblePlus.swift */,
-				ABFD985422A12045006A5629 /* Info.plist */,
-			);
-			path = MBoxWorkspaceTests;
-			sourceTree = "<group>";
-		};
 		ABFD985E22A12065006A5629 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ABF4D8F22329EEE300BB40F2 /* MBoxCore.framework */,
 				1E32EC70204F569A94FA18DA /* Pods_MBoxWorkspace.framework */,
-				6F2DF9C606EF7EE342E95A23 /* Pods_MBoxWorkspaceTests.framework */,
 				EFAC145152040E1559E1333F /* Pods_MBoxWorkspaceCore.framework */,
 				51EAB62415F1A4E77B20EB2E /* Pods_MBoxWorkspaceLoader.framework */,
 			);
@@ -476,7 +385,6 @@
 				AB4A30EF22B3E5E5005F445B /* MBConfig.Feature+Repo.swift */,
 				ABDFBAEA25065CE600682483 /* MBSetting.swift */,
 				ABDFBAEC25065E6900682483 /* MBSession.swift */,
-				AB1D30FB250B60F4009B857C /* MBPluginPackage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -494,8 +402,6 @@
 			children = (
 				AB4649172312C94E00972C12 /* Podfile */,
 				AB4649182312C94E00972C12 /* MBoxWorkspace.podspec */,
-				F453F819770CCC1C25622B65 /* Pods-MBoxWorkspaceTests.debug.xcconfig */,
-				08AF7ADC074C5A1B17E6A01A /* Pods-MBoxWorkspaceTests.release.xcconfig */,
 				1E22C7BC912A00AF4EFFB177 /* Pods-MBoxWorkspace.debug.xcconfig */,
 				632E18D68588047273DD24B7 /* Pods-MBoxWorkspace.release.xcconfig */,
 				DFDED80F7F7F7A0DDA63E710 /* Pods-MBoxWorkspaceCore.debug.xcconfig */,
@@ -581,7 +487,7 @@
 				ABFD983F22A12045006A5629 /* Headers */,
 				ABFD984022A12045006A5629 /* Sources */,
 				ABFD984122A12045006A5629 /* Frameworks */,
-				AB6293C923008A4200F95DB8 /* Package Dylibs */,
+
 			);
 			buildRules = (
 			);
@@ -593,26 +499,6 @@
 			productName = MBoxWorkspace;
 			productReference = ABFD984422A12045006A5629 /* MBoxWorkspace.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		ABFD984C22A12045006A5629 /* MBoxWorkspaceTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ABFD985B22A12046006A5629 /* Build configuration list for PBXNativeTarget "MBoxWorkspaceTests" */;
-			buildPhases = (
-				2A02F682829CC454A12CC01D /* [CP] Check Pods Manifest.lock */,
-				ABFD984922A12045006A5629 /* Sources */,
-				ABFD984A22A12045006A5629 /* Frameworks */,
-				ABFD984B22A12045006A5629 /* Resources */,
-				387B1B72EC258030F16B36A8 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				ABFD985022A12045006A5629 /* PBXTargetDependency */,
-			);
-			name = MBoxWorkspaceTests;
-			productName = MBoxWorkspaceTests;
-			productReference = ABFD984D22A12045006A5629 /* MBoxWorkspaceTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -627,9 +513,6 @@
 					ABFD984322A12045006A5629 = {
 						CreatedOnToolsVersion = 10.2.1;
 						LastSwiftMigration = 1100;
-					};
-					ABFD984C22A12045006A5629 = {
-						CreatedOnToolsVersion = 10.2.1;
 					};
 				};
 			};
@@ -647,22 +530,11 @@
 			projectRoot = "";
 			targets = (
 				ABFD984322A12045006A5629 /* MBoxWorkspace */,
-				ABFD984C22A12045006A5629 /* MBoxWorkspaceTests */,
 				ABE080E924FFB13300CC8E4B /* MBoxWorkspaceLoader */,
 				ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		ABFD984B22A12045006A5629 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		1A4F2A53F43640D21DC9BBCF /* [CP] Check Pods Manifest.lock */ = {
@@ -685,45 +557,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2A02F682829CC454A12CC01D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MBoxWorkspaceTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		387B1B72EC258030F16B36A8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MBoxWorkspaceTests/Pods-MBoxWorkspaceTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MBoxWorkspaceTests/Pods-MBoxWorkspaceTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MBoxWorkspaceTests/Pods-MBoxWorkspaceTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		69BFFF793E4741C7F16C09EF /* [CP] Check Pods Manifest.lock */ = {
@@ -770,27 +603,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AB6293C923008A4200F95DB8 /* Package Dylibs */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-				"$(PODS_ROOT)/MBoxCore/repackage-dylibs.input.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "Package Dylibs";
-			outputFileListPaths = (
-				"$(PODS_ROOT)/MBoxCore/repackage-dylibs.output.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/bin/sh -li";
-			shellScript = "export LANG=en_US.UTF-8\nexport LANGUAGE=en_US.UTF-8\nexport LC_ALL=en_US.UTF-8\ncd \"${SRCROOT}/../..\"\nbundle exec ruby \"${PODS_ROOT}/MBoxCore/repackage-dylibs.rb\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -820,7 +632,6 @@
 				AB4E16EE2602172D00F831D0 /* MBRepo.swift in Sources */,
 				AB4E18B7260366F000F831D0 /* MBWorkRepo.swift in Sources */,
 				ABE0816B25062C4D00CC8E4B /* MBConfig.Feature.swift in Sources */,
-				AB5A4F69258B62A800B52C65 /* MBPluginPackage.swift in Sources */,
 				ABDFBAEB25065CE600682483 /* MBSetting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -872,26 +683,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ABFD984922A12045006A5629 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB24F92F23BF343400640787 /* FeatureMergeTests.swift in Sources */,
-				AB93ADE723BAF8CD008DCBC7 /* RemoveTests.swift in Sources */,
-				AB93AB7723B31964008DCBC7 /* AddInFreeTests.swift in Sources */,
-				AB24F93223BF431000640787 /* ConfigTests.swift in Sources */,
-				AB93ADEE23BB8339008DCBC7 /* StartFromFreeTests.swift in Sources */,
-				AB9C8ECB242CBEEB00BD2C88 /* ImportInFeature.swift in Sources */,
-				AB93AB7F23B4C666008DCBC7 /* AddInFeatureTests.swift in Sources */,
-				AB9C8EC9242CBA3F00BD2C88 /* ImportInFreeTests.swift in Sources */,
-				AB93ADEC23BB4546008DCBC7 /* FreeTests.swift in Sources */,
-				AB93AB7523AC7935008DCBC7 /* NimblePlus.swift in Sources */,
-				ABFD985322A12045006A5629 /* MBoxWorkspaceTests.swift in Sources */,
-				AB24F92D23BEE6BC00640787 /* RemoveFeatureTests.swift in Sources */,
-				AB93ADF023BB9194008DCBC7 /* StartFromFeatureTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -909,11 +700,6 @@
 			isa = PBXTargetDependency;
 			target = ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */;
 			targetProxy = ABE08182250630C800CC8E4B /* PBXContainerItemProxy */;
-		};
-		ABFD985022A12045006A5629 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ABFD984322A12045006A5629 /* MBoxWorkspace */;
-			targetProxy = ABFD984F22A12045006A5629 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1222,44 +1008,6 @@
 			};
 			name = Release;
 		};
-		ABFD985C22A12046006A5629 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F453F819770CCC1C25622B65 /* Pods-MBoxWorkspaceTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = MBoxWorkspaceTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		ABFD985D22A12046006A5629 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 08AF7ADC074C5A1B17E6A01A /* Pods-MBoxWorkspaceTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = MBoxWorkspaceTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1295,15 +1043,6 @@
 			buildConfigurations = (
 				ABFD985922A12046006A5629 /* Debug */,
 				ABFD985A22A12046006A5629 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		ABFD985B22A12046006A5629 /* Build configuration list for PBXNativeTarget "MBoxWorkspaceTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ABFD985C22A12046006A5629 /* Debug */,
-				ABFD985D22A12046006A5629 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

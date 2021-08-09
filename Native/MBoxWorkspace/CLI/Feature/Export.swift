@@ -37,6 +37,7 @@ extension MBCommander.Feature {
             } else {
                 self.feature = self.config.currentFeature
             }
+            self.shouldLockConfig = false
         }
 
         public var name: String?
