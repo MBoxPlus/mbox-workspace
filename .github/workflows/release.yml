@@ -1,0 +1,27 @@
+name: Release
+
+on:
+
+  workflow_dispatch:
+
+jobs:
+  homebrew:
+    runs-on: macos-latest
+#    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: "Select Xcode 12.4"
+        uses: devbotsxyz/xcode-select@v1
+        with:
+          version: "12.4"
+
+      - uses: mboxplus/mbox-release-plugin-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          force: false
