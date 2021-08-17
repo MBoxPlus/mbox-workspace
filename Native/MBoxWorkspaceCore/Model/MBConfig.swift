@@ -58,6 +58,7 @@ public class MBConfig: MBCodableObject, MBJSONProtocol {
         }
         if name == nil || name == "" {
             let feature = Feature(name: "")
+            feature.config = self
             self.features[""] = feature
             return feature
         }

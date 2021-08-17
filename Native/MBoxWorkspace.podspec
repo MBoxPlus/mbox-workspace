@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
 
   spec.default_subspec = 'Default'
 
-  spec.subspec 'Default' do |ss|
+  spec.subspec 'Core' do |ss|
     ss.source_files = "#{name}/MBWorkspaceCore/*.{h,m,swift}", "#{name}/MBWorkspaceCore/**/*.{h,m,swift}"
     ss.dependency "MBoxCore"
     ss.dependency "MBoxGit"

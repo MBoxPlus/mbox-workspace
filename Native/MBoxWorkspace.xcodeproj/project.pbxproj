@@ -487,7 +487,6 @@
 				ABFD983F22A12045006A5629 /* Headers */,
 				ABFD984022A12045006A5629 /* Sources */,
 				ABFD984122A12045006A5629 /* Frameworks */,
-
 			);
 			buildRules = (
 			);
