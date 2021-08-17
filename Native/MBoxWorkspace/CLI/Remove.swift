@@ -77,7 +77,10 @@ extension MBCommander {
             } else {
                 for name in self.names {
                     try UI.log(verbose: "[\(name)]") {
-                        let repos = config.currentFeature.findRepo(name: name)
+                        var repos = config.currentFeature.findRepo(name: name, searchPackageName: false)
+                        if repos.count == 0 {
+                            repos = config.currentFeature.findRepo(name: name, searchPackageName: true)
+                        }
                         if repos.count == 0 {
                             UI.log(warn: "Could not find the repo `\(name)`")
                             return

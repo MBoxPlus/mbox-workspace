@@ -418,8 +418,11 @@ extension MBConfig.Repo {
             guard let workRepo = self.workRepository else {
                 return
             }
-            if let head = head {
-                try workRepo.git?.setHEAD(head)
+            if let head = head, let git = workRepo.git {
+                if head.isBranch, git.localBranch(named: head.value) == nil {
+                    try git.createBranch(head.value, base: head)
+                }
+                try git.setHEAD(head)
             }
             let cachePath = self.worktreeCachePath
             if cachePath.isDirectory {

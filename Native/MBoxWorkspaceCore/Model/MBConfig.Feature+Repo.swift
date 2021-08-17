@@ -25,7 +25,7 @@ extension MBConfig.Feature {
                 return r
             }
         }
-        return findRepo(name: repo.name, owner: repo.owner).first
+        return findRepo(name: repo.name, owner: repo.owner, searchPackageName: false).first
     }
 
     @discardableResult
