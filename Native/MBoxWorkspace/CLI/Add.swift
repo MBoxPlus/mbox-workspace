@@ -217,10 +217,12 @@ extension MBCommander {
 
             self.config.save()
 
+            var importedLocalRepository = false
             if repo.originRepository == nil, let path = self.path {
                 try UI.section("Import Local Repository") {
                     repo.path = path
                     try self.importLocalRepository(repo)
+                    importedLocalRepository = true
                 }
             }
 
@@ -252,6 +254,16 @@ extension MBCommander {
                         return
                     }
                     try? git.pull()
+                }
+            }
+
+            if self.mode == .move,
+               let path = self.path,
+               path.isExists {
+                if importedLocalRepository {
+                    try? FileManager.default.removeItem(atPath: path)
+                } else {
+                    UI.log(warn: "The path `\(path)` not be removed. Please remove it manually.")
                 }
             }
 

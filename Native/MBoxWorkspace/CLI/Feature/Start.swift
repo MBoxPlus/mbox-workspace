@@ -368,6 +368,43 @@ extension MBCommander.Feature {
                     try repo.clone(recurseSubmodules: self.recurseSubmodules)
                 }
             }
+            guard let git = repo.originRepository?.git else {
+                throw RuntimeError("The repo is missing.")
+            }
+            var changed = false
+            if repo.baseBranch != nil, let gitPointer = repo.baseGitPointer {
+                guard let realPointer = git.reference(named: gitPointer.value)?.ref else {
+                    throw UserError("[\(repo)] Could not find the base \(gitPointer).")
+                }
+                if gitPointer != realPointer || gitPointer.isUnknown {
+                    UI.log(verbose: "Change base \(gitPointer) -> \(realPointer)")
+                    repo.baseGitPointer = realPointer
+                    changed = true
+                }
+            }
+            if let gitPointer = repo.lastGitPointer {
+                guard let realPointer = git.reference(named: gitPointer.value)?.ref else {
+                    throw UserError("[\(repo)] Could not find the last \(gitPointer).")
+                }
+                if gitPointer != realPointer || gitPointer.isUnknown {
+                    UI.log(verbose: "Change last \(gitPointer) -> \(realPointer)")
+                    repo.lastGitPointer = realPointer
+                    changed = true
+                }
+            }
+            if let gitPointer = repo.targetGitPointer {
+                guard let realPointer = git.reference(named: gitPointer.value)?.ref else {
+                    throw UserError("[\(repo)] Could not find the target \(gitPointer).")
+                }
+                if gitPointer != realPointer || gitPointer.isUnknown {
+                    UI.log(verbose: "Change target \(gitPointer) -> \(realPointer)")
+                    repo.targetGitPointer = realPointer
+                    changed = true
+                }
+            }
+            if changed {
+                self.config.save()
+            }
         }
 
         open func checkout(feature: MBConfig.Feature) throws {

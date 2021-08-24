@@ -173,13 +173,13 @@ extension MBConfig {
 
         public var baseGitPointer: GitPointer? {
             get {
-                if let baseBranch = self.baseBranch {
-                    if let baseType = self.baseType {
-                        return GitPointer(type: baseType, value: baseBranch)
-                    }
-                    return GitPointer.unknown(baseBranch)
+                guard let baseBranch = self.baseBranch else {
+                    return targetGitPointer
                 }
-                return targetGitPointer
+                if let baseType = self.baseType {
+                    return GitPointer(type: baseType, value: baseBranch)
+                }
+                return GitPointer.unknown(baseBranch)
             }
             set {
                 self.baseBranch = newValue?.value
@@ -210,10 +210,13 @@ extension MBConfig {
 
         public var lastGitPointer: GitPointer? {
             get {
-                if let lastBranch = self.lastBranch {
-                    return GitPointer(type: self.lastType ?? "branch", value: lastBranch)
+                guard let lastBranch = self.lastBranch else {
+                    return nil
                 }
-                return nil
+                if let type = self.lastType {
+                    return GitPointer(type: type, value: lastBranch)
+                }
+                return .unknown(lastBranch)
             }
             set {
                 self.lastBranch = newValue?.value

@@ -1,4 +1,4 @@
-require 'test-utils/mbox-tests'
+require 'mbox-dev/mbox-tests'
 
 class MBoxWorkspaceTests < MBoxTests
   def should_setup_workspace

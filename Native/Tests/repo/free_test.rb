@@ -113,7 +113,11 @@ class Free < MBoxWorkspaceTests
     assert_remove_repo("AFNetworking")
     assert_repos_is_empty("FreeMode")
     # Again
-    test_add_path_with_move_mode
+    cp!(["-r", "#{@cache_dir}/AFNetworking", "#{@tmp_dir}/"])
+    mbox!(["add", "#{@tmp_dir}/AFNetworking", "master", "--mode=move"])
+    assert_repo("FreeMode", ["AFNetworking", "git@github.com:AFNetworking/AFNetworking.git", "[master]"])
+    assert_contains_file(@store_dir, "AFNetworking")
+    assert_contains_file(@tmp_dir, "AFNetworking") # No remove, use cache.
   end
 
   def test_add_path_with_worktree_mode
