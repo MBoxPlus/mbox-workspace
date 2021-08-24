@@ -68,8 +68,13 @@ extension MBCommander.Feature {
         dynamic
         open override func validate() throws {
             try super.validate()
-            self.feature = try MBConfig.Feature.load(fromString: self.json, coder: .json)
+            self.feature = try self.buildFeature(fromString: self.json)
             try self.validateBranch()
+        }
+
+        dynamic
+        open func buildFeature(fromString string: String) throws -> MBConfig.Feature {
+            return try MBConfig.Feature.load(fromString: string, coder: .json)
         }
 
         open func setupName() throws {

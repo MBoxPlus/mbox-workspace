@@ -90,7 +90,10 @@ extension MBCommander {
 
         dynamic
         open func reposToRun() -> [MBConfig.Repo] {
-            let repos = self.config.currentFeature.repos
+            return self.filterRepos(repos: self.config.currentFeature.repos)
+        }
+
+        open func filterRepos(repos: [MBConfig.Repo]) -> [MBConfig.Repo] {
             if self.inRepos == nil && self.noRepos == nil { return repos }
             return repos.filter { repo -> Bool in
                 return (self.inRepos?.any(matching: { repo.isName($0) }) ?? true) &&

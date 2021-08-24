@@ -50,6 +50,7 @@ extension MBConfig.Feature {
     }
 
     @discardableResult
+    dynamic
     open func merge(feature: MBConfig.Feature) -> [MBConfig.Repo] {
         var addedRepos = [MBConfig.Repo]()
         feature.repos.forEach { repo in
