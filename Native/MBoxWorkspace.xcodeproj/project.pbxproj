@@ -54,6 +54,8 @@
 		ABBB047C248688980003BCB5 /* GitSheetPush.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBB047B248688980003BCB5 /* GitSheetPush.swift */; };
 		ABBD4253237955770047D954 /* Clean.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBD4252237955770047D954 /* Clean.swift */; };
 		ABC33F2922D09CFF00E72978 /* Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC33F2822D09CFF00E72978 /* Merge.swift */; };
+		ABDE516626CFEDB6006A8B54 /* Git+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE516226CFE7E2006A8B54 /* Git+Config.swift */; };
+		ABDE516726CFEDFD006A8B54 /* Git+Hooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */; };
 		ABDFBAE5250659B500682483 /* MBSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA6D5A823A8E39E000BEE16 /* MBSetting.swift */; };
 		ABDFBAEB25065CE600682483 /* MBSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDFBAEA25065CE600682483 /* MBSetting.swift */; };
 		ABDFBAED25065E6900682483 /* MBSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDFBAEC25065E6900682483 /* MBSession.swift */; };
@@ -156,6 +158,8 @@
 		ABBB047B248688980003BCB5 /* GitSheetPush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitSheetPush.swift; sourceTree = "<group>"; };
 		ABBD4252237955770047D954 /* Clean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clean.swift; sourceTree = "<group>"; };
 		ABC33F2822D09CFF00E72978 /* Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Merge.swift; sourceTree = "<group>"; };
+		ABDE516226CFE7E2006A8B54 /* Git+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Git+Config.swift"; sourceTree = "<group>"; };
+		ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Git+Hooks.swift"; sourceTree = "<group>"; };
 		ABDFBAEA25065CE600682483 /* MBSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBSetting.swift; sourceTree = "<group>"; };
 		ABDFBAEC25065E6900682483 /* MBSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBSession.swift; sourceTree = "<group>"; };
 		ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBoxWorkspaceLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +248,7 @@
 		AB64A16C22A6C37400FD06FC /* CLI */ = {
 			isa = PBXGroup;
 			children = (
+				ABDE516126CFE7A7006A8B54 /* Git */,
 				AB36B1F42563E62A00DC9DBA /* Plugin */,
 				AB5E306A22EC92DE004F716F /* Repo */,
 				AB4A310822B73835005F445B /* Feature */,
@@ -252,7 +257,6 @@
 				AB64A17522A9288C00FD06FC /* MBCommander+Workspace.swift */,
 				AB64A18B22B12EE500FD06FC /* Add.swift */,
 				AB4A310922B73848005F445B /* Feature.swift */,
-				AB64A18922B108D000FD06FC /* Git.swift */,
 				AB4A312122BA4D52005F445B /* Remove.swift */,
 				ABC33F2822D09CFF00E72978 /* Merge.swift */,
 				AB64A16D22A6C3A100FD06FC /* Status.swift */,
@@ -282,6 +286,16 @@
 				ABBB047B248688980003BCB5 /* GitSheetPush.swift */,
 			);
 			path = GitSheet;
+			sourceTree = "<group>";
+		};
+		ABDE516126CFE7A7006A8B54 /* Git */ = {
+			isa = PBXGroup;
+			children = (
+				AB64A18922B108D000FD06FC /* Git.swift */,
+				ABDE516226CFE7E2006A8B54 /* Git+Config.swift */,
+				ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */,
+			);
+			path = Git;
 			sourceTree = "<group>";
 		};
 		ABE0812424FFB17E00CC8E4B /* MBoxWorkspaceLoader */ = {
@@ -661,6 +675,7 @@
 				AB34F17422BF6C2300F9B86B /* import.swift in Sources */,
 				ABBB047C248688980003BCB5 /* GitSheetPush.swift in Sources */,
 				AB4A312022BA3FBB005F445B /* Free.swift in Sources */,
+				ABDE516626CFEDB6006A8B54 /* Git+Config.swift in Sources */,
 				AB4F9EB225EBCC9000AC4D14 /* Status+Feature.swift in Sources */,
 				AB315CEC23390E6800A73EF6 /* Env.swift in Sources */,
 				ABEE491325C3F72300A375E8 /* MBFeature+SupportFiles.swift in Sources */,
@@ -679,6 +694,7 @@
 				AB4A310C22B738C5005F445B /* Start.swift in Sources */,
 				AB93AB8723B8E83C008DCBC7 /* Config.swift in Sources */,
 				AB07110A25E64873007294A5 /* Status+Git.swift in Sources */,
+				ABDE516726CFEDFD006A8B54 /* Git+Hooks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

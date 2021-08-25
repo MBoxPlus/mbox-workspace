@@ -42,6 +42,8 @@ open class MBoxWorkspace: NSObject, MBWorkspacePluginProtocol {
         MBCommanderGroup.shared.addCommand(MBCommander.Feature.Clean.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Exec.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Git.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Git.Config.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Git.Hooks.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Repo.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Repo.Search.self)
         MBCommanderGroup.shared.addCommand(MBCommander.GitSheet.self)

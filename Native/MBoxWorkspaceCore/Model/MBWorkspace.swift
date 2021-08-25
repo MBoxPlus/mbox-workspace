@@ -347,15 +347,41 @@ open class MBWorkspace: NSObject {
     // MARK: - Git
     open lazy var gitConfigPath: String = self.configDir.appending(pathComponent: "git.config")
 
+    open func gitConfig(for key: String) throws -> String? {
+        return try UI.log(verbose: "Get git workspace config: \(key):") {
+            return try GitHelper.getConfig(for: key, path: self.gitConfigPath)
+        }
+    }
+
     open func setGitConfig(_ value: String, for key: String) throws {
-        try GitHelper.setConfig(key: key, value: value, path: self.gitConfigPath)
+        try UI.log(verbose: "Set git workspace config: \(key): \(value)") {
+            try GitHelper.setConfig(key: key, value: value, path: self.gitConfigPath)
+        }
+    }
+
+    open func removeGitConfig(for key: String) throws {
+        try UI.log(verbose: "Remove git workspace config: \(key)") {
+            try GitHelper.removeConfig(key: key, path: self.gitConfigPath)
+        }
     }
 
     dynamic
     open func setupGitConfig() throws {
         try self.setGitConfig("current", for: "push.default")
-        if let hookPath = MBWorkspace.pluginPackage?.resoucePath(for: "gitHookManager") {
-            try self.setGitConfig(hookPath, for: "core.hooksPath")
+        try self.setupGitHooks(enable: true)
+    }
+
+    open func gitHooks() throws -> String? {
+        return try self.gitConfig(for: "core.hooksPath")
+    }
+
+    open func setupGitHooks(enable: Bool) throws {
+        if enable {
+            if let hookPath = MBWorkspace.pluginPackage?.resoucePath(for: "gitHookManager") {
+                try self.setGitConfig(hookPath, for: "core.hooksPath")
+            }
+        } else {
+            try self.removeGitConfig(for: "core.hooksPath")
         }
     }
 
