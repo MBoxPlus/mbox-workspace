@@ -6,7 +6,7 @@ class FeatureRemove < MBoxWorkspaceTests
 
   def before_all
     super
-    git!(["-C", @cache_dir, "clone", "git@github.com:AFNetworking/AFNetworking.git"])
+    git!(["-C", @cache_dir, "clone", "https://github.com/AFNetworking/AFNetworking.git"])
   end
 
   def setup
