@@ -1,13 +1,12 @@
-name: Release
+name: CI
 
 on:
-
-  workflow_dispatch:
-
+  push:
+    # branches:
+    #   - main
 jobs:
   release:
     runs-on: macos-11
-#    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v2
 
@@ -25,8 +24,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: mboxplus/mbox-release-plugin-action@main
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          build-path: ${{ steps.build-plugin.outputs.build-path }}
-          force: true
+      - name: Test
+        run: mdev plugin test -v
