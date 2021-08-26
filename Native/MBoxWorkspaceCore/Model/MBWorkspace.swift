@@ -3,7 +3,7 @@
 //  MBoxCore
 //
 //  Created by Whirlwind on 2018/8/28.
-//  Copyright © 2018年 Bytedance. All rights reserved.
+//  Copyright © 2018 Bytedance. All rights reserved.
 //
 
 import Foundation
@@ -39,7 +39,6 @@ open class MBWorkspace: NSObject {
         return rootPath.appending(pathComponent:".mbox")
     }
     
-    /// hook script 文件目录
     public var hookFileDir: String {
         do {
             try createHookFileDir()
@@ -161,7 +160,7 @@ open class MBWorkspace: NSObject {
         return result
     }
 
-    /// Key 必须是小写，例如：{ "ios": ["MBoxCocoapods"] }
+    /// Key must be lowercase, eg: { "ios": ["MBoxCocoapods"] }
     open class var pluginGroups: [String: [String]] {
         var v = [String: [String]]()
         for plugin in Array(MBPluginManager.shared.allPackages.values) {
@@ -181,21 +180,6 @@ open class MBWorkspace: NSObject {
     }
 
     public lazy var logDirectory: String? = self.configDir.appending(pathComponent:"logs")
-
-//    open func repoPerform(_ title: String, notification: String? = nil, _ block: @escaping (MBSession, MBConfig.Repo) -> Bool) {
-//        let repos = self.config.currentFeature.repos
-//        UI.section("Workspace \(title)", block: {
-//            for repo in repos {
-//                UI.newSection("[\(repo)]") { session2 in
-//                    session2.status = block(session2, repo)
-//                }
-//            }
-//        }, waitCallback: { _ in
-//            if let notification = notification {
-//                self.postNotification(notification)
-//            }
-//        })
-//    }
     
     // MARK: - class methods
     public static func searchRootPath(_ path: String) -> String? {

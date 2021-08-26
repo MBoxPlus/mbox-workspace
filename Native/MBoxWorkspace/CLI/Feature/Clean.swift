@@ -2,7 +2,7 @@
 //  Clean.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2019/11/11.
+//  Created by Whirlwind on 2019/11/11.
 //  Copyright © 2019 bytedance. All rights reserved.
 //
 
@@ -64,17 +64,17 @@ extension MBCommander.Feature {
                     UI.log(verbose: "The track branch for \(baseGitPointer) does not exist, disallow to remove the feature.")
                     return false
                 }
-                // 检查合并状态
+                // Check merge status
                 var status = try git.checkMergeStatus(curBranch: localGitPointer.value, target: .branch(trackBranch))
                 if status == .uptodate || status == .behind {
                     UI.log(verbose: "The local \(localGitPointer) had been merged into branch `\(trackBranch)`, allow to remove the feature.")
                     return true
                 }
-                // 尝试更新远程分支状态
+                // Try fetch the remote
                 if !fetched.contains(repo) {
                     try git.fetch()
                     fetched.append(repo)
-                    // 重新检查合并状态
+                    // Retry to check the merge status
                     status = try git.checkMergeStatus(curBranch: localGitPointer.value, target: .branch(trackBranch))
                     if status == .uptodate || status == .behind {
                         UI.log(verbose: "The local \(localGitPointer) had been merged into branch `\(trackBranch)`, allow to remove the feature.")

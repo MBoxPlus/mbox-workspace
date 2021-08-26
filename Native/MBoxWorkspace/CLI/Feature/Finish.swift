@@ -42,9 +42,7 @@ extension MBCommander.Feature {
                 return !git.isClean
             }
             if uncleanedRepos.count > 0 && !self.force {
-                UI.log(warn: "以下仓库中有未提交文件，无法结束当前 Feature:",
-                       items: uncleanedRepos.map { $0.name })
-                throw UserError("Could not finish unclean repos, you can use `--force` flag to force finish.")
+                throw UserError("Could not finish unclean repos: \(uncleanedRepos), you can use `--force` flag to force finish.")
             }
             try super.validate()
         }

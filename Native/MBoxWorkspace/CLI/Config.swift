@@ -2,7 +2,7 @@
 //  Config.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2019/12/29.
+//  Created by Whirlwind on 2019/12/29.
 //  Copyright © 2019 bytedance. All rights reserved.
 //
 

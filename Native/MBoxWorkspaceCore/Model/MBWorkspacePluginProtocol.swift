@@ -2,7 +2,7 @@
 //  MBWorkspacePluginProtocol.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2019/9/30.
+//  Created by Whirlwind on 2019/9/30.
 //  Copyright © 2019 bytedance. All rights reserved.
 //
 

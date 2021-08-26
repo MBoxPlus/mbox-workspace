@@ -3,7 +3,7 @@
 //  MBoxCore
 //
 //  Created by Whirlwind on 2018/8/28.
-//  Copyright © 2018年 Bytedance. All rights reserved.
+//  Copyright © 2018 Bytedance. All rights reserved.
 //
 
 import Cocoa
@@ -89,13 +89,6 @@ extension MBConfig {
                 }
             }
         }
-        // feature 导出口令
-    //    public class func generatePassport(_ json: String) -> String? {
-    //        guard let value = json.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-    //            return nil
-    //            }
-    //        return "\(MBoxPluginPath.Feature.Import)?json=\(value)"
-    //    }
 
         dynamic
         open var exportKeys: [String] {

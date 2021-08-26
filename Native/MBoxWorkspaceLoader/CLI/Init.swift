@@ -75,7 +75,6 @@ extension MBCommander {
             if cmd.exec("git rev-parse --show-toplevel") {
                 throw UserError("Could not init a mbox in a git repository: `\(cmd.outputString)`")
             }
-            // 设定 Name 如果非空创建目录
             if let name = self.name {
                 try UI.section("Use `\(name)` to create MBox workspace folder") {
                     let newPath = UI.rootPath.appending(pathComponent: name)

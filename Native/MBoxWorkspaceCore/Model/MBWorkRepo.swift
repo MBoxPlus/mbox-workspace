@@ -2,7 +2,7 @@
 //  MBWorkRepo.swift
 //  MBoxWorkspaceCore
 //
-//  Created by 詹迟晶 on 2021/3/18.
+//  Created by Whirlwind on 2021/3/18.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
@@ -107,21 +107,17 @@ open class MBWorkRepo: MBRepo {
             return
         }
 
-        // 判断 target 是否存在
         let realTargetPointer = UI.log(verbose: "Check target \(targetPointer) exists") {
             return git.pointer(for: targetPointer)
         }
 
         if let realTargetPointer = realTargetPointer {
-            // target 存在，直接切换
             try git.checkout(targetPointer, basePointer: realTargetPointer, create: targetPointer != realTargetPointer)
         } else {
-            // target 不存在，分析 Base Branch
             if let basePointer = basePointer {
                 if targetPointer == basePointer {
                     throw RuntimeError("Could not find the \(basePointer)")
                 }
-                // 判断 Base Branch 是否存在
                 let realBasePointer = UI.log(verbose: "Check base \(basePointer) exists") {
                     return git.pointer(for: basePointer, local: !baseRemote, remote: true)
                 }

@@ -69,7 +69,7 @@ extension MBCommander {
             }
             if let baseBranch = self.shiftArgument("base_branch") {
                 if baseBranch.isEmpty {
-                    // TODO: 兜底策略，当为空时，重试一次，防止用户传入空数据
+                    // This is a hook, some tools pass the empty argument, we retry again
                     self.baseBranch = self.shiftArgument("base_branch")
                 } else {
                     self.baseBranch = baseBranch
@@ -89,9 +89,9 @@ extension MBCommander {
         open var recurseSubmodules: Bool = false
         open var keepLocalChanges: Bool = true
         open var addedRepo: MBConfig.Repo?
-        open var isFirstAdd: Bool? // 标记是否首次添加到 Workspace
-        open var fetched: Bool = false // 标记是否已经更新远程状态
-        open var pulled: Bool = false // 标记是否本地分支已经更新
+        open var isFirstAdd: Bool?
+        open var fetched: Bool = false
+        open var pulled: Bool = false
 
         dynamic
         open var useBaseCommit: Bool {
@@ -152,7 +152,7 @@ extension MBCommander {
                 try self.downloadRemoteRepository(repo)
             }
 
-            // Copy/Move 本地仓库直接用本地仓库的 Branch 作为 base branch.
+            // For Copy/Move, we use the branch in the local repository as our base branch
             var localGitPointer: GitPointer?
             if (self.mode == .copy || self.mode == .move),
                let path = self.path, path.isExists {
@@ -328,7 +328,6 @@ extension MBCommander {
                 repo = MBConfig.Repo(url: url, feature: self.feature)
             }
 
-            // 防止符号链接的目标文件被删除，导致无效符号链接
             if let repo = repo,
                (repo.storePath.isSymlink && !FileManager.default.fileExists(atPath: repo.storePath)) {
                 try FileManager.default.removeItem(atPath: repo.storePath)

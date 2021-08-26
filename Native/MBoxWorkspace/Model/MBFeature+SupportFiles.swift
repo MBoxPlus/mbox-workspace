@@ -2,7 +2,7 @@
 //  MBConfig.Feature+SupportFiles.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/1/29.
+//  Created by Whirlwind on 2021/1/29.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 

@@ -206,18 +206,15 @@ extension MBCommander.Feature {
 
         dynamic
         open func switchFeature(_ newFeature: MBConfig.Feature, from oldFeature: MBConfig.Feature, isCreate: Bool) throws {
-            // Free Mode 切换到其他 Feature 需要保存当前分支名
             try UI.section("Save current git HEAD") {
                 try self.saveGitStatus(feature: oldFeature)
             }
 
-            // 缓存原 feature
             try UI.section("Stash previous feature `\(oldFeature.name)`") {
                 oldFeature.regenerateStashHash()
                 try self.saveStash(feature: oldFeature)
             }
 
-            // 存储支持文件
             let keepSupportFiles = !self.clear && isCreate
             try UI.section("Backup support files for feature `\(oldFeature.name)` (Mode: \(keepSupportFiles ? "Keep": "Clear"))") {
                 try self.saveSupportFiles(feature: oldFeature, keep: keepSupportFiles)
@@ -230,29 +227,24 @@ extension MBCommander.Feature {
 
         dynamic
         open func applyFeature(_ newFeature: MBConfig.Feature, oldFeature: MBConfig.Feature, isCreate: Bool) throws {
-            // 还原项目列表
             try UI.section("Check repo exists") {
                 try self.applyRepos(newFeature, isCreate: isCreate)
             }
 
-            // 更新工作空间项目
             try UI.section("Update workspace") {
                 try self.updateWorkspace(newFeature: newFeature, oldFeature: oldFeature)
             }
 
-            // 切换 feature
             try UI.section("Checkout feature `\(newFeature.name)`") {
                 try self.checkout(feature: newFeature)
             }
 
-            // 还原上次的 stash
             if !isCreate {
                 try UI.section("Restore feature `\(newFeature.name)`") {
                     try self.applyStash(feature: newFeature)
                 }
             }
 
-            // 还原支持文件
             if !isCreate {
                 try UI.section("Restore support files") {
                     try self.applySupportFiles(feature: newFeature)
@@ -261,9 +253,10 @@ extension MBCommander.Feature {
 
             if keep != false {
                 if (oldFeature.free && isCreate) || keep == true {
-                    // 1. 使用 --keep-changes 命令时，
-                    // 2. 从 FreeMode 创建新 Feature 时，
-                    // 将 oldFeature 的 stash 内容 apply 到新 Feature
+                    // When:
+                    //      1. With `--keep-changes`
+                    //      2. Create e new feature from FreeMode
+                    // Apply the stash which from old feature to the new feature
                     try UI.section("Pick stash from `\(oldFeature.name)` into new feature `\(newFeature.name)`") {
                         try self.pickStash(into: newFeature, from: oldFeature)
                     }

@@ -2,7 +2,7 @@
 //  Git+Config.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/8/20.
+//  Created by Whirlwind on 2021/8/20.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  MBoxWorkspaceLoader.swift
 //  MBoxWorkspaceLoader
 //
-//  Created by 詹迟晶 on 2020/9/2.
+//  Created by Whirlwind on 2020/9/2.
 //  Copyright © 2020 bytedance. All rights reserved.
 //
 

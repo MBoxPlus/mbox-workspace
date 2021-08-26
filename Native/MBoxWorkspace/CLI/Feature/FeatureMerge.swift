@@ -12,7 +12,6 @@ import MBoxGit
 import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
-    // 由于 Merge 类名已经被 `mbox merge` 占用了，故改名字
     open class FeatureMerge: Feature {
         open class override var name: String? {
             return "merge"

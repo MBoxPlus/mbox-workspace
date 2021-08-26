@@ -3,7 +3,7 @@
 //  MBoxCore
 //
 //  Created by Whirlwind on 2018/8/29.
-//  Copyright © 2018年 Bytedance. All rights reserved.
+//  Copyright © 2018 Bytedance. All rights reserved.
 //
 
 import Cocoa
@@ -265,8 +265,6 @@ public class MBRepo: MBCodableObject, MBJSONProtocol {
         } else {
             UI.log(verbose: "Repo `\(name)` is not in working.")
         }
-        // Cache 中的仓库不应该指向任何分支，因此采用指向当前 Commit 的方案
-        // 防止 Worktree 模式下，占用分支导致其他项目无法 Checkout
         try UI.log(verbose: "Checkout to HEAD commit") {
             guard let git = git else { return }
             if git.isUnborn {
