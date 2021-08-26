@@ -2,10 +2,11 @@ name: CI
 
 on:
   push:
-    # branches:
-    #   - main
+    branches:
+       - 'main'
+       - 'push_ci_test/**'
 jobs:
-  release:
+  test:
     runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
@@ -24,5 +25,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: MBox ENV
+        run: |
+          mdev env --root='${{ steps.build-plugin.outputs.build-path }}/..'
+
       - name: Test
-        run: mdev plugin test -v
+        run: |
+          mdev plugin test --root='${{ steps.build-plugin.outputs.build-path }}/..' --verbose
