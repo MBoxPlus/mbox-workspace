@@ -1,6 +1,12 @@
 require 'mbox-dev/mbox-tests'
 
 class MBoxWorkspaceTests < MBoxTests
+  def output_verbose_log
+    Dir[@tests_dir + "/.mbox/logs/*/CLI/*.verbose.log"].each do |path|
+      puts File.read(path)
+    end
+  end
+
   def should_setup_workspace
     true
   end
