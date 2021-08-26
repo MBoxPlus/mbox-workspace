@@ -1,5 +1,7 @@
 # MBox Workspace
 
+[![Test](https://github.com/MBoxPlus/mbox-workspace/actions/workflows/test.yml/badge.svg?branch=main&event=push)](https://github.com/MBoxPlus/mbox-workspace/actions/workflows/test.yml)
+
 MBoxWorkspace is a core plugin implements the function of workspace, which contains three native plugins: `MBoxWorkspaceLoader` `MBoxWorkspaceCore` `MBoxWorkspace`.
 
 ## MBoxWorkspaceLoader
