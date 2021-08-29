@@ -18,6 +18,19 @@ extension MBCommander {
             return "Add a repo into current feature"
         }
 
+        open override class var example: String? {
+            return """
+# Copy a relative path into current feature, and keep the local changes.
+$ mbox add ../repo1 --mode copy --keep-local-changes
+
+# Download a remote url into current feature
+$ mbox add git@github.com:xx/xxx.git
+
+# Download a repository with a name, the name maybe a component name or a repository name
+$ mbox add AFNetworking
+"""
+        }
+
         open class override var arguments: [Argument] {
             var arguments = super.arguments
             arguments << Argument("name", description: "Repo Name/URL/Path", required: true)

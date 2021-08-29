@@ -2,8 +2,9 @@ require 'mbox-dev/mbox-tests'
 
 class MBoxWorkspaceTests < MBoxTests
   def output_verbose_log
-    Dir[@tests_dir + "/.mbox/logs/*/CLI/*.verbose.log"].each do |path|
+    Dir[@tests_dir + "/.mbox/logs/*/CLI/*.verbose.log"].sort.each do |path|
       puts File.read(path)
+      puts ""
     end
   end
 

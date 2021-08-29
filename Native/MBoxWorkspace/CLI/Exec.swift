@@ -17,6 +17,19 @@ extension MBCommander {
             return "Exec command line in MBox Environment"
         }
 
+        open override class var example: String? {
+            if self != Exec.self {
+                return nil
+            }
+            return """
+# echo the `pwd` in workspace
+$ mbox exec pwd
+
+# echo environment variable
+$ mbox exec printenv
+"""
+        }
+
         open override class var options: [Option] {
             var options = super.options
             if !self.onlyRunInWorkspace {
@@ -111,7 +124,8 @@ extension MBCommander {
 
         open override func help(_ desc: String? = nil) throws {
             if desc == nil,
-                UI.apiFormatter == .none {
+                UI.apiFormatter == .none,
+                argv.remainderArgs.count > 0 {
                 argv.append(argument: self.helpOptionName)
                 argv.rawArguments.append(self.helpOptionName)
                 let cmd = try self.setupCMD()
