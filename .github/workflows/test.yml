@@ -6,6 +6,11 @@ on:
        - 'main'
        - 'develop'
        - 'push_ci_test/**'
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
+      - 'push_ci_test/**'
 jobs:
   test:
     runs-on: macos-11
