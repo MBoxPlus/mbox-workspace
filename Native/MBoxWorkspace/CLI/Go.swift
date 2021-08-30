@@ -17,7 +17,7 @@ extension MBCommander {
         }
 
         open override class var description: String? {
-            return "Quckly open workspace."
+            return "Quickly open path or workspace."
         }
 
         open override class func autocompletion(argv: ArgumentParser) -> [String] {

@@ -261,7 +261,7 @@ extension MBConfig {
             }
             if let gitURL = gitURL {
                 self.url = gitURL.url
-                fullName ?= gitURL.project + "@" + gitURL.group
+                fullName ?= gitURL.project + "@" + gitURL.groups.reversed().joined(separator: "@")
             }
             if fullName == nil, let path = path {
                 fullName = path.lastPathComponent
