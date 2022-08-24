@@ -8,7 +8,6 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
     open class Feature: MBCommanderStatus {
@@ -21,6 +20,10 @@ extension MBCommander.Status {
         }
 
         public var feature: MBConfig.Feature
+
+        public required init() {
+            fatalError()
+        }
 
         public required init(feature: MBConfig.Feature) {
             self.feature = feature

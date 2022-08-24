@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class FeatureMerge: Feature {
@@ -26,14 +25,16 @@ extension MBCommander.Feature {
             var flags = [Flag]()
             flags << Flag("force", description: "Force create the MR if there are some changes not be committed")
             flags << Flag("forward", description: "Create the MR with repos which forward target branch")
+            flags << Flag("check-conflict", description: "Check merge conflict with the target branch, Defaults: YES")
             return flags + super.flags
         }
 
         dynamic
         open override func setup() throws {
-            try super.setup()
+            self.checkConflict = self.shiftFlag("check-conflict", default: true)
             self.force = self.shiftFlag("force")
             self.forward = self.shiftFlag("forward")
+            try super.setup()
         }
 
         dynamic
@@ -48,12 +49,16 @@ extension MBCommander.Feature {
             try UI.section("Check Git Remote Branch") {
                 try self.checkRemoteBranch()
             }
-            if self.feature.free {
-                UI.log(verbose: "Skip check merge conflict for free mode.")
-            } else {
-                try UI.section("Check Merge Conflict") {
-                    try self.checkMergeConflict()
+            if self.checkConflict {
+                if self.feature.free {
+                    UI.log(verbose: "Skip check merge conflict for free mode.")
+                } else {
+                    try UI.section("Check Merge Conflict") {
+                        try self.checkMergeConflict()
+                    }
                 }
+            } else {
+                UI.log(verbose: "Skip check merge conflict by `--no-check-conflict`.")
             }
             try UI.section("Push To Remote") {
                 try self.pushRemote()
@@ -78,6 +83,7 @@ extension MBCommander.Feature {
         open var force: Bool?
         open var forward: Bool?
         open var repos: [MBConfig.Repo] = []
+        open var checkConflict: Bool = true
 
         open func checkFeature() throws {
             try feature.eachRepos { repo in
@@ -109,9 +115,9 @@ extension MBCommander.Feature {
 
                 UI.log(info: "[\(repo)] has changes but NOT be committed.".ANSI(.red))
                 if self.force == nil {
-                    try UI.with(verbose: true) {
+                    try MBProcess.shared.with(verbose: true) {
                         _ = git.isClean
-                        if !UI.gets("Do you continue finish this feature?", default: false) {
+                        if try !UI.gets("Do you continue finish this feature?", default: false) {
                             throw UserError("User Abort")
                         }
                     }

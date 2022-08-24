@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class Remove: Feature {

@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Remove: Repo {
@@ -48,7 +47,7 @@ extension MBCommander {
             self.force = self.shiftFlag("force")
             self.all = self.shiftFlag("all")
             self.names = self.shiftArguments("name")
-            self.showStatusAtFinish = true
+            self.showStatusAtFinish = []
         }
 
         open var names: [String] = []
@@ -66,8 +65,13 @@ extension MBCommander {
         }
 
         dynamic
-        open func forceRemove(repo: MBWorkRepo?) -> Bool {
+        open func forceRemove(repo: MBWorkRepo) -> Bool {
             return self.force
+        }
+
+        dynamic
+        open func shouldRemoveOrigin(repo: MBConfig.Repo) -> Bool {
+            return self.includeRepo
         }
 
         dynamic
@@ -108,13 +112,22 @@ extension MBCommander {
             try UI.section("Remove Repo") {
                 for repo in self.repos {
                     try UI.log(verbose: "[\(repo)]") {
-                        try UI.log(verbose: "Remove from workspace" + (self.forceRemove(repo: repo.workRepository) ? " (Force)" : "")) {
-                            try self.removeWorkspace(repo: repo)
+                        let removeOriginRepo = self.shouldRemoveOrigin(repo: repo)
+                        if repo.workRepository != nil {
+                            try UI.log(verbose: "Remove from workspace" + (removeOriginRepo ? " (Force)" : "")) {
+                                try self.removeWorkspace(repo: repo, cache: !removeOriginRepo)
+                            }
                         }
-                        if self.includeRepo,
-                           let oriRepo = repo.originRepository {
-                            try UI.log(verbose: "Remove origin repository: \(self.workspace.relativePath(oriRepo.path))") {
-                                try oriRepo.remove()
+                        if removeOriginRepo {
+                            if let oriRepo = repo.originRepository {
+                                try UI.log(verbose: "Remove origin repository: `\(self.workspace.relativePath(oriRepo.path))`") {
+                                    try oriRepo.remove()
+                                }
+                            }
+                            if repo.worktreeCachePath.isExists {
+                                UI.log(verbose: "Remove cache files: `\(self.workspace.relativePath(repo.worktreeCachePath))`") {
+                                    try? FileManager.default.removeItem(atPath: repo.worktreeCachePath)
+                                }
                             }
                         }
                         try UI.log(verbose: "Remove from feature `\(self.config.currentFeature.name)`") {
@@ -127,7 +140,7 @@ extension MBCommander {
             self.config.save()
         }
 
-        open func removeWorkspace(repo: MBConfig.Repo) throws {
+        open func removeWorkspace(repo: MBConfig.Repo, cache: Bool = true) throws {
             guard let workRepo = repo.workRepository else {
                 return
             }
@@ -138,7 +151,12 @@ extension MBCommander {
                 try checkUnmergedCommits(repo)
             }
             try UI.log(verbose: "Remove Work Directory") {
-                try workRepo.remove()
+                if cache {
+                    try workRepo.remove()
+                } else {
+                    UI.log(verbose: "Delete `\(workRepo.path)`")
+                    try FileManager.default.removeItem(atPath: workRepo.path)
+                }
             }
         }
 
@@ -148,7 +166,7 @@ extension MBCommander {
                 if git.isClean { return }
                 throw UserError("`\(repo)` has changed files. If you want to remove it, please use below command:\n\tmbox remove \(repo) --force")
             }
-            if self.includeRepo { return }
+            if self.shouldRemoveOrigin(repo: repo.model!) { return }
             try UI.log(verbose: "Reset git repo") {
                 if git.isUnborn {
                     try git.clean()

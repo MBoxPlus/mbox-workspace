@@ -19,14 +19,14 @@ extension MBCommander.Config.Scope {
 extension MBCommander.Config {
 
     @_dynamicReplacement(for: flags)
-    open class var workspace_flags: [Flag] {
+    public class var workspace_flags: [Flag] {
         var flags = self.flags
         flags << Flag("workspace", flag: "w", description: "Use workspace setting")
         return flags
     }
 
     @_dynamicReplacement(for: setup)
-    open func workspace_setup() throws {
+    public func workspace_setup() throws {
         if self.shiftFlag("workspace", default: true) {
             self.scope = .Workspace
         }
@@ -34,7 +34,7 @@ extension MBCommander.Config {
     }
 
     @_dynamicReplacement(for: setting)
-    open var workspace_setting: MBCodableObject & MBFileProtocol {
+    public var workspace_setting: MBCodableObject & MBFileProtocol {
         guard self.scope == Scope.Workspace else {
             return self.setting
         }

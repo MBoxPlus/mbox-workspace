@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class Export: Feature {
@@ -23,10 +22,11 @@ extension MBCommander.Feature {
             return arguments
         }
 
-        open override func setup(argv: ArgumentParser) throws {
-            try super.setup(argv: argv)
-            if UI.apiFormatter == .none {
-                UI.apiFormatter = .json
+        dynamic
+        open override func setup() throws {
+            try super.setup()
+            if MBProcess.shared.apiFormatter == .none {
+                MBProcess.shared.apiFormatter = .json
             }
             self.name = self.shiftArgument("name")
             if let name = self.name {
@@ -43,6 +43,12 @@ extension MBCommander.Feature {
         public var name: String?
         public var feature: MBConfig.Feature!
 
+        dynamic
+        open func postExport(json:String) -> String{
+            return json
+        }
+
+        dynamic
         open override func run() throws {
             try super.run()
             try UI.section("Fetch Remote Status") {
@@ -61,7 +67,8 @@ extension MBCommander.Feature {
                 }
             }
             try UI.section("Export Feature `\(self.feature.name)`") {
-                let json = try self.feature.export()
+                var json = try self.feature.export()
+                json = postExport(json: json)
                 UI.log(info: json, api: true)
             }
         }

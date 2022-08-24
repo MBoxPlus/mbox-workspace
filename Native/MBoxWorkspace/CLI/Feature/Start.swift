@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class Start: Feature {
@@ -29,6 +28,7 @@ extension MBCommander.Feature {
             var options = [Option]()
             options << Option("prefix", description: "Create a new feature with a custom branch prefix. Default is `feature/`, use `--prefix=` to disable it.")
             options << Option("repos", description: "Create a new feature with a custom repo list. It is a JSON String, eg: {\"Aweme\": \"develop\"} or {\"Aweme\": {\"base\": \"0ABCD\", \"base_type\": \"commit\", \"target_branch\": \"develop\"}}")
+            options << Option("inherit-uuid", description: "Feature ID")
             return options + super.options
         }
 
@@ -37,7 +37,7 @@ extension MBCommander.Feature {
             var flags = [Flag]()
             flags << Flag("clear", description: "Create a new feature with a empty workspace")
             flags << Flag("checkout-from-remote", description: "Create a new feature branch from remote base branch, it will fetch remote. Defaults is true if current is in a feature.")
-            flags << Flag("keep-changes", description: "Create a new feature with local changes")
+            flags << Flag("keep-changes", description: "Create a new feature with local uncommit changes")
             flags << Flag("pull", description: "Pull remote branch after finish")
             flags << Flag("recurse-submodules", description: "After the clone is created, initialize all submodules within, using their default settings.")
             return flags + super.flags
@@ -61,11 +61,13 @@ extension MBCommander.Feature {
             self.pull = self.shiftFlag("pull")
             self.reposJSON = self.shiftOption("repos")
             self.name = try self.shiftArgument("name", default: "")
-            self.showStatusAtFinish = true
+            self.showStatusAtFinish = []
+            self.inheritUUID = self.shiftOption("inherit-uuid",default: "")
             try super.setup()
         }
 
         public var name: String = ""
+        public var inheritUUID: String = ""
         public var clear: Bool = false
         public var keep: Bool? = nil
         public var prefix: String?
@@ -111,7 +113,7 @@ extension MBCommander.Feature {
                     baseGit = .unknown(base)
                 }
                 let targetBranch = info["target_branch"]
-                found << MBConfig.Repo.copy(with: repo, baseGitPointer: baseGit, targetBranch: targetBranch ?? baseGit.value)
+                found << MBConfig.Repo.copy(with: repo, baseGitPointer: baseGit, targetBranch: targetBranch)
             }
             return (repos: found, unfound: unfound)
         }
@@ -124,16 +126,13 @@ extension MBCommander.Feature {
                         throw RuntimeError("Repo `\(repo)` is not a git repository.")
                     }
                     let curPointer = try git.currentDescribe()
-                    if !curPointer.isBranch {
-                        throw UserError("Repo `\(repo)` is not in a branch (\(curPointer)), please checkout a branch first.")
-                    }
                     return MBConfig.Repo.copy(with: repo,
-                                       baseGitPointer: curPointer,
-                                       targetBranch: curPointer.value)
+                                              baseGitPointer: curPointer,
+                                              targetBranch: curPointer.isBranch ? curPointer.value : nil)
                 } else {
                     return MBConfig.Repo.copy(with: repo,
                                        baseGitPointer: repo.baseGitPointer,
-                                       targetBranch: repo.targetBranch ?? repo.baseBranch)
+                                       targetBranch: repo.targetBranch)
                 }
             }
         }
@@ -185,6 +184,9 @@ extension MBCommander.Feature {
             try super.run()
 
             let newFeature = try getNewFeature(for: self.name, branchPrefix: self.prefix)
+            if !newFeature.free && self.inheritUUID.trim() != "" {
+                newFeature.uid = inheritUUID
+            }
             self.newFeature = newFeature
             self.isCreate = newFeature.isNew == true
 
@@ -206,6 +208,9 @@ extension MBCommander.Feature {
 
         dynamic
         open func switchFeature(_ newFeature: MBConfig.Feature, from oldFeature: MBConfig.Feature, isCreate: Bool) throws {
+            if oldFeature == newFeature {
+                return
+            }
             try UI.section("Save current git HEAD") {
                 try self.saveGitStatus(feature: oldFeature)
             }
@@ -251,15 +256,14 @@ extension MBCommander.Feature {
                 }
             }
 
-            if keep != false {
-                if (oldFeature.free && isCreate) || keep == true {
-                    // When:
-                    //      1. With `--keep-changes`
-                    //      2. Create e new feature from FreeMode
-                    // Apply the stash which from old feature to the new feature
-                    try UI.section("Pick stash from `\(oldFeature.name)` into new feature `\(newFeature.name)`") {
-                        try self.pickStash(into: newFeature, from: oldFeature)
-                    }
+            if (oldFeature.free && isCreate) || keep == true {
+                // When:
+                //      1. With `--keep-changes`
+                //      2. Create e new feature from FreeMode
+                //      3.newFeature == oldFeature
+                // Apply the stash which from old feature to the new feature
+                try UI.section("Pick stash from `\(oldFeature.name)` into new feature `\(newFeature.name)`") {
+                    try self.pickStash(into: newFeature, from: oldFeature, drop: false)
                 }
             }
         }
@@ -406,11 +410,6 @@ extension MBCommander.Feature {
                     UI.log(error: "[\(repo)] The git has something wrong.")
                     return
                 }
-                if !git.isClean {
-                    try UI.log(verbose: "There are unexpect uncommit changes, save stash!") {
-                        try git.save(stash: "[MBox] Unexpect uncommit changes", untracked: true)
-                    }
-                }
                 var target: GitPointer? = nil
                 if let lastGitPointer = repo.lastGitPointer {
                     target = lastGitPointer
@@ -422,6 +421,14 @@ extension MBCommander.Feature {
                     target = basePointer
                 }
                 if let targetPointer = target {
+                    if try targetPointer == git.currentDescribe() {
+                        return
+                    }
+                    if !git.isClean {
+                        try UI.log(verbose: "There are unexpect uncommit changes, save stash!") {
+                            try git.save(stash: "[MBox] Unexpect uncommit changes", untracked: true)
+                        }
+                    }
                     do {
                         try repo.workRepository?.checkout(targetPointer, basePointer: repo.baseGitPointer, baseRemote: self.checkoutRemote)
                     } catch {
@@ -476,7 +483,7 @@ extension MBCommander.Feature {
                 try UI.log(verbose: "Work new repos") {
                     try addedRepos.forEach { repo in
                         try UI.log(verbose: "[\(repo)]") {
-                            try repo.work()
+                            try repo.work(reset: true)
                         }
                     }
                 }
@@ -487,10 +494,10 @@ extension MBCommander.Feature {
             try feature.restoreSupportFiles()
         }
 
-        open func pickStash(into: MBConfig.Feature, from: MBConfig.Feature) throws {
+        open func pickStash(into: MBConfig.Feature, from: MBConfig.Feature, drop: Bool) throws {
             into.eachRepos(block: { repo in
                 do {
-                    try repo.workRepository?.git?.apply(stash: from.stashName, drop: true)
+                    try repo.workRepository?.git?.apply(stash: from.stashName, drop: drop)
                 } catch {
                     UI.log(error: "[\(repo.name)] Apply stash failed, you could re-apply the stash `\(from.stashName)`:\n\t\(error.localizedDescription)")
                 }

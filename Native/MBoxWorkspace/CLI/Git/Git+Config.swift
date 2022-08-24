@@ -9,11 +9,14 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Git {
     @objc(MBCommanderGitConfig)
     open class Config: Git {
+        open override class var description: String? {
+            return "Set/Get git configuration"
+        }
+
         open override class var flags: [Flag] {
             var flags = super.flags
             flags << Flag("workspace", description: "use the workspace config file")

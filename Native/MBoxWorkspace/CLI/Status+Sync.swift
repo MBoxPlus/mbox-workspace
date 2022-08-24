@@ -9,10 +9,9 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
-    open func syncStatus() throws {
+    public func syncStatus() throws {
 //        let fm = FileManager.default
 //        for cachedRepo in MBConfig.Repo.all(self.workspace) {
 //            guard let repo = self.config.currentFeature.findRepo(cachedRepo) else {

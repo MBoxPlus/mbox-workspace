@@ -3,17 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2D7AA7C93395F5D0E230B3BC /* Pods_MBoxWorkspace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E32EC70204F569A94FA18DA /* Pods_MBoxWorkspace.framework */; };
-		6650D49FF855DDB689162F9E /* Pods_MBoxWorkspaceLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51EAB62415F1A4E77B20EB2E /* Pods_MBoxWorkspaceLoader.framework */; };
-		8EB5F7CE4744814ACF716784 /* Pods_MBoxWorkspaceCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFAC145152040E1559E1333F /* Pods_MBoxWorkspaceCore.framework */; };
 		AB07110A25E64873007294A5 /* Status+Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB07110925E64873007294A5 /* Status+Git.swift */; };
 		AB0AF716233513D50053EF90 /* FeatureMerge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0AF715233513D50053EF90 /* FeatureMerge.swift */; };
 		AB0FF4C822CA1AE70011C0B8 /* Finish.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FF4C722CA1AE70011C0B8 /* Finish.swift */; };
 		AB0FF4CA22CA2B1F0011C0B8 /* Remove2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0FF4C922CA2B1F0011C0B8 /* Remove2.swift */; };
+		AB17C8FA27B5110900AAF561 /* Git+Repair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB17C8F927B5110900AAF561 /* Git+Repair.swift */; };
+		AB21376F27F1B8960057D83D /* SetTargetBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB21376E27F1B8960057D83D /* SetTargetBranch.swift */; };
 		AB315CEC23390E6800A73EF6 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0AF71D233755C80053EF90 /* Env.swift */; };
 		AB34F17422BF6C2300F9B86B /* import.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB34F17322BF6C2300F9B86B /* import.swift */; };
 		AB34F17622BF800400F9B86B /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB34F17522BF800400F9B86B /* Export.swift */; };
@@ -24,18 +24,11 @@
 		AB4A310C22B738C5005F445B /* Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A310B22B738C5005F445B /* Start.swift */; };
 		AB4A312022BA3FBB005F445B /* Free.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A311F22BA3FBB005F445B /* Free.swift */; };
 		AB4A312222BA4D52005F445B /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A312122BA4D52005F445B /* Remove.swift */; };
-		AB4ADE7E26048026007DFE23 /* MBWorkspace+Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4ADE7D26048026007DFE23 /* MBWorkspace+Repo.swift */; };
-		AB4E16EE2602172D00F831D0 /* MBRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E16ED2602172D00F831D0 /* MBRepo.swift */; };
-		AB4E18B7260366F000F831D0 /* MBWorkRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E18B6260366F000F831D0 /* MBWorkRepo.swift */; };
-		AB4E18BD26036E6A00F831D0 /* MBStoreRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4E18BC26036E6A00F831D0 /* MBStoreRepo.swift */; };
 		AB4F9EAC25EBCC7D00AC4D14 /* Status+Repos.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4F9EAB25EBCC7D00AC4D14 /* Status+Repos.swift */; };
 		AB4F9EB225EBCC9000AC4D14 /* Status+Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4F9EB125EBCC9000AC4D14 /* Status+Feature.swift */; };
 		AB4F9EB825EBCD1300AC4D14 /* Status+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4F9EB725EBCD1300AC4D14 /* Status+Sync.swift */; };
 		AB4F9EBE25EBCDBE00AC4D14 /* Status+Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4F9EBD25EBCDBE00AC4D14 /* Status+Show.swift */; };
 		AB4FA7BF25EE80EB00AC4D14 /* Status+Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4FA7BE25EE80EB00AC4D14 /* Status+Root.swift */; };
-		AB5A4F52258B5E2500B52C65 /* MBWorkspace+Plugins.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A4F51258B5E2500B52C65 /* MBWorkspace+Plugins.swift */; };
-		AB5A4F55258B5E4600B52C65 /* MBWorkspacePluginProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB49668B23424BFC00AF8A47 /* MBWorkspacePluginProtocol.swift */; };
-		AB5A4F61258B608200B52C65 /* MBCommander+Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5A4F5B258B5EBB00B52C65 /* MBCommander+Workspace.swift */; };
 		AB5E306C22EC92FC004F716F /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E306B22EC92FC004F716F /* Search.swift */; };
 		AB5E306E22EC932B004F716F /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5E306D22EC932B004F716F /* Repo.swift */; };
 		AB64A16E22A6C3A100FD06FC /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB64A16D22A6C3A100FD06FC /* Status.swift */; };
@@ -45,6 +38,8 @@
 		AB64A18E22B1F78E00FD06FC /* MBoxWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB64A18D22B1F78E00FD06FC /* MBoxWorkspace.swift */; };
 		AB65934B22D86A030046500C /* New.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB65934A22D86A030046500C /* New.swift */; };
 		AB6D761B23059603003A0EA1 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D761A23059603003A0EA1 /* List.swift */; };
+		AB8D0A1527034801008B1AD4 /* MBConfig.Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8D0A1427034800008B1AD4 /* MBConfig.Repo.swift */; };
+		AB8D0A1727034BF2008B1AD4 /* MBConfig.Feature+Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB8D0A1627034BF2008B1AD4 /* MBConfig.Feature+Repo.swift */; };
 		AB93AB8723B8E83C008DCBC7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB93AB8623B8E83C008DCBC7 /* Config.swift */; };
 		ABB8711C22F8290F00AD43B5 /* Exec.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB8711B22F8290F00AD43B5 /* Exec.swift */; };
 		ABBB046F24853E0B0003BCB5 /* GitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBB046E24853E0B0003BCB5 /* GitSheet.swift */; };
@@ -57,61 +52,22 @@
 		ABDE516626CFEDB6006A8B54 /* Git+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE516226CFE7E2006A8B54 /* Git+Config.swift */; };
 		ABDE516726CFEDFD006A8B54 /* Git+Hooks.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */; };
 		ABDFBAE5250659B500682483 /* MBSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA6D5A823A8E39E000BEE16 /* MBSetting.swift */; };
-		ABDFBAEB25065CE600682483 /* MBSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDFBAEA25065CE600682483 /* MBSetting.swift */; };
-		ABDFBAED25065E6900682483 /* MBSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDFBAEC25065E6900682483 /* MBSession.swift */; };
-		ABE080EC24FFB13300CC8E4B /* MBoxWorkspace.h in Headers */ = {isa = PBXBuildFile; fileRef = ABFD984722A12045006A5629 /* MBoxWorkspace.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABE0812824FFC19C00CC8E4B /* MBoxWorkspaceLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */; };
-		ABE0813225060EE800CC8E4B /* Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB931D5722D4C1B300B98FFC /* Init.swift */; };
-		ABE0813325060EEB00CC8E4B /* MBoxWorkspaceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE0812524FFB22A00CC8E4B /* MBoxWorkspaceLoader.swift */; };
-		ABE0813E25062C4D00CC8E4B /* MBoxWorkspace.h in Headers */ = {isa = PBXBuildFile; fileRef = ABFD984722A12045006A5629 /* MBoxWorkspace.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ABE0814025062C4D00CC8E4B /* MBConfig.Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFD987122A1237D006A5629 /* MBConfig.Repo.swift */; };
-		ABE0814A25062C4D00CC8E4B /* MBWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFD987822A1237D006A5629 /* MBWorkspace.swift */; };
-		ABE0815825062C4D00CC8E4B /* MBConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFD987422A1237D006A5629 /* MBConfig.swift */; };
-		ABE0815F25062C4D00CC8E4B /* MBConfig.Feature+Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4A30EF22B3E5E5005F445B /* MBConfig.Feature+Repo.swift */; };
-		ABE0816B25062C4D00CC8E4B /* MBConfig.Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFD987322A1237D006A5629 /* MBConfig.Feature.swift */; };
-		ABE0817725062D3E00CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */; };
-		ABE08180250630C800CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */; };
 		ABEE491325C3F72300A375E8 /* MBFeature+SupportFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE491225C3F72300A375E8 /* MBFeature+SupportFiles.swift */; };
 		ABF8B486239FDA3C0090904A /* Open.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8B485239FDA3C0090904A /* Open.swift */; };
 		ABFD985522A12046006A5629 /* MBoxWorkspace.h in Headers */ = {isa = PBXBuildFile; fileRef = ABFD984722A12045006A5629 /* MBoxWorkspace.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		ABE0812A24FFC19C00CC8E4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABFD983B22A12045006A5629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ABE080E924FFB13300CC8E4B;
-			remoteInfo = MBoxWorkspaceLoader;
-		};
-		ABE0817925062D3F00CC8E4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABFD983B22A12045006A5629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ABE0813925062C4D00CC8E4B;
-			remoteInfo = MBoxWorkspaceCore;
-		};
-		ABE08182250630C800CC8E4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = ABFD983B22A12045006A5629 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = ABE0813925062C4D00CC8E4B;
-			remoteInfo = MBoxWorkspaceCore;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		1E22C7BC912A00AF4EFFB177 /* Pods-MBoxWorkspace.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspace.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspace/Pods-MBoxWorkspace.debug.xcconfig"; sourceTree = "<group>"; };
 		1E32EC70204F569A94FA18DA /* Pods_MBoxWorkspace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		51EAB62415F1A4E77B20EB2E /* Pods_MBoxWorkspaceLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspaceLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		61C7E2AB4C16355E6FE3B8F3 /* Pods-MBoxWorkspaceLoader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceLoader.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceLoader/Pods-MBoxWorkspaceLoader.release.xcconfig"; sourceTree = "<group>"; };
 		632E18D68588047273DD24B7 /* Pods-MBoxWorkspace.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspace.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspace/Pods-MBoxWorkspace.release.xcconfig"; sourceTree = "<group>"; };
-		7075E0557D45607DC5280026 /* Pods-MBoxWorkspaceLoader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceLoader.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceLoader/Pods-MBoxWorkspaceLoader.debug.xcconfig"; sourceTree = "<group>"; };
 		AB07110925E64873007294A5 /* Status+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Git.swift"; sourceTree = "<group>"; };
 		AB0AF715233513D50053EF90 /* FeatureMerge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureMerge.swift; sourceTree = "<group>"; };
 		AB0AF71D233755C80053EF90 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		AB0FF4C722CA1AE70011C0B8 /* Finish.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finish.swift; sourceTree = "<group>"; };
 		AB0FF4C922CA2B1F0011C0B8 /* Remove2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remove2.swift; sourceTree = "<group>"; };
+		AB17C8F927B5110900AAF561 /* Git+Repair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Git+Repair.swift"; sourceTree = "<group>"; };
+		AB21376E27F1B8960057D83D /* SetTargetBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTargetBranch.swift; sourceTree = "<group>"; };
 		AB34F17322BF6C2300F9B86B /* import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = import.swift; sourceTree = "<group>"; };
 		AB34F17522BF800400F9B86B /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		AB35C45B230C438F00FE97CC /* MBCMD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBCMD.swift; sourceTree = "<group>"; };
@@ -119,23 +75,15 @@
 		AB3D9C4722E844D200593F79 /* Go.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Go.swift; sourceTree = "<group>"; };
 		AB4649172312C94E00972C12 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; indentWidth = 2; path = Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AB4649182312C94E00972C12 /* MBoxWorkspace.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; indentWidth = 2; path = MBoxWorkspace.podspec; sourceTree = SOURCE_ROOT; tabWidth = 2; };
-		AB49668B23424BFC00AF8A47 /* MBWorkspacePluginProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBWorkspacePluginProtocol.swift; sourceTree = "<group>"; };
-		AB4A30EF22B3E5E5005F445B /* MBConfig.Feature+Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBConfig.Feature+Repo.swift"; sourceTree = "<group>"; };
 		AB4A310922B73848005F445B /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		AB4A310B22B738C5005F445B /* Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Start.swift; sourceTree = "<group>"; };
 		AB4A311F22BA3FBB005F445B /* Free.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Free.swift; sourceTree = "<group>"; };
 		AB4A312122BA4D52005F445B /* Remove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Remove.swift; sourceTree = "<group>"; };
-		AB4ADE7D26048026007DFE23 /* MBWorkspace+Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBWorkspace+Repo.swift"; sourceTree = "<group>"; };
-		AB4E16ED2602172D00F831D0 /* MBRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBRepo.swift; sourceTree = "<group>"; };
-		AB4E18B6260366F000F831D0 /* MBWorkRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBWorkRepo.swift; sourceTree = "<group>"; };
-		AB4E18BC26036E6A00F831D0 /* MBStoreRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBStoreRepo.swift; sourceTree = "<group>"; };
 		AB4F9EAB25EBCC7D00AC4D14 /* Status+Repos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Repos.swift"; sourceTree = "<group>"; };
 		AB4F9EB125EBCC9000AC4D14 /* Status+Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Feature.swift"; sourceTree = "<group>"; };
 		AB4F9EB725EBCD1300AC4D14 /* Status+Sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Sync.swift"; sourceTree = "<group>"; };
 		AB4F9EBD25EBCDBE00AC4D14 /* Status+Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Show.swift"; sourceTree = "<group>"; };
 		AB4FA7BE25EE80EB00AC4D14 /* Status+Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status+Root.swift"; sourceTree = "<group>"; };
-		AB5A4F51258B5E2500B52C65 /* MBWorkspace+Plugins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBWorkspace+Plugins.swift"; sourceTree = "<group>"; };
-		AB5A4F5B258B5EBB00B52C65 /* MBCommander+Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBCommander+Workspace.swift"; sourceTree = "<group>"; };
 		AB5E306B22EC92FC004F716F /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		AB5E306D22EC932B004F716F /* Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
 		AB64A16D22A6C3A100FD06FC /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -145,7 +93,8 @@
 		AB64A18D22B1F78E00FD06FC /* MBoxWorkspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBoxWorkspace.swift; sourceTree = "<group>"; };
 		AB65934A22D86A030046500C /* New.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New.swift; sourceTree = "<group>"; };
 		AB6D761A23059603003A0EA1 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		AB931D5722D4C1B300B98FFC /* Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Init.swift; sourceTree = "<group>"; };
+		AB8D0A1427034800008B1AD4 /* MBConfig.Repo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.Repo.swift; sourceTree = "<group>"; };
+		AB8D0A1627034BF2008B1AD4 /* MBConfig.Feature+Repo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBConfig.Feature+Repo.swift"; sourceTree = "<group>"; };
 		AB93AB8623B8E83C008DCBC7 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		ABA08CE3238D88F100C5567A /* manifest.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = manifest.yml; path = ../manifest.yml; sourceTree = "<group>"; };
 		ABA08CEF238D8B9D00C5567A /* Basic.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Basic.xcconfig; sourceTree = "<group>"; };
@@ -160,53 +109,19 @@
 		ABC33F2822D09CFF00E72978 /* Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Merge.swift; sourceTree = "<group>"; };
 		ABDE516226CFE7E2006A8B54 /* Git+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Git+Config.swift"; sourceTree = "<group>"; };
 		ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Git+Hooks.swift"; sourceTree = "<group>"; };
-		ABDFBAEA25065CE600682483 /* MBSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBSetting.swift; sourceTree = "<group>"; };
-		ABDFBAEC25065E6900682483 /* MBSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBSession.swift; sourceTree = "<group>"; };
-		ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBoxWorkspaceLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABE0812324FFB13400CC8E4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ABE0812524FFB22A00CC8E4B /* MBoxWorkspaceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBoxWorkspaceLoader.swift; sourceTree = "<group>"; };
-		ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBoxWorkspaceCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABE0817D25062E3E00CC8E4B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABEE491225C3F72300A375E8 /* MBFeature+SupportFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBFeature+SupportFiles.swift"; sourceTree = "<group>"; };
-		ABF4D8F22329EEE300BB40F2 /* MBoxCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBoxCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABF8B485239FDA3C0090904A /* Open.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Open.swift; sourceTree = "<group>"; };
 		ABFD984422A12045006A5629 /* MBoxWorkspace.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBoxWorkspace.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABFD984722A12045006A5629 /* MBoxWorkspace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBoxWorkspace.h; sourceTree = "<group>"; };
 		ABFD984822A12045006A5629 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ABFD987122A1237D006A5629 /* MBConfig.Repo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.Repo.swift; sourceTree = "<group>"; };
-		ABFD987322A1237D006A5629 /* MBConfig.Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.Feature.swift; sourceTree = "<group>"; };
-		ABFD987422A1237D006A5629 /* MBConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBConfig.swift; sourceTree = "<group>"; };
-		ABFD987822A1237D006A5629 /* MBWorkspace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBWorkspace.swift; sourceTree = "<group>"; };
-		DFDED80F7F7F7A0DDA63E710 /* Pods-MBoxWorkspaceCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceCore.debug.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceCore/Pods-MBoxWorkspaceCore.debug.xcconfig"; sourceTree = "<group>"; };
-		ED5D17CC08BA6221DE50B1F9 /* Pods-MBoxWorkspaceCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MBoxWorkspaceCore.release.xcconfig"; path = "Target Support Files/Pods-MBoxWorkspaceCore/Pods-MBoxWorkspaceCore.release.xcconfig"; sourceTree = "<group>"; };
-		EFAC145152040E1559E1333F /* Pods_MBoxWorkspaceCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MBoxWorkspaceCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		ABE0811B24FFB13300CC8E4B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABE0817725062D3E00CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */,
-				6650D49FF855DDB689162F9E /* Pods_MBoxWorkspaceLoader.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ABE0816C25062C4D00CC8E4B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8EB5F7CE4744814ACF716784 /* Pods_MBoxWorkspaceCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ABFD984122A12045006A5629 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2D7AA7C93395F5D0E230B3BC /* Pods_MBoxWorkspace.framework in Frameworks */,
-				ABE08180250630C800CC8E4B /* MBoxWorkspaceCore.framework in Frameworks */,
-				ABE0812824FFC19C00CC8E4B /* MBoxWorkspaceLoader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +148,7 @@
 				AB6D761A23059603003A0EA1 /* List.swift */,
 				AB0AF715233513D50053EF90 /* FeatureMerge.swift */,
 				ABBD4252237955770047D954 /* Clean.swift */,
+				AB21376E27F1B8960057D83D /* SetTargetBranch.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -294,36 +210,9 @@
 				AB64A18922B108D000FD06FC /* Git.swift */,
 				ABDE516226CFE7E2006A8B54 /* Git+Config.swift */,
 				ABDE516426CFEB2C006A8B54 /* Git+Hooks.swift */,
+				AB17C8F927B5110900AAF561 /* Git+Repair.swift */,
 			);
 			path = Git;
-			sourceTree = "<group>";
-		};
-		ABE0812424FFB17E00CC8E4B /* MBoxWorkspaceLoader */ = {
-			isa = PBXGroup;
-			children = (
-				ABE0812724FFC01100CC8E4B /* CLI */,
-				ABE0812524FFB22A00CC8E4B /* MBoxWorkspaceLoader.swift */,
-				ABE0812324FFB13400CC8E4B /* Info.plist */,
-			);
-			path = MBoxWorkspaceLoader;
-			sourceTree = "<group>";
-		};
-		ABE0812724FFC01100CC8E4B /* CLI */ = {
-			isa = PBXGroup;
-			children = (
-				AB5A4F5B258B5EBB00B52C65 /* MBCommander+Workspace.swift */,
-				AB931D5722D4C1B300B98FFC /* Init.swift */,
-			);
-			path = CLI;
-			sourceTree = "<group>";
-		};
-		ABE0817C25062DBE00CC8E4B /* MBoxWorkspaceCore */ = {
-			isa = PBXGroup;
-			children = (
-				ABFD987022A1237D006A5629 /* Model */,
-				ABE0817D25062E3E00CC8E4B /* Info.plist */,
-			);
-			path = MBoxWorkspaceCore;
 			sourceTree = "<group>";
 		};
 		ABE0817F25062F2A00CC8E4B /* Config */ = {
@@ -339,8 +228,6 @@
 			children = (
 				ABA08CEF238D8B9D00C5567A /* Basic.xcconfig */,
 				ABA08CE3238D88F100C5567A /* manifest.yml */,
-				ABE0817C25062DBE00CC8E4B /* MBoxWorkspaceCore */,
-				ABE0812424FFB17E00CC8E4B /* MBoxWorkspaceLoader */,
 				ABFD984622A12045006A5629 /* MBoxWorkspace */,
 				ABFD984522A12045006A5629 /* Products */,
 				ABFD985E22A12065006A5629 /* Frameworks */,
@@ -352,8 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				ABFD984422A12045006A5629 /* MBoxWorkspace.framework */,
-				ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */,
-				ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,38 +260,17 @@
 		ABFD985E22A12065006A5629 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ABF4D8F22329EEE300BB40F2 /* MBoxCore.framework */,
 				1E32EC70204F569A94FA18DA /* Pods_MBoxWorkspace.framework */,
-				EFAC145152040E1559E1333F /* Pods_MBoxWorkspaceCore.framework */,
-				51EAB62415F1A4E77B20EB2E /* Pods_MBoxWorkspaceLoader.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		ABFD987022A1237D006A5629 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				AB49668B23424BFC00AF8A47 /* MBWorkspacePluginProtocol.swift */,
-				ABFD987822A1237D006A5629 /* MBWorkspace.swift */,
-				AB4ADE7D26048026007DFE23 /* MBWorkspace+Repo.swift */,
-				AB5A4F51258B5E2500B52C65 /* MBWorkspace+Plugins.swift */,
-				AB4E16ED2602172D00F831D0 /* MBRepo.swift */,
-				AB4E18B6260366F000F831D0 /* MBWorkRepo.swift */,
-				AB4E18BC26036E6A00F831D0 /* MBStoreRepo.swift */,
-				ABFD987422A1237D006A5629 /* MBConfig.swift */,
-				ABFD987122A1237D006A5629 /* MBConfig.Repo.swift */,
-				ABFD987322A1237D006A5629 /* MBConfig.Feature.swift */,
-				AB4A30EF22B3E5E5005F445B /* MBConfig.Feature+Repo.swift */,
-				ABDFBAEA25065CE600682483 /* MBSetting.swift */,
-				ABDFBAEC25065E6900682483 /* MBSession.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		ABFD987522A1237D006A5629 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AB8D0A1427034800008B1AD4 /* MBConfig.Repo.swift */,
 				ABEE491225C3F72300A375E8 /* MBFeature+SupportFiles.swift */,
+				AB8D0A1627034BF2008B1AD4 /* MBConfig.Feature+Repo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -418,10 +282,6 @@
 				AB4649182312C94E00972C12 /* MBoxWorkspace.podspec */,
 				1E22C7BC912A00AF4EFFB177 /* Pods-MBoxWorkspace.debug.xcconfig */,
 				632E18D68588047273DD24B7 /* Pods-MBoxWorkspace.release.xcconfig */,
-				DFDED80F7F7F7A0DDA63E710 /* Pods-MBoxWorkspaceCore.debug.xcconfig */,
-				ED5D17CC08BA6221DE50B1F9 /* Pods-MBoxWorkspaceCore.release.xcconfig */,
-				7075E0557D45607DC5280026 /* Pods-MBoxWorkspaceLoader.debug.xcconfig */,
-				61C7E2AB4C16355E6FE3B8F3 /* Pods-MBoxWorkspaceLoader.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -429,22 +289,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		ABE080EB24FFB13300CC8E4B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABE080EC24FFB13300CC8E4B /* MBoxWorkspace.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ABE0813D25062C4D00CC8E4B /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABE0813E25062C4D00CC8E4B /* MBoxWorkspace.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ABFD983F22A12045006A5629 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -456,43 +300,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		ABE080E924FFB13300CC8E4B /* MBoxWorkspaceLoader */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ABE0811F24FFB13300CC8E4B /* Build configuration list for PBXNativeTarget "MBoxWorkspaceLoader" */;
-			buildPhases = (
-				69BFFF793E4741C7F16C09EF /* [CP] Check Pods Manifest.lock */,
-				ABE080EB24FFB13300CC8E4B /* Headers */,
-				ABE080ED24FFB13300CC8E4B /* Sources */,
-				ABE0811B24FFB13300CC8E4B /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				ABE0817A25062D3F00CC8E4B /* PBXTargetDependency */,
-			);
-			name = MBoxWorkspaceLoader;
-			productName = MBoxWorkspace;
-			productReference = ABE0812224FFB13300CC8E4B /* MBoxWorkspaceLoader.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = ABE0817225062C4D00CC8E4B /* Build configuration list for PBXNativeTarget "MBoxWorkspaceCore" */;
-			buildPhases = (
-				1A4F2A53F43640D21DC9BBCF /* [CP] Check Pods Manifest.lock */,
-				ABE0813D25062C4D00CC8E4B /* Headers */,
-				ABE0813F25062C4D00CC8E4B /* Sources */,
-				ABE0816C25062C4D00CC8E4B /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MBoxWorkspaceCore;
-			productName = MBoxWorkspace;
-			productReference = ABE0817525062C4D00CC8E4B /* MBoxWorkspaceCore.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		ABFD984322A12045006A5629 /* MBoxWorkspace */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ABFD985822A12046006A5629 /* Build configuration list for PBXNativeTarget "MBoxWorkspace" */;
@@ -505,8 +312,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				ABE0812B24FFC19C00CC8E4B /* PBXTargetDependency */,
-				ABE08183250630C800CC8E4B /* PBXTargetDependency */,
 			);
 			name = MBoxWorkspace;
 			productName = MBoxWorkspace;
@@ -520,7 +325,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = bytedance;
 				TargetAttributes = {
 					ABFD984322A12045006A5629 = {
@@ -530,7 +335,7 @@
 				};
 			};
 			buildConfigurationList = ABFD983E22A12045006A5629 /* Build configuration list for PBXProject "MBoxWorkspace" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -543,57 +348,11 @@
 			projectRoot = "";
 			targets = (
 				ABFD984322A12045006A5629 /* MBoxWorkspace */,
-				ABE080E924FFB13300CC8E4B /* MBoxWorkspaceLoader */,
-				ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1A4F2A53F43640D21DC9BBCF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MBoxWorkspaceCore-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		69BFFF793E4741C7F16C09EF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MBoxWorkspaceLoader-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8A7F9E4743C13E8BFBC5D79C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -619,36 +378,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		ABE080ED24FFB13300CC8E4B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				ABE0813325060EEB00CC8E4B /* MBoxWorkspaceLoader.swift in Sources */,
-				AB5A4F61258B608200B52C65 /* MBCommander+Workspace.swift in Sources */,
-				ABE0813225060EE800CC8E4B /* Init.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ABE0813F25062C4D00CC8E4B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB5A4F52258B5E2500B52C65 /* MBWorkspace+Plugins.swift in Sources */,
-				ABDFBAED25065E6900682483 /* MBSession.swift in Sources */,
-				AB4E18BD26036E6A00F831D0 /* MBStoreRepo.swift in Sources */,
-				ABE0814025062C4D00CC8E4B /* MBConfig.Repo.swift in Sources */,
-				ABE0814A25062C4D00CC8E4B /* MBWorkspace.swift in Sources */,
-				ABE0815825062C4D00CC8E4B /* MBConfig.swift in Sources */,
-				ABE0815F25062C4D00CC8E4B /* MBConfig.Feature+Repo.swift in Sources */,
-				AB4ADE7E26048026007DFE23 /* MBWorkspace+Repo.swift in Sources */,
-				AB5A4F55258B5E4600B52C65 /* MBWorkspacePluginProtocol.swift in Sources */,
-				AB4E16EE2602172D00F831D0 /* MBRepo.swift in Sources */,
-				AB4E18B7260366F000F831D0 /* MBWorkRepo.swift in Sources */,
-				ABE0816B25062C4D00CC8E4B /* MBConfig.Feature.swift in Sources */,
-				ABDFBAEB25065CE600682483 /* MBSetting.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		ABFD984022A12045006A5629 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -671,14 +400,17 @@
 				AB5E306C22EC92FC004F716F /* Search.swift in Sources */,
 				AB64A16E22A6C3A100FD06FC /* Status.swift in Sources */,
 				AB4A312222BA4D52005F445B /* Remove.swift in Sources */,
+				AB17C8FA27B5110900AAF561 /* Git+Repair.swift in Sources */,
 				AB4F9EBE25EBCDBE00AC4D14 /* Status+Show.swift in Sources */,
 				AB34F17422BF6C2300F9B86B /* import.swift in Sources */,
 				ABBB047C248688980003BCB5 /* GitSheetPush.swift in Sources */,
 				AB4A312022BA3FBB005F445B /* Free.swift in Sources */,
 				ABDE516626CFEDB6006A8B54 /* Git+Config.swift in Sources */,
 				AB4F9EB225EBCC9000AC4D14 /* Status+Feature.swift in Sources */,
+				AB21376F27F1B8960057D83D /* SetTargetBranch.swift in Sources */,
 				AB315CEC23390E6800A73EF6 /* Env.swift in Sources */,
 				ABEE491325C3F72300A375E8 /* MBFeature+SupportFiles.swift in Sources */,
+				AB8D0A1727034BF2008B1AD4 /* MBConfig.Feature+Repo.swift in Sources */,
 				AB65934B22D86A030046500C /* New.swift in Sources */,
 				AB36B1F62563E63500DC9DBA /* Activate.swift in Sources */,
 				AB64A18C22B12EE500FD06FC /* Add.swift in Sources */,
@@ -691,6 +423,7 @@
 				AB64A18A22B108D000FD06FC /* Git.swift in Sources */,
 				AB3D9C4822E844D200593F79 /* Go.swift in Sources */,
 				AB64A18E22B1F78E00FD06FC /* MBoxWorkspace.swift in Sources */,
+				AB8D0A1527034801008B1AD4 /* MBConfig.Repo.swift in Sources */,
 				AB4A310C22B738C5005F445B /* Start.swift in Sources */,
 				AB93AB8723B8E83C008DCBC7 /* Config.swift in Sources */,
 				AB07110A25E64873007294A5 /* Status+Git.swift in Sources */,
@@ -700,143 +433,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		ABE0812B24FFC19C00CC8E4B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ABE080E924FFB13300CC8E4B /* MBoxWorkspaceLoader */;
-			targetProxy = ABE0812A24FFC19C00CC8E4B /* PBXContainerItemProxy */;
-		};
-		ABE0817A25062D3F00CC8E4B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */;
-			targetProxy = ABE0817925062D3F00CC8E4B /* PBXContainerItemProxy */;
-		};
-		ABE08183250630C800CC8E4B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = ABE0813925062C4D00CC8E4B /* MBoxWorkspaceCore */;
-			targetProxy = ABE08182250630C800CC8E4B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		ABE0812024FFB13300CC8E4B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7075E0557D45607DC5280026 /* Pods-MBoxWorkspaceLoader.debug.xcconfig */;
-			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = MBoxWorkspaceLoader/Info.plist;
-				INSTALL_PATH = "$(inherited)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceLoader;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = "$(inherited)";
-				SWIFT_COMPILATION_MODE = "$(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		ABE0812124FFB13300CC8E4B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61C7E2AB4C16355E6FE3B8F3 /* Pods-MBoxWorkspaceLoader.release.xcconfig */;
-			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = MBoxWorkspaceLoader/Info.plist;
-				INSTALL_PATH = "$(inherited)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceLoader;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = "$(inherited)";
-				SWIFT_COMPILATION_MODE = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		ABE0817325062C4D00CC8E4B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFDED80F7F7F7A0DDA63E710 /* Pods-MBoxWorkspaceCore.debug.xcconfig */;
-			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = MBoxWorkspaceCore/Info.plist;
-				INSTALL_PATH = "$(inherited)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceCore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = "$(inherited)";
-				SWIFT_COMPILATION_MODE = "$(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		ABE0817425062C4D00CC8E4B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED5D17CC08BA6221DE50B1F9 /* Pods-MBoxWorkspaceCore.release.xcconfig */;
-			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = MBoxWorkspaceCore/Info.plist;
-				INSTALL_PATH = "$(inherited)";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = bytedance.MBoxWorkspaceCore;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = "$(inherited)";
-				SWIFT_COMPILATION_MODE = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		ABFD985622A12046006A5629 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ABA08CEF238D8B9D00C5567A /* Basic.xcconfig */;
@@ -874,6 +471,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DYLIB_CURRENT_VERSION = "$(MARKETING_VERSION)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -941,6 +539,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_CURRENT_VERSION = "$(MARKETING_VERSION)";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -973,6 +572,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1003,6 +603,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1026,24 +627,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ABE0811F24FFB13300CC8E4B /* Build configuration list for PBXNativeTarget "MBoxWorkspaceLoader" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ABE0812024FFB13300CC8E4B /* Debug */,
-				ABE0812124FFB13300CC8E4B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		ABE0817225062C4D00CC8E4B /* Build configuration list for PBXNativeTarget "MBoxWorkspaceCore" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				ABE0817325062C4D00CC8E4B /* Debug */,
-				ABE0817425062C4D00CC8E4B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		ABFD983E22A12045006A5629 /* Build configuration list for PBXProject "MBoxWorkspace" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

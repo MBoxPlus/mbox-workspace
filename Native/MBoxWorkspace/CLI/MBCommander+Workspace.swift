@@ -8,15 +8,14 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 var MBWorkspaceCommanderShowStatus: UInt8 = 0
 var MBWorkspaceCommanderRequireSetupEnvironment: UInt8 = 0
 var MBWorkspaceCommanderLockConfig: UInt8 = 0
 var MBWorkspaceCommanderUpdateWorkspaceFile: UInt8 = 0
 extension MBCommander {
-    open class var workspace: MBWorkspace? {
-        if let workspace = UI.workspace {
+    public class var workspace: MBWorkspace? {
+        if let workspace = MBProcess.shared.workspace {
             return workspace
         }
         if let root = MBWorkspace.searchRootPath(FileManager.pwd) {
@@ -25,26 +24,26 @@ extension MBCommander {
         return nil
     }
 
-    open class var config: MBConfig? {
+    public class var config: MBConfig? {
         return self.workspace?.config
     }
 
     @_dynamicReplacement(for: autocompletionRedirect)
-    open class var workspace_autocompletionRedirect: String {
+    public class var workspace_autocompletionRedirect: String {
         let string = self.autocompletionRedirect
         guard let workspace = self.workspace else { return string }
         return string + "@" + workspace.rootPath
     }
 
-    open var workspace: MBWorkspace {
+    public var workspace: MBWorkspace {
         return Workspace
     }
 
-    open var config: MBConfig {
+    public var config: MBConfig {
         return self.workspace.config
     }
 
-    open var shouldLockConfig: Bool {
+    public var shouldLockConfig: Bool {
         set {
             associateObject(base: self, key: &MBWorkspaceCommanderLockConfig, value: newValue)
         }
@@ -54,7 +53,7 @@ extension MBCommander {
     }
 
     @_dynamicReplacement(for: performRun())
-    open func workspacePerformRun() throws {
+    public func workspacePerformRun() throws {
         try? self.runPreHook()
         defer {
             try? self.runPostHook()
@@ -70,12 +69,12 @@ extension MBCommander {
             self.config.unlock()
         }
         trapSignal(.all) { _ in
-            UI.workspace?.config.unlock(force: true)
+            MBProcess.shared.workspace?.config.unlock(force: true)
         }
         try self.performRun()
     }
 
-    open var currentRepo: MBConfig.Repo? {
+    public var currentRepo: MBConfig.Repo? {
         guard FileManager.pwd.hasPrefix(workspace.rootPath) else { return nil }
         let path = FileManager.pwd.deletePrefix(workspace.rootPath + "/")
         let name: String
@@ -84,36 +83,37 @@ extension MBCommander {
         } else {
             name = path
         }
-        return self.config.currentFeature.findRepo(name: name).first
+        return self.config.currentFeature.findRepo(name: name, searchPackageName: false).first
     }
 
     @_dynamicReplacement(for: setup())
-    open func workspaceSetup() throws {
+    public func workspaceSetup() throws {
         try self.setup()
-        if let workspace = UI.workspace,
+        if let workspace = MBProcess.shared.workspace,
            workspace.rootPath != FileManager.pwd,
-           UI.showRootPath {
+           MBProcess.shared.showRootPath {
             UI.log(info: "[\(workspace.rootPath)]\n", pip: .ERR)
         }
-        UI.showRootPath = false
+        MBProcess.shared.showRootPath = false
     }
 
-    open var showStatusAtFinish: Bool {
+    public var showStatusAtFinish: [String]? {
         set {
             associateObject(base: self, key: &MBWorkspaceCommanderShowStatus, value: newValue)
         }
         get {
-            return associatedObject(base: self, key: &MBWorkspaceCommanderShowStatus, defaultValue: false)
+            return associatedObject(base: self, key: &MBWorkspaceCommanderShowStatus, defaultValue: nil)
         }
     }
 
     func performShowStatus() throws {
         try UI.section("Show Status") {
-            try self.invoke(Status.self, argv: ArgumentParser())
+            let args = (self.showStatusAtFinish ?? []).flatMap { ["--only", $0] }
+            try self.invoke(Status.self, argv: ArgumentParser(arguments: args))
         }
     }
 
-    open var requireSetupEnvironment: Bool {
+    public var requireSetupEnvironment: Bool {
         set {
             associateObject(base: self, key: &MBWorkspaceCommanderRequireSetupEnvironment, value: newValue)
         }
@@ -142,7 +142,7 @@ extension MBCommander {
             try self.workspace.updateIndexFile(self.workspace.workspaceIndex())
         }
         try runHookScript(preHook: false)
-        if self.showStatusAtFinish {
+        if self.showStatusAtFinish != nil {
             try self.performShowStatus()
         }
     }
@@ -152,8 +152,8 @@ extension MBCommander {
 
     }
 
-    open func runHookScript(preHook: Bool) throws {
-        guard let workspace = UI.workspace else {
+    public func runHookScript(preHook: Bool) throws {
+        guard let workspace = MBProcess.shared.workspace else {
             return
         }
         let hookDir = workspace.hookFileDir
@@ -172,7 +172,7 @@ extension MBCommander {
         }
     }
 
-    open var shouldUpdateWorkspaceFile: Bool {
+    public var shouldUpdateWorkspaceFile: Bool {
         set {
             associateObject(base: self, key: &MBWorkspaceCommanderUpdateWorkspaceFile, value: newValue)
         }

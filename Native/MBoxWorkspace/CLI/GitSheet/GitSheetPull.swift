@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.GitSheet {
     open class Pull: Status {
@@ -19,14 +18,15 @@ extension MBCommander.GitSheet {
 
         open override func run() throws {
             for repo in self.config.currentFeature.repos {
-                UI.section("Pull \(repo.name)") {
+                try UI.allowAsyncExec(title: "Pull \(repo.name)") {
                     do {
                         try self.pull(repo: repo)
                     } catch {
-                        UI.log(error: "[\(repo.name)] Pull Failed: \(error.localizedDescription)")
+                        throw RuntimeError("[\(repo.name)] Pull Failed: \(error.localizedDescription)")
                     }
                 }
             }
+            try UI.wait()
             UI.log(info: "")
             try super.run()
         }
@@ -36,4 +36,5 @@ extension MBCommander.GitSheet {
         }
     }
 }
+
 

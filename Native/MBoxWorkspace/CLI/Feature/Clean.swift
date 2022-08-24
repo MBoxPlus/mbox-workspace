@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class Clean: Feature {
@@ -47,7 +46,11 @@ extension MBCommander.Feature {
                     UI.log(verbose: "The git is invalid, disallow to remove the feature.")
                     return false
                 }
-                let localGitPointer = repo.lastGitPointer ?? GitPointer.branch(repo.featureBranch!)
+                guard let featureBranch = repo.featureBranch else {
+                    UI.log(verbose: "The feature branch is not found.")
+                    return false
+                }
+                let localGitPointer = GitPointer.branch(featureBranch)
                 if !localGitPointer.isBranch {
                     UI.log(verbose: "The \(localGitPointer) is not a branch, skip check.")
                     return true

@@ -8,7 +8,6 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Exec: MBCommander {
@@ -34,7 +33,7 @@ $ mbox exec printenv
             var options = super.options
             if !self.onlyRunInWorkspace {
                 let values = { () -> [String] in
-                    guard let workspace = UI.workspace else { return [] }
+                    guard let workspace = MBProcess.shared.workspace else { return [] }
                     return workspace.config.currentFeature.repos.map { $0.name }
                 }
                 options << Option("repo", description: "Specify a repo, use this option multiple times to specify multiple repos.", valuesBlock: values)
@@ -82,8 +81,7 @@ $ mbox exec printenv
             } else {
                 let repos = self.reposToRun()
                 if repos.isEmpty {
-                    UI.log(info: "No repository to be run.")
-                    return
+                    throw UserError("No repository to be run.")
                 }
                 for repo in repos {
                     UI.section("[\(repo)]") {
@@ -124,15 +122,18 @@ $ mbox exec printenv
 
         open override func help(_ desc: String? = nil) throws {
             if desc == nil,
-                UI.apiFormatter == .none,
-                argv.remainderArgs.count > 0 {
+                MBProcess.shared.apiFormatter == .none {
                 argv.append(argument: self.helpOptionName)
                 argv.rawArguments.append(self.helpOptionName)
                 let cmd = try self.setupCMD()
                 cmd.0.exec(self.argumentString(args: self.args))
-                UI.log(info: "")
             }
-            try super.help()
+            if argv.remainderArgs.count == 0 {
+                UI.log(info: "")
+                try super.help(nil)
+            } else {
+                try super.help("")
+            }
         }
 
         open var helpOptionName: String {
@@ -145,16 +146,7 @@ $ mbox exec printenv
         }
 
         open var args: [String] {
-            var args = [String]()
-            for item in self.argv.remainder {
-                for raw in self.argv.rawArguments {
-                    if raw.hasPrefix(item) {
-                        args.append(raw)
-                        break
-                    }
-                }
-            }
-            return args
+            return self.argv.remainderRawArgs
         }
 
         open func argumentString(args: [String]) -> String {

@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Git: Exec {
@@ -24,7 +23,9 @@ extension MBCommander {
         open override var cmd: MBCMD {
             let cmd = GitCMD()
             cmd.showOutput = true
-            cmd.workingDirectory = UI.workspace?.rootPath
+            if let path = MBProcess.shared.workspace?.rootPath {
+                cmd.workingDirectory = path
+            }
             return cmd
         }
 
@@ -40,7 +41,7 @@ extension MBCommander {
         }
 
         open override func runInRepo(repo: MBWorkRepo, cmd: MBCMD, args: String) -> Int32 {
-            UI.with(verbose: false) {
+            MBProcess.shared.with(verbose: false) {
                 if let git = repo.git, let branch = git.currentBranch {
                     if git.trackBranch(autoMatch: false) == nil, let remoteBranch = git.remoteBranch(named: branch) {
                         if git.setTrackBranch(local: branch, remote: remoteBranch.name) {

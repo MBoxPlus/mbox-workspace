@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Git {
     open class Hooks: MBCommander {
@@ -20,7 +19,7 @@ extension MBCommander.Git {
         open override class var flags: [Flag] {
             var flags = super.flags
             flags << Flag("enable", description: "Enable workspace hooks")
-            flags << Flag("disable", description: "Enable workspace hooks")
+            flags << Flag("disable", description: "Disable workspace hooks")
             return flags
         }
 
@@ -39,7 +38,7 @@ extension MBCommander.Git {
         open override func run() throws {
             try super.run()
             if let enable = self.enable {
-                try UI.with(verbose: true) {
+                try MBProcess.shared.with(verbose: true) {
                     try self.workspace.setupGitHooks(enable: enable)
                 }
             } else {

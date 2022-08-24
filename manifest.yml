@@ -1,19 +1,15 @@
 ---
 NAME: MBoxWorkspace
-ALIAS: 
 VERSION: '1.2'
 DEPENDENCIES:
 - MBoxCore
 - MBoxGit
+- MBoxWorkspace/Core
 CLI: true
 USER_VISIBLE: false
-NATIVE_DEPENDENCIES:
-  Core:
-    - MBoxCore
-    - MBoxGit
-  Loader:
-    - MBoxCore
-    - MBoxWorkspace/Core
 MINIMUM_VERSION: '4.8.0'
 AUTHORS:
 - MBox Team
+MODULES:
+- Core
+- Loader

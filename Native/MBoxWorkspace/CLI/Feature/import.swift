@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class Import: Feature {
@@ -35,6 +34,7 @@ extension MBCommander.Feature {
             flags << Flag("check-branch-exists", description: "Check if the feature branch exists")
             flags << Flag("keep-changes", description: "Create a new feature with local changes")
             flags << Flag("recurse-submodules", description: "After the clone is created, initialize all submodules within, using their default settings.")
+            flags << Flag("inherit-uuid", description: "If import info exist uid, it will inherit feature uid from import info.")
             return flags
         }
 
@@ -43,6 +43,7 @@ extension MBCommander.Feature {
             self.checkBranchExists = self.shiftFlag("check-branch-exists", default: true)
             self.keep = self.shiftFlag("keep-changes")
             self.recurseSubmodules = self.shiftFlag("recurse-submodules")
+            self.inheritUUID = self.shiftFlag("inherit-uuid")
             self.name = self.shiftOption("name")
             let string: String = try self.shiftArgument("string")
             if let url = URL(string: string) {
@@ -64,17 +65,21 @@ extension MBCommander.Feature {
         public var checkBranchExists: Bool = true
         public var keep: Bool = false
         public var recurseSubmodules: Bool? = nil
+        public var inheritUUID: Bool = false
 
         dynamic
         open override func validate() throws {
             try super.validate()
             self.feature = try self.buildFeature(fromString: self.json)
+            try self.reuseLocalRepo()
             try self.validateBranch()
         }
 
         dynamic
         open func buildFeature(fromString string: String) throws -> MBConfig.Feature {
-            return try MBConfig.Feature.load(fromString: string, coder: .json)
+            let feature = try MBConfig.Feature.load(fromString: string, coder: .json)
+            feature.isNew = true
+            return feature
         }
 
         open func setupName() throws {
@@ -87,12 +92,15 @@ extension MBCommander.Feature {
             if let existFeature = config.feature(withName: self.feature.name) {
                 UI.section("Merge an existing feature `\(existFeature.name)`") {
                     existFeature.merge(feature: self.feature)
+                    self.feature = existFeature
                 }
             } else {
                 UI.section("Create a new feature `\(self.feature.name)`") {
                     self.config.addFeature(self.feature)
                 }
             }
+
+            try self.checkRepoHaveSameName()
 
             self.config.save()
             UI.log(info: "Import feature success!")
@@ -116,6 +124,10 @@ extension MBCommander.Feature {
             }
             if recurseSubmodules == true {
                 args << "--recurse-submodules"
+            }
+            args << "--checkout-from-remote"
+            if !self.feature.free && self.inheritUUID {
+                args << "--inherit-uuid=\(self.feature.uid)"
             }
             try self.switchFeature(args: args)
         }
@@ -152,9 +164,37 @@ extension MBCommander.Feature {
                         if repo.targetBranch == nil, repo.baseGitPointer?.isBranch == true {
                             repo.targetBranch = repo.baseBranch
                         }
-                        if !self.feature.free && repo.targetBranch == nil && (repo.baseGitPointer == nil || repo.baseGitPointer?.isBranch == false) {
-                            throw UserError("There is not a `target_branch`/`base_branch` in the repo `\(repo)`.")
-                        }
+                    }
+                }
+            }
+        }
+
+        open func reuseLocalRepo() throws {
+            try UI.section("Reuse Local Repository") {
+                let allRepos = self.workspace.allRepos
+                for repo in self.featureRepos {
+                    guard let url = repo.url else {
+                        throw RuntimeError("[\(repo)] No url.")
+                    }
+                    if let storeRepo = self.workspace.findAllRepo(url: url, in: allRepos) {
+                        repo.path = storeRepo.path
+                    }
+                    if repo.path != repo.storePath {
+                        UI.log(verbose: "[\(repo)] Reuse local path `\(repo.path)` instead of the url `\(url)`.")
+                    }
+                }
+            }
+        }
+
+        open func checkRepoHaveSameName() throws {
+            let dict = Dictionary(grouping: self.feature.repos, by: {
+                $0.name.lowercased()
+            })
+            for (_, repos) in dict {
+                if repos.count < 2 { continue }
+                for repo in repos {
+                    if self.featureRepos.contains(repo) {
+                        repo.name = repo.fullName
                     }
                 }
             }

@@ -8,10 +8,7 @@
 
 import Foundation
 import MBoxCore
-import SwiftGit2
 import MBoxGit
-import struct MBoxGit.Stash
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Merge: MBCommander {
@@ -36,11 +33,13 @@ extension MBCommander {
         open override class var flags: [Flag] {
             var flags = super.flags
             flags << Flag("dry-run", description: "Do everything except actually merge.")
+            flags << Flag("fetch", description: "Do fetch before analyze. Defaults: True")
             return flags
         }
 
         dynamic
         open override func setup() throws {
+            self.fetch = self.shiftFlag("fetch", default: true)
             self.dryRun = self.shiftFlag("dry-run")
             try super.setup()
             let repos: [String]? = self.shiftOptions("repo")
@@ -76,13 +75,11 @@ extension MBCommander {
         open var feature: MBConfig.Feature?
         open var repos: [MBConfig.Repo] = []
         open var dryRun: Bool = false
+        open var fetch: Bool = true
 
         open override func validate() throws {
             if self.feature == nil {
                 throw UserError("Could not find the feature which named `\(self.name!)`.")
-            }
-            if self.feature == self.config.currentFeature, self.feature!.free {
-                throw UserError("No base branch on free feature, unable to merge.")
             }
             if self.repos.isEmpty {
                 throw UserError("No any repos to merge.")
@@ -106,45 +103,78 @@ extension MBCommander {
         }
 
         open func performMerge() throws {
+            var errors = [Error]()
+            var data = [String: [String: Any]]()
             for repo in repos {
-                UI.section("[\(repo)]") {
+                try UI.section("[\(repo)]") {
                     do {
-                        try self.performMerge(repo: repo)
+                        defer {
+                            repo.workRepository?.git?.unlock()
+                        }
+                        repo.workRepository?.git?.lock()
+                        if let info = try self.performMerge(repo: repo) {
+                            data[repo.name] = info
+                        }
+                        if !self.dryRun {
+                            UI.log(info: "Merge Done!")
+                        }
                     } catch {
-                        UI.log(error: "[\(repo)] \(error.localizedDescription)")
+                        if self.throwErrorWhenMergeFailed(repo, error: error) {
+                            throw error
+                        } else {
+                            errors.append(error)
+                        }
+                        UI.log(error: error.localizedDescription)
+                        if !self.dryRun {
+                            UI.log(info: "Merge Failed!")
+                        }
                     }
                 }
+            }
+            if !errors.isEmpty {
+                UI.statusCode = 1
+            } else if MBProcess.shared.apiFormatter != .none {
+                UI.log(api: data)
             }
         }
 
         dynamic
-        open func performMerge(repo: MBConfig.Repo) throws {
+        open func throwErrorWhenMergeFailed(_ repo: MBConfig.Repo, error: Error) -> Bool {
+            return false
+        }
+
+        dynamic
+        open func performMerge(repo: MBConfig.Repo) throws -> [String: Any]? {
             guard let workRepo = repo.workRepository else {
                 UI.log(warn: "[\(repo)] The repo is not in work, you should run `mbox add \(repo)` to add it.")
-                return
+                return nil
             }
             guard let git = workRepo.git else {
-                UI.log(warn: "The git has something wrong in the repo \(repo).")
-                return
+                UI.log(warn: "[\(repo)] The git has something wrong.")
+                return nil
             }
 
             let current = try git.currentDescribe()
             if !current.isBranch {
-                UI.log(warn: "The repo \(workRepo) is in \(current), It is not a branch. Skip it.")
-                return
+                UI.log(warn: "[\(workRepo)] is in \(current), It is not a branch. Skip it.")
+                return nil
             }
 
             if !self.config.currentFeature.free,
-               let branchName = repo.featureBranch,
+               let curRepo = self.config.currentFeature.findRepo(repo),
+               let branchName = curRepo.featureBranch,
                branchName != current.value {
-                UI.log(warn: "The repo \(repo) is not in feature branch `\(branchName)`. Skip it.")
-                return
+                UI.log(warn: "[\(repo)] is not in feature branch `\(branchName)`. Skip it.")
+                return nil
             }
 
-            try self.fetch(repo: workRepo)
+            if self.fetch {
+                try self.fetch(repo: workRepo)
+            }
 
-            guard let source = try sourceBranch(repo: repo, feature: feature!), try source != git.currentDescribe() else {
-                return
+            guard let source = try sourceBranch(repo: repo, feature: feature!) else {
+                UI.log(warn: "[\(repo)] There is not branch/commit to merge. Skip it.")
+                return nil
             }
             var tagDesc = ""
             if source.isCommit,
@@ -156,29 +186,37 @@ extension MBCommander {
             let status = try self.checkMerge(repo: workRepo, current: current.value, other: source)
             if status == .uptodate || status == .forward {
                 UI.log(info: "There is nothing to merge.")
-                return
+                return ["source": source.value,
+                        "source_type": source.type,
+                        "current": current.value,
+                        "ready": true,
+                        "type": "git-merge"]
             }
 
-            if self.dryRun { return }
-
-            do {
-                let stashName = "[MBox] Merge \(source) into \(current)"
-                let stash = try self.stash(repo: workRepo, name: stashName)
-                defer {
-                    if let stash = stash {
-                        do {
-                            try self.unstash(repo: workRepo, stash: stash)
-                        } catch {
-                            UI.log(error: "[\(workRepo)] Apply Stash failed: \(error.localizedDescription)")
+            if !self.dryRun {
+                do {
+                    let stashName = "[MBox] Merge \(source) into \(current)"
+                    let stash = try self.stash(repo: workRepo, name: stashName)
+                    defer {
+                        if let stash = stash {
+                            do {
+                                try self.unstash(repo: workRepo, stash: stash)
+                            } catch {
+                                UI.log(error: "[\(workRepo)] Apply Stash failed: \(error.localizedDescription)")
+                            }
                         }
                     }
+                    try self.merge(repo: workRepo, target: source)
                 }
-                try self.merge(repo: workRepo, target: source)
+
+                self.checkConflicts(repo: workRepo)
             }
 
-            self.checkConflicts(repo: workRepo)
-
-            UI.log(info: "Merge Done!")
+            return ["source": source.value,
+                    "source_type": source.type,
+                    "current": current.value,
+                    "ready": false,
+                    "type": "git-merge"]
         }
 
         dynamic
@@ -186,13 +224,12 @@ extension MBCommander {
             var pointer = source
             if pointer == nil {
                 if feature == self.config.currentFeature {
-                    pointer = repo.targetGitPointer ?? repo.baseGitPointer
+                    pointer = repo.targetGitPointer
                 } else {
                     pointer = repo.lastGitPointer
                 }
             }
             guard let source = pointer else {
-                UI.log(warn: "Could not find the source branch in the repo `\(repo)`")
                 return nil
             }
             guard source.isBranch else {

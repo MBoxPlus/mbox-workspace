@@ -1,0 +1,4 @@
+
+target 'MBoxWorkspaceCore' do
+  podspec
+end

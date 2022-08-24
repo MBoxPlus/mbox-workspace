@@ -7,7 +7,6 @@
 //
 
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Go: MBCommander {
@@ -41,7 +40,7 @@ extension MBCommander {
             var path: String
             let workspacePaths = self.workspace.workspacePaths
             if let name = self.name {
-                let hash = Dictionary(uniqueKeysWithValues: workspacePaths.map({
+                let hash = Dictionary(workspacePaths.map({
                     ($0.key.lowercased(), $0)
                 }))
                 if let info = hash[name.lowercased()] {
@@ -68,7 +67,7 @@ extension MBCommander {
 
 extension MBWorkspace {
     dynamic
-    open var workspacePaths: [String: String] {
+    public var workspacePaths: [String: String] {
         return [:]
     }
 }

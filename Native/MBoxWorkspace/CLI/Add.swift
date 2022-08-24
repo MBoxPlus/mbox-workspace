@@ -57,7 +57,7 @@ $ mbox add AFNetworking
         
         dynamic
         open override func setup() throws {
-            self.keepLocalChanges = self.shiftFlag("keep-local-changes", default: true)
+            self.keepLocalChanges = self.shiftFlag("keep-local-changes", default: false)
             self.recurseSubmodules = self.shiftFlag("recurse-submodules")
             self.mode = MBRepo.Mode.mode(for: self.shiftOption("mode", default: "unknown"))
             self.checkoutFromCommit = self.shiftFlag("checkout-from-commit")
@@ -88,7 +88,7 @@ $ mbox add AFNetworking
                     self.baseBranch = baseBranch
                 }
             }
-            self.showStatusAtFinish = true
+            self.showStatusAtFinish = []
             try super.setup()
         }
 
@@ -100,11 +100,13 @@ $ mbox add AFNetworking
         open var mode: MBRepo.Mode = .unknown
         open var checkoutFromCommit: Bool?
         open var recurseSubmodules: Bool = false
-        open var keepLocalChanges: Bool = true
+        open var keepLocalChanges: Bool = false
         open var addedRepo: MBConfig.Repo?
         open var isFirstAdd: Bool?
         open var fetched: Bool = false
         open var pulled: Bool = false
+
+        open var isAddLocalRepo = false
 
         dynamic
         open var useBaseCommit: Bool {
@@ -149,65 +151,65 @@ $ mbox add AFNetworking
         dynamic
         open override func run() throws {
             try super.run()
-            var repo: MBConfig.Repo!
-            try UI.section("Prepare Repository") {
+            var repo: MBConfig.Repo = try UI.section("Prepare Repository") {
                 guard let v = try self.prepare() else {
                     throw UserError("Could not find a repo to add.")
                 }
-                repo = v
+                return v
+            }
+            repo.feature = self.feature
+
+            if let path = self.path, path != repo.workingPath, repo.workingPath.isExists {
+                throw UserError("[\(repo)] The work path exists: \(self.workspace.relativePath(repo.workingPath))")
             }
 
+            try self.setupRepoName(repo)
+
             if repo.originRepository != nil, self.path != nil {
-                self.analyzeHandleMode()
+                self.isAddLocalRepo = true
+                try self.analyzeHandleMode()
             }
 
             try UI.section("Setup Remote Repository") {
                 try self.downloadRemoteRepository(repo)
             }
 
-            // For Copy/Move, we use the branch in the local repository as our base branch
             var localGitPointer: GitPointer?
-            if (self.mode == .copy || self.mode == .move),
-               let path = self.path, path.isExists {
+            if self.isAddLocalRepo {
                 localGitPointer = UI.section("Fetch current local branch") { () -> GitPointer? in
                     return try? repo.originRepository?.git?.currentDescribe()
                 }
-                if self.baseBranch == nil {
-                    repo.baseGitPointer = localGitPointer
-                }
+            }
+
+            if self.isAddLocalRepo,
+               (self.mode == .copy || self.mode == .move),
+               self.baseBranch == nil {
+                // For Copy/Move, we use the branch in the local repository as our base branch
+                repo.baseGitPointer = localGitPointer
             }
 
             try UI.section("Setup Git Reference") {
                 try self.setupGitReference(repo)
             }
 
-            if (self.mode == .copy || self.mode == .move), self.keepLocalChanges {
+            if self.isAddLocalRepo,
+               (self.mode == .copy || self.mode == .move),
+               self.keepLocalChanges,
+               let path = self.path, path != repo.workingPath {
                 UI.section("Check Keep Local Changes") {
                     if localGitPointer != repo.baseGitPointer {
                         self.keepLocalChanges = false
                         UI.log(verbose: "The base branch/commit is inconsistent with the local repository, will not keep local changes.")
                     }
-                    if self.keepLocalChanges,
-                       repo.originRepository?.git?.isClean == true {
-                        self.keepLocalChanges = false
-                        UI.log(verbose: "The local repository has not changes.")
-                    }
                 }
             }
 
-            var currentRepo = config.currentFeature.findRepo(repo)
-            currentRepo?.baseGitPointer = repo.baseGitPointer
-            if currentRepo == nil {
-                UI.section("Add `\(repo!)` into feature `\(config.currentFeature.name)`") {
-                    currentRepo = self.config.currentFeature.add(repo: repo)
-                    currentRepo?.lastGitPointer = repo.lastGitPointer
-                }
+            if let currentRepo = config.currentFeature.findRepo(repo) {
+                currentRepo.baseGitPointer = repo.baseGitPointer
+                currentRepo.path = repo.path
+                repo = currentRepo
             }
 
-            if currentRepo?.path == nil {
-                currentRepo?.path = repo.path
-            }
-            repo = currentRepo!
             self.addedRepo = repo
 
             if self.mode == .worktree {
@@ -228,14 +230,21 @@ $ mbox add AFNetworking
                 repo.path = repo.storePath
             }
 
-            self.config.save()
-
             var importedLocalRepository = false
-            if repo.originRepository == nil, let path = self.path {
+            if repo.originRepository != nil, let path = self.path, self.mode != .worktree {
                 try UI.section("Import Local Repository") {
-                    repo.path = path
-                    try self.importLocalRepository(repo)
-                    importedLocalRepository = true
+                    if path == repo.workingPath {
+                        let storePath = repo.storePath
+                        let relativePath = path.relativePath(from: storePath.deletingLastPathComponent)
+                        try UI.log(verbose: "Link `\(workspace.relativePath(storePath))` -> `\(relativePath)`") {
+                            try FileManager.default.createSymbolicLink(atPath: storePath,
+                                                                       withDestinationPath: relativePath)
+                        }
+                    } else {
+                        repo.path = path
+                        try self.importLocalRepository(repo)
+                        importedLocalRepository = true
+                    }
                 }
             }
 
@@ -248,31 +257,38 @@ $ mbox add AFNetworking
 
             try UI.section("Setup Work Repository") {
                 try self.setupWorkRepository(repo, localPath: self.path)
+                repo.lastGitPointer = nil
+                repo.baseGitPointer = nil
             }
 
-            let target = try self.checkout(repo: repo)
-            repo.lastGitPointer = nil
-            repo.baseGitPointer = nil
+            UI.section("Add `\(repo)` into feature `\(config.currentFeature.name)`") {
+                self.config.currentFeature.add(repo: repo)
+                self.config.save()
+            }
 
-            if let target = target, target.isBranch, !self.pulled {
-                UI.section("Pull \(target)") {
-                    guard let workRepo = repo.workRepository,
-                          let git = workRepo.git,
-                          let trackBranch = git.trackBranch(target.value) else {
-                        UI.log(verbose: "No tracking branch. Skip pull.")
-                        return
+            if !self.pulled,
+               let workRepo = repo.workRepository,
+               let git = workRepo.git {
+                let curInfo = try git.currentDescribe()
+                if curInfo.isBranch {
+                    UI.section("Pull \(curInfo)") {
+                        guard let trackBranch = git.trackBranch(curInfo.value) else {
+                            UI.log(verbose: "No tracking branch. Skip pull.")
+                            return
+                        }
+                        if git.currentCommit == (try? git.commit(for: .branch(trackBranch))) {
+                            UI.log(verbose: "Already up to date. Skip pull.")
+                            return
+                        }
+                        try? git.pull()
                     }
-                    if git.currentCommit == (try? git.commit(for: .branch(trackBranch))) {
-                        UI.log(verbose: "Already up to date. Skip pull.")
-                        return
-                    }
-                    try? git.pull()
                 }
             }
 
             if self.mode == .move,
                let path = self.path,
-               path.isExists {
+               path.isExists,
+               path != repo.workingPath {
                 if importedLocalRepository {
                     try? FileManager.default.removeItem(atPath: path)
                 } else {
@@ -280,10 +296,10 @@ $ mbox add AFNetworking
                 }
             }
 
-            UI.log(info: "Add repo `\(repo!)` success.")
+            UI.log(info: "Add repo `\(repo)` success.")
 
             if config.currentFeature.free, let basePointer = repo.baseGitPointer, !basePointer.isBranch {
-                UI.log(warn: "The repo `\(repo!)` is under the \(basePointer), not a branch.")
+                UI.log(warn: "The repo `\(repo)` is under the \(basePointer), not a branch.")
             }
         }
 
@@ -338,7 +354,12 @@ $ mbox add AFNetworking
             }
 
             if let url = self.url {
-                repo = MBConfig.Repo(url: url, feature: self.feature)
+                if let storeRepo = self.workspace.findAllRepo(url: url) {
+                    UI.log(verbose: "Reuse local path `\(storeRepo.path)` instead of the url `\(url)`.")
+                    repo = MBConfig.Repo(path: storeRepo.path, feature: self.feature)
+                } else {
+                    repo = MBConfig.Repo(url: url, feature: self.feature)
+                }
             }
 
             if let repo = repo,
@@ -348,11 +369,23 @@ $ mbox add AFNetworking
             return repo
         }
 
-        open func analyzeHandleMode() {
+        open func analyzeHandleMode() throws {
             if self.mode != .unknown { return }
             guard let path = self.path else { return }
-            let mode: String = UI.gets("How do you want to handle the `\(path)`?", items: ["Copy", "Move", "Worktree"])
+            if path.cleanPath.deletingLastPathComponent == self.workspace.rootPath {
+                self.mode = .move
+                return
+            }
+            let mode: String = try UI.gets("How do you want to handle the `\(path)`?", items: ["Copy", "Move", "Worktree"])
             self.mode = MBRepo.Mode.mode(for: mode)
+        }
+
+        open func setupRepoName(_ repo: MBConfig.Repo) throws {
+            let names = self.feature.repos.map { $0.name.lowercased() }
+            if names.contains(repo.name.lowercased()) {
+                UI.log(verbose: "Repo name `\(repo.name)` already in used, use `\(repo.fullName)`.")
+                repo.name = repo.fullName
+            }
         }
 
         dynamic
@@ -371,12 +404,22 @@ $ mbox add AFNetworking
             if repo.baseGitPointer == nil {
                 try self.analyzeBaseBranch(repo)
             }
+            try UI.log(verbose: "Check base reference:") {
+                if repo.originRepository?.git?.pointer(for: repo.baseGitPointer!) == nil {
+                    throw UserError("Could not find base \(repo.baseGitPointer!).")
+                }
+            }
             var message = "Setup repo `\(repo)`"
             if config.currentFeature.free {
                 message.append(", based \(repo.baseGitPointer!)")
             } else {
                 if repo.targetGitPointer == nil {
                     try self.analyzeTargetBranch(repo)
+                }
+                try UI.log(verbose: "Check target branch:") {
+                    if repo.originRepository?.git?.pointer(for: repo.targetGitPointer!) == nil {
+                        throw UserError("Could not find target \(repo.targetGitPointer!).")
+                    }
                 }
                 message.append(", [\(repo.baseGitPointer!)] -> [\(GitPointer.branch(repo.featureBranch!))] -> [\(repo.targetGitPointer!)]")
             }
@@ -398,7 +441,6 @@ $ mbox add AFNetworking
             }
         }
 
-        dynamic
         open func importLocalRepository(_ repo: MBConfig.Repo) throws {
             try repo.import()
         }
@@ -409,29 +451,34 @@ $ mbox add AFNetworking
         }
 
         open func setupWorkRepository(_ repo: MBConfig.Repo, localPath: String?) throws {
-            guard let originRepo = repo.originRepository else {
-                throw RuntimeError("Invalid repository at `\(repo.path)`.")
+            if repo.workRepository == nil {
+                try repo.work(useCache: localPath == nil || !self.keepLocalChanges, reset: false)
+            } else {
+                UI.log(verbose: "[\(repo)] The repository is working!")
             }
-            guard let git = originRepo.git else {
-                throw RuntimeError("[\(repo)] Git has something wrong.")
-            }
-            if git.isWorkTree == false && repo.workRepository?.git?.isWorkTree == false {
-                if !originRepo.path.isSymlink || originRepo.path.destinationOfSymlink != repo.workRepository?.path {
-                    throw UserError("[\(repo)] The paths cannot exist at the same time:\n\t- Cache: \(self.workspace.relativePath(repo.storePath))\n\t- Work:  \(self.workspace.relativePath(repo.workingPath))")
-                }
-            }
-            try repo.work(repo.baseGitPointer, checkout: localPath == nil || !self.keepLocalChanges)
+
+            let target = try self.gitReferenceToCheckout(repo: repo)
+
             if self.keepLocalChanges, let localPath = localPath {
+                if let base = repo.baseGitPointer, base != target, target.isBranch {
+                    try? repo.originRepository?.git?.createBranch(target.value, base: base)
+                }
+                try repo.workRepository?.git?.setHEAD(target)
                 try UI.log(verbose: "Copy workcopy into `\(Workspace.relativePath(repo.workingPath))`") {
                     let cmd = RSyncCMD()
-                    guard cmd.exec(sourceDir: localPath, targetDir: repo.workingPath, delete: false, ignoreExisting: false, progress: true, exclude: [".git"]) else {
+                    guard cmd.exec(sourceDir: localPath, targetDir: repo.workingPath, delete: false, progress: true, excludes: [".git"]) else {
                         throw RuntimeError("Copy workcopy failed!")
                     }
                 }
-                if self.mode == .move {
-                    UI.log(verbose: "Copy workcopy into `\(Workspace.relativePath(repo.workingPath))`") {
-                        try? FileManager.default.removeItem(atPath: localPath)
-                    }
+            } else {
+                let msg: String
+                if let base = repo.baseGitPointer, base != target {
+                    msg = "Checkout \(target) based \(base)"
+                } else {
+                    msg = "Checkout \(target)"
+                }
+                try UI.log(verbose: msg) {
+                    try repo.workRepository?.checkout(target, basePointer: repo.baseGitPointer, baseRemote: true, setUpStream: true, force: true)
                 }
             }
         }
@@ -440,57 +487,65 @@ $ mbox add AFNetworking
             guard let git = repo.git else {
                 throw RuntimeError("[\(repo)] Git has something wrong: `\(repo.path)`")
             }
-            var branches: [String] = []
+            var branches = Set<String>()
+            branches = Set(git.remoteBranches)
+            branches = Set(branches.map { name -> String in
+                guard let index = name.range(of: "/")?.upperBound else { return name }
+                return String(name[index...])
+            })
+            if let localBranches = repo.git?.localBranches {
+                branches.formUnion(localBranches)
+            }
+            branches.remove("HEAD")
+
             if onlyBranch {
-                branches = git.remoteBranches
-                branches = branches.map { name -> String in
-                    guard let index = name.range(of: "/")?.upperBound else { return name }
-                    return String(name[index...])
+                if branches.count == 0 {
+                    throw UserError("The branch list is empty.")
+                } else if branches.count == 1 {
+                    let branch = branches.first!
+                    UI.log(info: "Auto choice the branch `\(branch)`.".ANSI(.yellow))
+                    return .branch(branch)
                 }
-                branches.append(contentsOf: repo.git?.localBranches ?? [])
             }
 
-            if branches.count == 0 && onlyBranch {
-                throw UserError("The branch list is empty.")
-            } else if branches.count == 1 && onlyBranch {
-                let branch = branches.first!
-                UI.log(info: "Auto choice the branch `\(branch)`.".ANSI(.yellow))
-                return .branch(branch)
-            } else {
-                var defaultValue: GitPointer? = nil
+            var defaultValue: String? = nil
+            var defaultBranches = ["develop", "master"]
+            if let defaults = defaults {
                 if onlyBranch {
-                    var defaultBranches = ["develop", "master"]
-                    if let pointer = defaults, pointer.isBranch == true {
-                        defaultBranches.insert(pointer.value, at: 0)
-                    }
-                    if let v = defaultBranches.filter(branches.contains).first {
-                        defaultValue = .branch(v)
+                    if defaults.isBranch == true {
+                        defaultBranches.insert(defaults.value, at: 0)
                     }
                 } else {
-                    defaultValue = defaults
+                    defaultBranches.insert(defaults.value, at: 0)
                 }
+            }
+            if let v = defaultBranches.filter(branches.contains).first {
+                defaultValue = v
+            }
 
-                while true {
-                    var dvalue: (name: String, value: String)? = nil
-                    if let defaultValue = defaultValue {
-                        dvalue = (name: defaultValue.description, value: defaultValue.value)
-                    }
-                    let branch = UI.gets(message, default: dvalue)
-                    if onlyBranch {
-                        if branches.contains(branch) {
-                            return .branch(branch)
-                        } else {
-                            UI.log(info: "The branch `\(branch)` does not exist.")
-                        }
+            var allItems = branches
+            if !onlyBranch {
+                try? allItems.formUnion(git.tags().keys)
+            }
+
+            while true {
+                let value = try UI.gets(message, default: defaultValue) { input in
+                    allItems.first { $0.hasPrefix(input) }
+                }
+                if onlyBranch {
+                    if branches.contains(value) {
+                        return .branch(value)
                     } else {
-                        if let defaultValue = defaultValue, branch == defaultValue.value {
-                            return defaultValue
-                        }
-                        if let v = git.reference(named: branch)?.ref {
-                            return v
-                        } else {
-                            UI.log(info: "The reference `\(branch)` does not exist.")
-                        }
+                        UI.log(info: "The branch `\(value)` does not exist.")
+                    }
+                } else {
+                    if let defaults = defaults, defaults.value == value {
+                        return defaults
+                    }
+                    if let v = git.reference(named: value)?.ref {
+                        return v
+                    } else {
+                        UI.log(info: "The reference `\(value)` does not exist.")
                     }
                 }
             }
@@ -499,6 +554,14 @@ $ mbox add AFNetworking
         dynamic
         open func isValided(_ repo: MBConfig.Repo) -> Bool  {
             return repo.originRepository != nil && repo.workRepository != nil
+        }
+
+        dynamic
+        open func shouldFetchCommitToCheckout() -> Bool {
+            if self.useBaseCommit, self.config.currentFeature.repos.count > 0 {
+                return true
+            }
+            return false
         }
 
         dynamic
@@ -512,7 +575,7 @@ $ mbox add AFNetworking
                 UI.log(verbose: "The feature branch `\(branchName)` exists, will checkout it.")
                 return
             }
-            if self.useBaseCommit {
+            if self.shouldFetchCommitToCheckout() {
                 if repo.baseGitPointer == nil {
                     try UI.log(verbose: "Query current version information due to \(self.config.currentFeature.free ? "FreeMode" : "`--checkout-from-commit`")") {
                         try self.fetchCommitToCheckout(repo: repo)
@@ -581,23 +644,6 @@ $ mbox add AFNetworking
             } else {
                 throw RuntimeError("Invalid feature branch.")
             }
-        }
-
-        open func checkout(repo: MBConfig.Repo) throws -> GitPointer? {
-            let targetPointer = try self.gitReferenceToCheckout(repo: repo)
-
-            repo.lastGitPointer = nil
-
-            let msg: String
-            if let base = repo.baseGitPointer, base != targetPointer {
-                msg = "Checkout \(targetPointer) based \(base)"
-            } else {
-                msg = "Checkout \(targetPointer)"
-            }
-            try UI.section(msg) {
-                try repo.workRepository?.checkout(targetPointer, basePointer: repo.baseGitPointer, baseRemote: true, setUpStream: true)
-            }
-            return targetPointer
         }
 
         open override func setupHookCMD(_ cmd: MBCMD, preHook: Bool) {

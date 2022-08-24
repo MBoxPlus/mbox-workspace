@@ -1,0 +1,6 @@
+---
+NAME: MBoxWorkspaceCore
+DEPENDENCIES:
+- MBoxCore
+- MBoxGit
+CLI: true
