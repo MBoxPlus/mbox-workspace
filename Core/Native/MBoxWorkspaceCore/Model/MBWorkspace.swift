@@ -154,8 +154,8 @@ open class MBWorkspace: NSObject {
         return nil
     }
 
-    @discardableResult dynamic
-    open class func create(_ path: String, plugins: [String]) throws -> MBWorkspace {
+    @discardableResult
+    open class func create(_ path: String, plugins: [String], uid: String?) throws -> MBWorkspace {
         return try UI.section("Create MBox configuration file") {
             let fm = FileManager.default
             let configDir = path.appending(pathComponent: ".mbox")
@@ -167,6 +167,9 @@ open class MBWorkspace: NSObject {
             }
             let workspace = MBWorkspace(rootPath: path)
             UI.log(verbose: "Save `\(workspace.config.filePath!.relativePath(from: workspace.rootPath))`") {
+                if let uid = uid {
+                    workspace.config.uid = uid
+                }
                 workspace.config.save()
             }
 

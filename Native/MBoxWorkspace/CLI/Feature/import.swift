@@ -35,11 +35,13 @@ extension MBCommander.Feature {
             flags << Flag("keep-changes", description: "Create a new feature with local changes")
             flags << Flag("recurse-submodules", description: "After the clone is created, initialize all submodules within, using their default settings.")
             flags << Flag("inherit-uuid", description: "If import info exist uid, it will inherit feature uid from import info.")
+            flags << Flag("fetch", description: "Fetch if the repository is local. Defaults: true")
             return flags
         }
 
         dynamic
         open override func setup() throws {
+            self.fetch = self.shiftFlag("fetch", default: true)
             self.checkBranchExists = self.shiftFlag("check-branch-exists", default: true)
             self.keep = self.shiftFlag("keep-changes")
             self.recurseSubmodules = self.shiftFlag("recurse-submodules")
@@ -66,6 +68,7 @@ extension MBCommander.Feature {
         public var keep: Bool = false
         public var recurseSubmodules: Bool? = nil
         public var inheritUUID: Bool = false
+        public var fetch: Bool = true
 
         dynamic
         open override func validate() throws {
@@ -114,11 +117,16 @@ extension MBCommander.Feature {
 
             UI.log(info: "")
 
-            try UI.section("Fetch exists repos") {
-                try self.fetchRepos()
+            if self.fetch {
+                try UI.section("Fetch exists repos") {
+                    try self.fetchRepos()
+                }
             }
 
-            var args = [self.feature.name, "--pull"]
+            var args = [self.feature.name]
+            if self.fetch {
+                args << "--pull"
+            }
             if keep {
                 args << "--keep-changes"
             }

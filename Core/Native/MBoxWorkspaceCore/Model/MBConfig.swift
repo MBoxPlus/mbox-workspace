@@ -82,6 +82,9 @@ public class MBConfig: MBCodableObject, MBJSONProtocol {
     }
 
     // MARK: - JSON
+    @Codable
+    public var uid: String?
+
     @Codable(key: "current_feature_name")
     private var _currentFeatureName: String = ""
     public var currentFeatureName: String {

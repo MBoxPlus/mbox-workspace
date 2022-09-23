@@ -22,7 +22,8 @@ extension MBCommander {
         open override class var options: [Option] {
             var options = super.options
             options << Option("plugin", description: "Config the plugin. It could be used many times to config more plugins.")
-            options << Option("name", description: "To set the new MBox workspace (folder) name.")
+            options << Option("name", description: "set the new MBox workspace (folder) name.")
+            options << Option("uid", description: "set the new MBox workspace id.")
             return options
         }
 
@@ -47,6 +48,7 @@ extension MBCommander {
             self.plugins = self.shiftOptions("plugin") ?? []
             
             self.name = self.shiftOption("name")
+            self.uid = self.shiftOption("uid", default: UUID().uuidString.replacingOccurrences(of: "-", with: ""))
 
             let groups = self.shiftArguments("plugin_group")
             if !groups.isEmpty {
@@ -64,6 +66,7 @@ extension MBCommander {
         var plugins: [String] = []
         var groups: [String] = ["stable"]
         var name: String?
+        var uid: String = ""
 
         open override func validate() throws {
             try super.validate()
@@ -92,7 +95,7 @@ extension MBCommander {
         open override func run() throws {
             try super.run()
 
-            MBProcess.shared.workspace = try MBWorkspace.create(MBProcess.shared.rootPath, plugins: plugins)
+            MBProcess.shared.workspace = try MBWorkspace.create(MBProcess.shared.rootPath, plugins: plugins, uid: self.uid)
             UI.log(info: "Init mbox workspace success.")
 
             MBPluginManager.shared.tryLoadWorkspace()
