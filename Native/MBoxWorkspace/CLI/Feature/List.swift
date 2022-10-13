@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Feature {
     open class List: Feature {
@@ -20,12 +19,11 @@ extension MBCommander.Feature {
         open override func setup() throws {
             try super.setup()
             self.shouldLockConfig = false
-            UI.verbose = true
         }
 
         open override func run() throws {
             try super.run()
-            if UI.apiFormatter != .none {
+            if MBProcess.shared.apiFormatter != .none {
                 try outputAPI()
             } else {
                 try output()
@@ -38,7 +36,7 @@ extension MBCommander.Feature {
                 if feature.isCurrent { name = name.ANSI(.yellow) }
                 UI.log(info: name) {
                     for repo in feature.repos {
-                        UI.log(verbose: repo.name)
+                        UI.log(info: repo.name)
                     }
                 }
             }
@@ -48,7 +46,7 @@ extension MBCommander.Feature {
             let info = self.config.features.map { (key: String, value: MBConfig.Feature) -> (String, [String]) in
                 return (value.name, value.repos.map { $0.name } )
             }
-            let dict = Dictionary(uniqueKeysWithValues: info)
+            let dict = Dictionary(info)
             UI.log(api: dict)
         }
     }

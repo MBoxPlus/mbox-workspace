@@ -9,7 +9,6 @@
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class New: Repo {
@@ -28,7 +27,7 @@ extension MBCommander {
             try super.setup(argv: argv)
             self.name = try self.shiftArgument("name")
             self.branch = try self.shiftArgument("branch", default: self.branch)
-            self.showStatusAtFinish = true
+            self.showStatusAtFinish = [Status.repoSectionName]
         }
 
         open var name: String = ""
@@ -46,7 +45,7 @@ extension MBCommander {
             let feature = self.config.currentFeature
             var repo: MBConfig.Repo!
             UI.section("Init git repository") {
-                repo = MBConfig.Repo(name: self.name, feature: UI.feature!)
+                repo = MBConfig.Repo(name: self.name, feature: MBProcess.shared.feature!)
                 repo.baseGitPointer = .branch(self.branch)
                 UI.log(verbose: "Repository Path: `\(repo.path)`")
             }
@@ -56,7 +55,7 @@ extension MBCommander {
                     feature.add(repo: repo)
                 }
                 self.config.save()
-                try repo.work()
+                try repo.work(reset: false)
                 guard let workRepo = repo.workRepository else {
                     throw RuntimeError("The work repository error: \(repo.workingPath)")
                 }

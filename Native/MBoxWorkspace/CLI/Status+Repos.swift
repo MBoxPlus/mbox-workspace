@@ -2,26 +2,30 @@
 //  Status+Repos.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/2/28.
+//  Created by Whirlwind on 2021/2/28.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
+    public static let repoSectionName = "repos"
     open class Repos: MBCommanderStatus {
         public static var supportedAPI: [APIType] {
             return [.none, .api, .plain]
         }
 
         public static var title: String {
-            return "repos"
+            return Status.repoSectionName
         }
 
         public var feature: MBConfig.Feature
+
+        public required init() {
+            fatalError()
+        }
 
         public required init(feature: MBConfig.Feature) {
             self.feature = feature
@@ -97,7 +101,7 @@ extension MBCommander.Status {
 
         dynamic
         open func formatInfo(repo: MBConfig.Repo) throws -> [[String]] {
-            var infos = [[repo.name, repo.url ?? ""]]
+            var infos = [[repo.name, repo.url ?? repo.workRepository?.url ?? ""]]
             if !feature.isCurrent {
                 return infos
             }

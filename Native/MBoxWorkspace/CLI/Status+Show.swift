@@ -2,18 +2,17 @@
 //  Status+Show.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/2/28.
+//  Created by Whirlwind on 2021/2/28.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
     // MARK: - API
-    open func showAPI(_ sections: [MBCommanderStatus.Type]) throws {
+    public func showAPI(_ sections: [MBCommanderStatus.Type]) throws {
         var api = [String: Any]()
         for section in sections {
             let obj = section.init(feature: self.feature)
@@ -26,7 +25,7 @@ extension MBCommander.Status {
     }
 
     // MARK: - Text
-    open func outputSection(_ section: MBCommanderStatus.Type, row: Row) {
+    public func outputSection(_ section: MBCommanderStatus.Type, row: Row) {
         let line = formatTable([row]).first!.trimmed
         if section.showTitle {
             let title = section.title.convertCamelCased()
@@ -36,7 +35,7 @@ extension MBCommander.Status {
         }
     }
 
-    open func outputSection(_ section: MBCommanderStatus.Type, rows: [Row]) {
+    public func outputSection(_ section: MBCommanderStatus.Type, rows: [Row]) {
         if section.showTitle {
             let title = section.title.convertCamelCased()
             UI.log(info: "[\(title)]:")
@@ -47,7 +46,7 @@ extension MBCommander.Status {
         }
     }
 
-    open func showText(_ sections: [MBCommanderStatus.Type]) throws {
+    public func showText(_ sections: [MBCommanderStatus.Type]) throws {
         for (index, section) in sections.enumerated() {
             let obj = section.init(feature: self.feature)
             if let row = try obj.textRow() {
@@ -64,7 +63,7 @@ extension MBCommander.Status {
     }
 
     // MARK: - Plain
-    open func showPlain(_ section: MBCommanderStatus.Type) throws {
+    public func showPlain(_ section: MBCommanderStatus.Type) throws {
         let obj = section.init(feature: self.feature)
         guard let value = try obj.plainData() else {
             return

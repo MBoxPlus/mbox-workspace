@@ -8,36 +8,31 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
+
+var kMBCommanderEnvFeatureKey: UInt8 = 0
 
 extension MBCommander.Env {
-
-    @_dynamicReplacement(for: run())
-    open func workspace_run() throws {
-        try run()
-        var args = [String]()
-        if let mode = self.mode {
-            args.append("--only")
-            args.append(mode)
+    public var feature: MBConfig.Feature! {
+        set {
+            associateObject(base: self, key: &kMBCommanderEnvFeatureKey, value: newValue)
         }
-        try self.invoke(Status.self, argv: ArgumentParser(arguments: args))
-    }
-
-    @_dynamicReplacement(for: sections())
-    open class func workspace_sections() -> [String] {
-        return ["ROOT"] + sections()
-    }
-
-    @_dynamicReplacement(for: show(section:))
-    open func workspace_show(section: String) throws {
-        if section == "ROOT" {
-            try showRoot()
-        } else {
-            try show(section: section)
+        get {
+            return associatedObject(base: self, key: &kMBCommanderEnvFeatureKey) {
+                return self.config.currentFeature
+            }
         }
     }
 
-    open func showRoot() throws {
-        UI.log(info: "[ROOT]:  "  + self.workspace.rootPath)
+    @_dynamicReplacement(for: instance(for:))
+    public func workspace_instance(for section: MBCommanderEnv.Type) -> MBCommanderEnv {
+        if let section = section as? MBCommanderStatus.Type {
+            return section.init(feature: self.feature)
+        }
+        return self.instance(for: section)
+    }
+
+    @_dynamicReplacement(for: allSections)
+    public class var workspace_allSections: [MBCommanderEnv.Type] {
+        return self.allSections + Status.allSections
     }
 }

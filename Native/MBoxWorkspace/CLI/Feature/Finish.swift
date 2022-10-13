@@ -26,7 +26,7 @@ extension MBCommander.Feature {
         open override func setup(argv: ArgumentParser) throws {
             try super.setup(argv: argv)
             self.force = self.shiftFlag("force")
-            self.showStatusAtFinish = true
+            self.showStatusAtFinish = []
         }
 
         public var force: Bool = false
@@ -42,10 +42,53 @@ extension MBCommander.Feature {
                 return !git.isClean
             }
             if uncleanedRepos.count > 0 && !self.force {
-                UI.log(warn: "以下仓库中有未提交文件，无法结束当前 Feature:",
-                       items: uncleanedRepos.map { $0.name })
-                throw UserError("Could not finish unclean repos, you can use `--force` flag to force finish.")
+                throw UserError("Could not finish unclean repos: \(uncleanedRepos), you can use `--force` flag to force finish.")
             }
+
+            let feature = self.config.currentFeature
+            for repo in feature.repos {
+                guard let git = repo.originRepository?.git else { return }
+                try UI.log(verbose: "Check stash") {
+                    if let stash = git.findStash(feature.stashName) {
+                        throw UserError("[\(repo)] has uncommit changes in the stash: \(stash.1)")
+                    }
+                }
+
+                try UI.log(verbose: "Check branch") {
+                    let featureBranch = feature.branchName
+                    if let branch = repo.lastBranch, branch != featureBranch {
+                        UI.log(verbose: "Last branch is `\(branch)`, it is not the feature branch `\(featureBranch)`.")
+                        return
+                    }
+                    guard git.exists(gitPointer: .branch(featureBranch), remote: false) else {
+                        UI.log(verbose: "Feature branch not exists!")
+                        return
+                    }
+                    guard let targetBranch = repo.targetBranch else { return }
+                    for i in 0 ..< 2 {
+                        if i == 1 {
+                            if git.url == nil {
+                                throw UserError("[\(repo)] has unmerged commit")
+                            }
+                            try git.fetch()
+                        }
+                        guard let targetTrackBranch = git.trackBranch(targetBranch) else { return }
+                        if try self.checkMerged(git: git, featureBranch: featureBranch, targetBranch: targetTrackBranch) {
+                            UI.log(verbose: "Feature branch Merged!")
+                            return
+                        }
+                        guard let trackBranch = git.trackBranch(featureBranch) else {
+                            continue
+                        }
+                        if try self.checkMerged(git: git, featureBranch: featureBranch, targetBranch: trackBranch) {
+                            UI.log(verbose: "Feature branch Pushed!")
+                            return
+                        }
+                    }
+                    throw UserError("[\(repo)] has unmerged commit")
+                }
+
+            }              
             try super.validate()
         }
 
@@ -60,8 +103,19 @@ extension MBCommander.Feature {
             try UI.section("Remove Feature `\(featureName)`") {
                 let argv = ArgumentParser(parser: self.argv)
                 argv.unshift(argument: featureName)
-                try self.invoke(MBCommander.Feature.Remove.self, argv: argv)
+                if self.force == true{
+                    argv.append(argument:"--force")
+                }
+
+                try self.invoke(MBCommander.Feature.Remove.self, argv: argv)  
             }
+            
         }
+
+        open func checkMerged(git: GitHelper, featureBranch: String, targetBranch: String) throws -> Bool {
+            let status = try git.checkMergeStatus(curBranch: targetBranch, target: .branch(featureBranch))
+            return status != .diverged && status != .behind
+        }
+
     }
 }

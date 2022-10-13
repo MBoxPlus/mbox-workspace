@@ -9,36 +9,14 @@
 import Cocoa
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
-public protocol MBCommanderStatus {
-    static var supportedAPI: [MBCommander.Status.APIType] { get }
-    static var title: String { get }
-    static var showTitle: Bool { get }
+public protocol MBCommanderStatus: MBCommanderEnv {
     init(feature: MBConfig.Feature)
     var feature: MBConfig.Feature { set get }
-    func textRow() throws -> Row?
-    func textRows() throws -> [Row]?
-    func APIData() throws -> Any?
-    func plainData() throws -> [String]?
-}
-
-extension MBCommanderStatus {
-    public static var showTitle: Bool { return true }
-    public func textRow() throws -> Row? { return nil }
-    public func textRows() throws -> [Row]? { return nil }
-    public func APIData() throws -> Any?  { return nil }
-    public func plainData() throws -> [String]?  { return nil }
 }
 
 extension MBCommander {
-    open class Status: MBCommander {
-        public enum APIType {
-            case none
-            case api
-            case plain
-        }
-
+    open class Status: Env {
         open class override var description: String? {
             return "Show Status"
         }
@@ -49,12 +27,6 @@ extension MBCommander {
             return arguments
         }
 
-        open override class var options: [Option] {
-            var options = super.options
-            options << Option("only", description: "Only show information.", valuesBlock: { return self.sections.map { $0.title } })
-            return options
-        }
-
         dynamic
         open override class var flags: [Flag] {
             var flags = super.flags
@@ -63,37 +35,18 @@ extension MBCommander {
         }
 
         open override func setup() throws {
-            self.only = (self.shiftOptions("only") ?? ["all"]).map { $0.lowercased() }
+            MBProcess.shared.showRootPath = false
             self.sync = self.shiftFlag("sync", default: false)
             try super.setup()
             self.name = self.shiftArgument("name")
         }
 
         open var name: String?
-        open var only: [String] = ["all"]
         open var sync: Bool = false
 
-        open var sections: [MBCommanderStatus.Type] = []
-        open var feature: MBConfig.Feature!
-
         dynamic
-        public class var allSections: [MBCommanderStatus.Type] {
+        open class override var allSections: [MBCommanderEnv.Type] {
             return [Root.self, Feature.self, Repos.self, Git.self]
-        }
-
-        open class var sections: [MBCommanderStatus.Type] {
-            let apiType: APIType
-            switch UI.apiFormatter {
-            case .none:
-                apiType = .none
-            case .plain:
-                apiType = .plain
-            default:
-                apiType = .api
-            }
-            return self.allSections.filter {
-                $0.supportedAPI.contains(apiType)
-            }
         }
 
         open override func validate() throws {
@@ -109,30 +62,6 @@ extension MBCommander {
                     self.feature = feature
                 }
                 try help("Could not find the feature named `\(name)`.")
-            } else {
-                self.feature = config.currentFeature
-            }
-
-            var sections = [MBCommanderStatus.Type]()
-            let allSections = Self.sections
-            for only in self.only {
-                let only = only.lowercased()
-                if only == "all" {
-                    sections.append(contentsOf: allSections)
-                } else if let section = allSections.first(where: { $0.title.lowercased() == only }) {
-                    sections.append(section)
-                }
-            }
-            for section in sections {
-                if !self.sections.contains(where: { $0 == section }) {
-                    self.sections.append(section)
-                }
-            }
-
-            if UI.apiFormatter == .plain {
-                if self.sections.count > 1 {
-                    throw ArgumentError.conflict("It is not allowed with multiple sections when using `--api=plain`.")
-                }
             }
         }
 
@@ -140,24 +69,6 @@ extension MBCommander {
         dynamic
         open override func run() throws {
             try super.run()
-            if (self.sync) {
-                try self.syncStatus()
-            } else {
-                try self.showStatus()
-            }
-        }
-
-        open func showStatus() throws {
-            switch UI.apiFormatter {
-            case .none:
-                try self.showText(sections)
-            case .plain:
-                if let section = sections.first {
-                    try self.showPlain(section)
-                }
-            default:
-                try self.showAPI(sections)
-            }
         }
     }
 }

@@ -1,0 +1,7 @@
+---
+NAME: MBoxWorkspaceLoader
+DEPENDENCIES:
+- MBoxCore
+- MBoxWorkspace/Core
+CLI: true
+REQUIRED: true

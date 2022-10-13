@@ -8,10 +8,10 @@
 
 import Cocoa
 import MBoxCore
-import MBoxWorkspaceCore
+@_exported import MBoxWorkspaceCore
 
 @objc(MBoxWorkspace)
-open class MBoxWorkspace: NSObject, MBWorkspacePluginProtocol {
+open class MBoxWorkspace: NSObject, MBPluginProtocol, MBWorkspacePluginProtocol {
     public func enablePlugin(workspace: MBWorkspace, from version: String?) throws {
         try workspace.setupGitConfig()
         for repo in workspace.config.currentFeature.repos {
@@ -40,11 +40,12 @@ open class MBoxWorkspace: NSObject, MBWorkspacePluginProtocol {
         MBCommanderGroup.shared.addCommand(MBCommander.Feature.List.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Feature.FeatureMerge.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Feature.Clean.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Feature.SetTargetBranch.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Exec.self)
-        MBCommanderGroup.shared.addCommand(MBCommander.Fork.self)
-        MBCommanderGroup.shared.addCommand(MBCommander.Tower.self)
-        MBCommanderGroup.shared.addCommand(MBCommander.Stree.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Git.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Git.Config.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Git.Hooks.self)
+        MBCommanderGroup.shared.addCommand(MBCommander.Git.Repair.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Repo.self)
         MBCommanderGroup.shared.addCommand(MBCommander.Repo.Search.self)
         MBCommanderGroup.shared.addCommand(MBCommander.GitSheet.self)

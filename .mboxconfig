@@ -1,5 +1,14 @@
 {
-  "podfile": "Native/Podfile",
-  "podspec": "Native/MBoxWorkspace.podspec",
-  "xcodeproj": "Native/MBoxWorkspace.xcodeproj"
+  "cocoapods": {
+    "podfiles": {
+      "mbox-workspace": "Native/Podfile",
+      "mbox-workspace-core": "Core/Native/Podfile",
+      "mbox-workspace-loader": "Loader/Native/Podfile"
+    },
+    "podspecs": [
+      "Native/MBoxWorkspace.podspec",
+      "Core/Native/MBoxWorkspaceCore.podspec",
+      "Loader/Native/MBoxWorkspaceLoader.podspec"
+    ]
+  }
 }

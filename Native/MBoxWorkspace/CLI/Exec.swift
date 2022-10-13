@@ -8,7 +8,6 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Exec: MBCommander {
@@ -17,11 +16,24 @@ extension MBCommander {
             return "Exec command line in MBox Environment"
         }
 
+        open override class var example: String? {
+            if self != Exec.self {
+                return nil
+            }
+            return """
+# echo the `pwd` in workspace
+$ mbox exec pwd
+
+# echo environment variable
+$ mbox exec printenv
+"""
+        }
+
         open override class var options: [Option] {
             var options = super.options
             if !self.onlyRunInWorkspace {
                 let values = { () -> [String] in
-                    guard let workspace = UI.workspace else { return [] }
+                    guard let workspace = MBProcess.shared.workspace else { return [] }
                     return workspace.config.currentFeature.repos.map { $0.name }
                 }
                 options << Option("repo", description: "Specify a repo, use this option multiple times to specify multiple repos.", valuesBlock: values)
@@ -69,8 +81,7 @@ extension MBCommander {
             } else {
                 let repos = self.reposToRun()
                 if repos.isEmpty {
-                    UI.log(info: "No repository to be run.")
-                    return
+                    throw UserError("No repository to be run.")
                 }
                 for repo in repos {
                     UI.section("[\(repo)]") {
@@ -90,7 +101,10 @@ extension MBCommander {
 
         dynamic
         open func reposToRun() -> [MBConfig.Repo] {
-            let repos = self.config.currentFeature.repos
+            return self.filterRepos(repos: self.config.currentFeature.repos)
+        }
+
+        open func filterRepos(repos: [MBConfig.Repo]) -> [MBConfig.Repo] {
             if self.inRepos == nil && self.noRepos == nil { return repos }
             return repos.filter { repo -> Bool in
                 return (self.inRepos?.any(matching: { repo.isName($0) }) ?? true) &&
@@ -108,14 +122,18 @@ extension MBCommander {
 
         open override func help(_ desc: String? = nil) throws {
             if desc == nil,
-                UI.apiFormatter == .none {
+                MBProcess.shared.apiFormatter == .none {
                 argv.append(argument: self.helpOptionName)
                 argv.rawArguments.append(self.helpOptionName)
                 let cmd = try self.setupCMD()
                 cmd.0.exec(self.argumentString(args: self.args))
-                UI.log(info: "")
             }
-            try super.help()
+            if argv.remainderArgs.count == 0 {
+                UI.log(info: "")
+                try super.help(nil)
+            } else {
+                try super.help("")
+            }
         }
 
         open var helpOptionName: String {
@@ -128,16 +146,7 @@ extension MBCommander {
         }
 
         open var args: [String] {
-            var args = [String]()
-            for item in self.argv.remainder {
-                for raw in self.argv.rawArguments {
-                    if raw.hasPrefix(item) {
-                        args.append(raw)
-                        break
-                    }
-                }
-            }
-            return args
+            return self.argv.remainderRawArgs
         }
 
         open func argumentString(args: [String]) -> String {

@@ -2,13 +2,12 @@
 //  Status+Feature.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/2/28.
+//  Created by Whirlwind on 2021/2/28.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
     open class Feature: MBCommanderStatus {
@@ -21,6 +20,10 @@ extension MBCommander.Status {
         }
 
         public var feature: MBConfig.Feature
+
+        public required init() {
+            fatalError()
+        }
 
         public required init(feature: MBConfig.Feature) {
             self.feature = feature

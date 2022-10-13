@@ -2,13 +2,12 @@
 //  Status+Root.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/3/2.
+//  Created by Whirlwind on 2021/3/2.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
     open class Root: MBCommanderStatus {
@@ -22,20 +21,24 @@ extension MBCommander.Status {
 
         public var feature: MBConfig.Feature
 
+        public required init() {
+            fatalError()
+        }
+
         public required init(feature: MBConfig.Feature) {
             self.feature = feature
         }
 
         public func APIData() throws -> Any?  {
-            return UI.workspace?.rootPath
+            return MBProcess.shared.workspace?.rootPath
         }
 
         public func plainData() throws -> [String]?  {
-            return [UI.workspace!.rootPath]
+            return [MBProcess.shared.workspace!.rootPath]
         }
 
         public func textRow() throws -> Row? {
-            return Row(column: UI.workspace!.rootPath)
+            return Row(column: MBProcess.shared.workspace!.rootPath)
         }
     }
 }

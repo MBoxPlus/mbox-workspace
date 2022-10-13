@@ -8,7 +8,6 @@
 
 import Foundation
 import MBoxCore
-import MBoxWorkspaceCore
 import MBoxGit
 
 extension MBCommander.Repo {

@@ -2,14 +2,13 @@
 //  Status+Git.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/2/24.
+//  Created by Whirlwind on 2021/2/24.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
     open class Git: MBCommanderStatus {
@@ -23,12 +22,16 @@ extension MBCommander.Status {
 
         public var feature: MBConfig.Feature
 
+        public required init() {
+            fatalError()
+        }
+
         public required init(feature: MBConfig.Feature) {
             self.feature = feature
         }
 
         public func APIData() throws -> Any?  {
-            return Dictionary(uniqueKeysWithValues: self.feature.repos.map { ($0.name, $0.url) })
+            return Dictionary(self.feature.repos.map { ($0.name, $0.url) }) { $1 }
         }
 
         public func plainData() throws -> [String]?  {
@@ -36,7 +39,7 @@ extension MBCommander.Status {
         }
     }
 
-    open class func gitInfo(repo: MBConfig.Repo) throws -> [String: Any] {
+    public class func gitInfo(repo: MBConfig.Repo) throws -> [String: Any] {
         guard let workRepo = repo.workRepository,
               let git = workRepo.git else {
             return [:]
@@ -71,7 +74,7 @@ extension MBCommander.Status {
         return gitInfo
     }
 
-    open class func getAheadAndBehind(git: GitHelper) -> [String] {
+    public class func getAheadAndBehind(git: GitHelper) -> [String] {
         guard let currentBranch = git.currentBranch,
               let trackBranch = git.trackBranch() else {
             return []
@@ -94,7 +97,7 @@ extension MBCommander.Status {
         return v
     }
 
-    open class func getMergeStatus(git: GitHelper, targetBranch: String) -> [String] {
+    public class func getMergeStatus(git: GitHelper, targetBranch: String) -> [String] {
         guard let currentCommit = git.currentCommit,
               let remoteTargetBranch = git.trackBranch(targetBranch),
               let otherCommit = try? git.commit(for: .branch(remoteTargetBranch)) else {

@@ -7,7 +7,6 @@
 //
 
 import MBoxCore
-import MBoxWorkspaceCore
 
 extension MBCommander {
     open class Go: MBCommander {
@@ -17,7 +16,7 @@ extension MBCommander {
         }
 
         open override class var description: String? {
-            return "Quckly open workspace."
+            return "Quickly open path or workspace."
         }
 
         open override class func autocompletion(argv: ArgumentParser) -> [String] {
@@ -41,7 +40,7 @@ extension MBCommander {
             var path: String
             let workspacePaths = self.workspace.workspacePaths
             if let name = self.name {
-                let hash = Dictionary(uniqueKeysWithValues: workspacePaths.map({
+                let hash = Dictionary(workspacePaths.map({
                     ($0.key.lowercased(), $0)
                 }))
                 if let info = hash[name.lowercased()] {
@@ -58,7 +57,7 @@ extension MBCommander {
                     path = self.workspace.rootPath
                 }
             }
-            if !self.open(path: path, withApplication: application) {
+            if !self.open(url: URL(fileURLWithPath: path), withApplication: application) {
                 throw RuntimeError("Open Failed!")
             }
         }
@@ -68,7 +67,7 @@ extension MBCommander {
 
 extension MBWorkspace {
     dynamic
-    open var workspacePaths: [String: String] {
+    public var workspacePaths: [String: String] {
         return [:]
     }
 }

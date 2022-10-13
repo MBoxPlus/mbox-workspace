@@ -1,0 +1,4 @@
+
+target 'MBoxWorkspaceLoader' do
+  podspec
+end

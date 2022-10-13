@@ -2,17 +2,16 @@
 //  Status+Sync.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2021/2/28.
+//  Created by Whirlwind on 2021/2/28.
 //  Copyright © 2021 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.Status {
-    open func syncStatus() throws {
+    public func syncStatus() throws {
 //        let fm = FileManager.default
 //        for cachedRepo in MBConfig.Repo.all(self.workspace) {
 //            guard let repo = self.config.currentFeature.findRepo(cachedRepo) else {

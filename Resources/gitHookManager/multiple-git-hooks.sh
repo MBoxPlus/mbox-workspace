@@ -14,7 +14,7 @@ mbox_cli=mbox
 export PATH=$PATH:/usr/local/bin
 
 if [[ -z "$MBOX_PLUGIN_PATHS" ]]; then
-  plugin_dirs=$($mbox_cli env --only plugins --api plain 2>/dev/null)
+  plugin_dirs=$($mbox_cli env --only plugins --api plain --no-launcher 2>/dev/null)
   IFS=$'\n' array=($plugin_dirs)
 else
   IFS=$':' array=($MBOX_PLUGIN_PATHS)
@@ -28,7 +28,7 @@ do
 done
 
 if [[ -z "$MBOX_ROOT" ]]; then
-  export MBOX_ROOT=$($mbox_cli status --only root --api plain 2>/dev/null)
+  export MBOX_ROOT=$($mbox_cli status --only root --api plain --no-launcher 2>/dev/null)
 fi
 workspace_hook="$MBOX_ROOT/.mbox/git/hooks"
 hook_path="$workspace_hook/$hook_name"

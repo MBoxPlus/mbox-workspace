@@ -2,14 +2,13 @@
 //  GitSheetStatus.swift
 //  MBoxWorkspace
 //
-//  Created by 詹迟晶 on 2020/6/1.
+//  Created by Whirlwind on 2020/6/1.
 //  Copyright © 2020 bytedance. All rights reserved.
 //
 
 import Foundation
 import MBoxCore
 import MBoxGit
-import MBoxWorkspaceCore
 
 extension MBCommander.GitSheet {
     open class Status: GitSheet {
